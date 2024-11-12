@@ -48,6 +48,9 @@
     # Yazi requirements.
     ffmpegthumbnailer
     p7zip
+    zip
+    xz
+    unzip
     poppler
     fd
     ripgrep
@@ -141,6 +144,18 @@
     vimAlias = true;
     vimdiffAlias = true;
   };
+
+  programs.starship = {
+    enable = true;
+    # custom settings
+    settings = {
+      add_newline = false;
+      aws.disabled = true;
+      gcloud.disabled = true;
+      line_break.disabled = true;
+    };
+  };
+
 
   xdg.userDirs = {
     enable = true;

@@ -54,6 +54,8 @@
     fzf
     zoxide
     wl-clipboard
+    # Others
+    # yazi
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -71,6 +73,9 @@
     # '';
   };
 
+  programs.yazi = {
+    enable = true;
+  };
 
   programs.git = {
     enable = true;

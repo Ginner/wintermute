@@ -82,7 +82,7 @@
   };
   
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = { inherit inputs ; };
     users = {
       "ginner" = import ../../users/ginner/home.nix;
     };

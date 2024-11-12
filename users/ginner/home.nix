@@ -1,0 +1,184 @@
+{ config, pkgs, inputs, ... }:
+
+{
+  imports = [
+    ./waybar.nix
+    ./hyprland.nix
+  ];
+  home.username = "ginner";
+  home.homeDirectory = "/home/ginner";
+
+
+  home.packages = with pkgs; [
+    # # Adds the 'hello' command to your environment. It prints a friendly
+    # # "Hello, world!" when run.
+    # pkgs.hello
+
+    # # It is sometimes useful to fine-tune packages, for example, by applying
+    # # overrides. You can do that directly here, just don't forget the
+    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+    # # fonts?
+    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+
+    # # You can also create simple shell scripts directly inside your
+    # # configuration. For example, this adds a command 'my-hello' to your
+    # # environment:
+    # (pkgs.writeShellScriptBin "my-hello" ''
+    #   echo "Hello, ${config.home.username}!"
+    # '')
+    firefox
+    zathura
+    # lf
+    newsboat
+    bc
+    pass
+    sxiv
+    mpv
+    calcurse
+    khard
+    imagemagick
+    brightnessctl
+    jq
+    eza
+    tree
+    wget
+    btop
+    unzip
+    cheat
+    # Yazi requirements.
+    ffmpegthumbnailer
+    p7zip
+    poppler
+    fd
+    ripgrep
+    fzf
+    zoxide
+    wl-clipboard
+  ];
+
+  # Home Manager is pretty good at managing dotfiles. The primary way to manage
+  # plain files is through 'home.file'.
+  home.file = {
+    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
+    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
+    # # symlink to the Nix store copy.
+    # ".screenrc".source = dotfiles/screenrc;
+
+    # # You can also set the file content immediately.
+    # ".gradle/gradle.properties".text = ''
+    #   org.gradle.console=verbose
+    #   org.gradle.daemon.idletimeout=3600000
+    # '';
+  };
+
+
+  programs.git = {
+    enable = true;
+    userName = "Ginner";
+    userEmail = "26798615+Ginner@users.noreply.github.com";
+  };
+
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "Hack Nerd Font Mono";
+      size = 11.0;
+    };
+    shellIntegration.enableZshIntegration = true;
+    themeFile = "Monokai_Pro";
+    extraConfig = "
+      window_padding_width 10
+      ";
+  };
+
+  programs.btop = {
+    enable = true;
+    settings = {
+      vim_keys = true;
+      color_theme = "gruvbox_dark_v2";
+    };
+  };
+
+  programs.zsh = {
+    enable = true;
+    # autosuggestions.enable = true;
+    enableAutosuggestions = true;
+    enableCompletion = true;
+    dotDir = ".config/zsh";
+    syntaxHighlighting.enable = true;
+    history = {
+      ignoreDups = true;
+      expireDuplicatesFirst = true;
+      ignoreSpace = true;
+      share = true;
+      size = 10000;
+      path = "${config.home.homeDirectory}/.local/share/zsh/history";
+      };
+    shellAliases = {
+      history = "history 1";
+      ls = "eza";
+      ll = "eza -l";
+      lt = "eza -T";
+      la = "eza -lah --group-directories-first";
+      las = "eza -lah --group-directories-first --total-size";
+      cal = "cal -wm";
+      cp = "cp -riv";
+      mv = "mv -iv";
+      rm = "rm -I";
+      mkdir = "mkdir -vp";
+    };
+  };
+
+  programs.neovim = {
+    enable = true;
+
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+  };
+
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+    download = "${config.home.homeDirectory}/INBOX";
+    music = "${config.home.homeDirectory}/MEDIA/Music";
+    videos = "${config.home.homeDirectory}/MEDIA/Videos";
+    pictures = "${config.home.homeDirectory}/MEDIA/Pictures";
+    desktop = null;
+    documents = null;
+    publicShare = null;
+    templates = null;
+  };
+
+  xdg.mimeApps.enable = true;
+  xdg.mimeApps.defaultApplications = {
+    "text/plain" = [ "neovide.desktop" ];
+    "application/pdf" = [ "zathura.desktop" ];
+    "image/*" = [ "sxiv.desktop" ];
+    "video/png" = [ "mpv.desktop" ];
+    "video/jpg" = [ "mpv.desktop" ];
+    "video/*" = [ "mpv.desktop" ];
+  };
+
+  services.mako = {
+    enable = true;
+  };
+
+  # You can also manage environment variables but you will have to manually
+  # source
+  #
+  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
+  #
+  # or
+  #
+  #  /etc/profiles/per-user/ginner/etc/profile.d/hm-session-vars.sh
+  #
+  # if you don't want to manage your shell through Home Manager.
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
+
+  home.stateVersion = "22.11"; # Please read the manual before changing.
+  # Let Home Manager install and manage itself.
+  programs.home-manager.enable = true;
+}

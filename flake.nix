@@ -11,28 +11,33 @@
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # yazi = {
-    #   url = "github:sxyazi/yazi";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    yazi = {
+      url = "github:sxyazi/yazi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, yazi, ... } @ inputs:
   let
     system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [ yazi.overlays.default ];
+    };
   in
   {
     nixosConfigurations = {
       WINTERMUTE = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs system ; };
+      	inherit system;
+        specialArgs = { inherit inputs pkgs ; };
         modules = [
           ./hosts/WINTERMUTE/configuration.nix
 	  inputs.home-manager.nixosModules.default
 	];
       };
       UMMON = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
+        inherit system;
+        specialArgs = { inherit inputs pkgs; };
         modules = [
           ./hosts/UMMON/configuration.nix
 	];

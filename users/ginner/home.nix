@@ -80,13 +80,13 @@
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    # x11.enable = true;
-    # package = pkgs.bibata-cursors;
-    name = "rose-pine-hyprcursor";
-    size = 16;
-  };
+  # home.pointerCursor = {
+  #   gtk.enable = true;
+  #   # x11.enable = true;
+  #   package = pkgs.rose-pine-hyprcursor;
+  #   name = "rose-pine-hyprcursor";
+  #   size = 16;
+  # };
 
   programs.kitty = {
     enable = true;

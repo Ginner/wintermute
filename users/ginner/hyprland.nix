@@ -99,5 +99,8 @@ in
 # bind = $mainMod, E, exec, dolphin
     exec-once = ''${startupScript}/bin/start'';
     };
+    extraConfig = ''
+      env = HYPRCURSOR_THEME,rose-pine-hyprcursor
+      '';
   };
 }

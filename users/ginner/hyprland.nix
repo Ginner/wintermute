@@ -101,6 +101,8 @@ in
     };
     extraConfig = ''
       env = HYPRCURSOR_THEME,rose-pine-hyprcursor
+      env = XCURSOR_THEME,rose-pine-hyprcursor
+
       '';
   };
 }

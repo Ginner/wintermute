@@ -144,6 +144,8 @@
       };
     };
   };
+
+
   services.interception-tools = {
     enable = true;
     plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];

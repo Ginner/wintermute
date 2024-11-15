@@ -79,6 +79,13 @@
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
+  home.pointerCursor = {
+    gtk.enable = true;
+    name = "rose-pine-hyprcursor";
+    package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+    size = 16; # Adjust as needed
+  };
+  gtk.enable = true;
 
   # home.pointerCursor = {
   #   gtk.enable = true;
@@ -198,6 +205,10 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     EDITOR = "nvim";
+    # GTK_CURSOR_THEME = "rose-pine-hyprcursor";
+    # GTK_CURSOR_SIZE = "24"; # Must be a string
+    # XCURSOR_THEME = "rose-pine-hyprcursor";
+    # XCURSOR_SIZE = "24";
   };
 
   home.stateVersion = "22.11"; # Please read the manual before changing.

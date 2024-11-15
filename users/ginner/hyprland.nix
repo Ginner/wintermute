@@ -3,11 +3,6 @@
 let
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     waybar &
-    swww init &
-
-    sleep 1
-
-    swww img ./MEDIA/Pictures/wall.jpeg &
     nm-applet --indicator &
     mako &
   '';

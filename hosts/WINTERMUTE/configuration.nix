@@ -114,7 +114,6 @@
     rsync
     wl-clipboard
     killall
-    swww
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 

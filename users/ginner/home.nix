@@ -79,6 +79,19 @@
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
+
+  services.hyprpaper = {
+    enable = true;
+    settings = {
+      preload = [
+        "~/MEDIA/Pictures/wall.jpeg"
+      ];
+      wallpaper = [
+        " , ~/MEDIA/Pictures/wall.jpeg"
+      ];
+    };
+  };
+
   home.pointerCursor = {
     gtk.enable = true;
     name = "rose-pine-hyprcursor";

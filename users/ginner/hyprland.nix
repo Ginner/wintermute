@@ -3,13 +3,13 @@
 let
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     waybar &
-    nm-applet --indicator &
     mako &
   '';
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = true;
     settings = {
       general = {
         gaps_in = "2";
@@ -19,7 +19,7 @@ in
 
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
         "col.inactive_border" = "rgba(595959aa)";
-    };
+      };
 
     input = {
       kb_layout = "dk";
@@ -30,6 +30,10 @@ in
       sensitivity = "0";
       repeat_delay = "300";
       repeat_rate = "70";  
+    };
+    misc = {
+      disable_hyprland_logo = true;
+      disable_splash_rendering = true;
     };
 
     decoration = {
@@ -97,7 +101,6 @@ in
     extraConfig = ''
       env = HYPRCURSOR_THEME,rose-pine-hyprcursor
       env = XCURSOR_THEME,rose-pine-hyprcursor
-
       '';
   };
 }

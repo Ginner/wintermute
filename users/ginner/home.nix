@@ -25,7 +25,7 @@
     zathura
     newsboat
     bc
-    pass
+    pass-wayland
     sxiv
     mpv
     calcurse

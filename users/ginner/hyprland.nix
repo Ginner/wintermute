@@ -14,7 +14,7 @@ in
       general = {
         gaps_in = "2";
         gaps_out = "4";
-        border_size = "1";
+        border_size = "2";
         layout = "dwindle";
 
         "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
@@ -39,6 +39,9 @@ in
     decoration = {
       rounding = 10;
       drop_shadow = 0;
+      active_opacity = 1.0;
+      inactive_opacity = 0.80;
+      fullscreen_opacity = 1.0;
     };
 
     animations = {

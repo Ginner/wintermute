@@ -123,6 +123,7 @@
     # autosuggestions.enable = true;
     enableAutosuggestions = true;
     enableCompletion = true;
+    autocd = true;
     dotDir = ".config/zsh";
     syntaxHighlighting.enable = true;
     history = {
@@ -146,6 +147,10 @@
       rm = "rm -I";
       mkdir = "mkdir -vp";
     };
+    initExtra = ''
+      setopt histverify
+      setopt correct
+    '';
   };
 
   programs.neovim = {

@@ -16,6 +16,26 @@
       enable = true;
       languagePacks = [ "dk" "en-US" ];
 
+      profiles.default = {
+	isDefault = true;
+	settings = {
+	  "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+	};
+        search = {
+	  force = true;
+	  default = "Startpage";
+	  privateDefault = "DuckDuckGo";
+	  order = [ "Startpage" "DuckDuckGo" "Google" ];
+	  engines = {
+	    "Startpage" = {
+	      urls = [{template = "https://startpage.com/search?q={searchTerms}";}];
+              iconUpdateURL = "https://startpage.com/favicon.ico";
+	    };
+	  };
+
+	};
+      };
+
       /* ---- POLICIES ---- */
       # Check about:policies#documentation for options.
       policies = {
@@ -48,16 +68,19 @@
           "uBlock0@raymondhill.net" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
             installation_mode = "normal_installed";
+	    default_area = "menupanel";
           };
 	  # Vimium C:
 	  "vimium-c@gdh1995.cn" = {
 	    install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi";
             installation_mode = "normal_installed";
+	    default_area = "menupanel";
 	  };
           # Privacy Badger:
           "jid1-MnnxcxisBPnSXQ@jetpack" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
             installation_mode = "normal_installed";
+	    default_area = "menupanel";
           };
         };
   

@@ -167,6 +167,13 @@
     };
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = [pkgs.xdg-desktop-portal-wlr];
+    config.hyprland = {
+      default = ["wlr" "gtk"];
+    };
+  };
 
   xdg.userDirs = {
     enable = true;

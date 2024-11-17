@@ -4,6 +4,7 @@
   imports = [
     ./waybar.nix
     ./hyprland.nix
+    ./firefox.nix
   ];
   home.username = "ginner";
   home.homeDirectory = "/home/ginner";
@@ -21,7 +22,6 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    firefox
     zathura
     newsboat
     bc

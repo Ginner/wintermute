@@ -5,6 +5,8 @@
     ./waybar.nix
     ./hyprland.nix
     ./firefox.nix
+    inputs.nixvim.homeManagerModules.nixvim
+    ./nixvim.nix
   ];
   home.username = "ginner";
   home.homeDirectory = "/home/ginner";
@@ -153,13 +155,13 @@
     '';
   };
 
-  programs.neovim = {
-    enable = true;
-
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
-  };
+  # programs.neovim = {
+  #   enable = true;
+  #
+  #   viAlias = true;
+  #   vimAlias = true;
+  #   vimdiffAlias = true;
+  # };
 
   programs.starship = {
     enable = true;

@@ -79,6 +79,12 @@
             installation_mode = "normal_installed";
 	    default_area = "menupanel";
 	  };
+	  # Consent-o-matic
+	  "gdpr@cavi.au.dk" = {
+	    install_url = "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi";
+            installation_mode = "normal_installed";
+	    default_area = "menupanel";
+	  };
           # Privacy Badger:
           "jid1-MnnxcxisBPnSXQ@jetpack" = {
             install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";

@@ -6,7 +6,7 @@
     ./hyprland.nix
     ./firefox.nix
     inputs.nixvim.homeManagerModules.nixvim
-    ./nixvim.nix
+    ./nixvim/default.nix
   ];
   home.username = "ginner";
   home.homeDirectory = "/home/ginner";

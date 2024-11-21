@@ -4,6 +4,7 @@
     settings = {
       tabline = {
         lualine_a = [ "buffers" ];
+        lualine_z = [ "tabs" ];
       };
     };
   };

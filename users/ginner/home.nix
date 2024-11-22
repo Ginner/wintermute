@@ -2,6 +2,9 @@
 
 {
   imports = [
+    ./zsh.nix
+    ./kitty.nix
+    ./xdg.nix
     ./waybar.nix
     ./hyprland.nix
     ./firefox.nix
@@ -69,9 +72,6 @@
     # '';
   };
 
-  # programs.yazi = {
-  #   enable = true;
-  # };
   programs.yazi = {
     enable = true;
   };
@@ -99,19 +99,6 @@
   #   size = 16;
   # };
 
-  programs.kitty = {
-    enable = true;
-    font = {
-      name = "Hack Nerd Font Mono";
-      size = 11.0;
-    };
-    shellIntegration.enableZshIntegration = true;
-    themeFile = "Monokai_Pro";
-    extraConfig = "
-      window_padding_width 10
-      ";
-  };
-
   programs.btop = {
     enable = true;
     settings = {
@@ -119,49 +106,6 @@
       color_theme = "gruvbox_dark_v2";
     };
   };
-
-  programs.zsh = {
-    enable = true;
-    # autosuggestions.enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    autocd = true;
-    dotDir = ".config/zsh";
-    syntaxHighlighting.enable = true;
-    history = {
-      ignoreDups = true;
-      expireDuplicatesFirst = true;
-      ignoreSpace = true;
-      share = true;
-      size = 10000;
-      path = "${config.home.homeDirectory}/.local/share/zsh/history";
-      };
-    shellAliases = {
-      history = "history 1";
-      ls = "eza";
-      ll = "eza -l";
-      lt = "eza -T";
-      la = "eza -lah --group-directories-first";
-      las = "eza -lah --group-directories-first --total-size";
-      cal = "cal -wm";
-      cp = "cp -riv";
-      mv = "mv -iv";
-      rm = "rm -I";
-      mkdir = "mkdir -vp";
-    };
-    initExtra = ''
-      setopt histverify
-      setopt correct
-    '';
-  };
-
-  # programs.neovim = {
-  #   enable = true;
-  #
-  #   viAlias = true;
-  #   vimAlias = true;
-  #   vimdiffAlias = true;
-  # };
 
   programs.starship = {
     enable = true;
@@ -174,36 +118,6 @@
     };
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = [pkgs.xdg-desktop-portal-wlr];
-    config.hyprland = {
-      default = ["wlr" "gtk"];
-    };
-  };
-
-  xdg.userDirs = {
-    enable = true;
-    createDirectories = true;
-    download = "${config.home.homeDirectory}/INBOX";
-    music = "${config.home.homeDirectory}/MEDIA/Music";
-    videos = "${config.home.homeDirectory}/MEDIA/Videos";
-    pictures = "${config.home.homeDirectory}/MEDIA/Pictures";
-    desktop = null;
-    documents = null;
-    publicShare = null;
-    templates = null;
-  };
-
-  xdg.mimeApps.enable = true;
-  xdg.mimeApps.defaultApplications = {
-    "text/plain" = [ "neovide.desktop" ];
-    "application/pdf" = [ "zathura.desktop" ];
-    "image/*" = [ "sxiv.desktop" ];
-    "video/png" = [ "mpv.desktop" ];
-    "video/jpg" = [ "mpv.desktop" ];
-    "video/*" = [ "mpv.desktop" ];
-  };
 
   services.mako = {
     enable = true;

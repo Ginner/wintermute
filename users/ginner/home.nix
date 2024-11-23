@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports = [
@@ -120,6 +120,7 @@
     };
   };
 
+  stylix.targets.waybar.enable = false;
 
   services.mako = {
     enable = true;
@@ -137,10 +138,6 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     EDITOR = "nvim";
-    # GTK_CURSOR_THEME = "rose-pine-hyprcursor";
-    # GTK_CURSOR_SIZE = "24"; # Must be a string
-    # XCURSOR_THEME = "rose-pine-hyprcursor";
-    # XCURSOR_SIZE = "24";
   };
 
   home.stateVersion = "22.11"; # Please read the manual before changing.

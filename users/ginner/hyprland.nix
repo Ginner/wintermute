@@ -39,10 +39,12 @@ in
 
     decoration = {
       rounding = 10;
-      drop_shadow = mkForce 0;
       active_opacity = 1.0;
       inactive_opacity = 0.80;
       fullscreen_opacity = 1.0;
+      shadow = {
+        enabled = false;
+      };
     };
 
     animations = {

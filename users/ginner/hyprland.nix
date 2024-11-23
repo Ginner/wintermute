@@ -1,6 +1,7 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
+  inherit (lib) mkForce; 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     waybar &
     mako &
@@ -38,7 +39,7 @@ in
 
     decoration = {
       rounding = 10;
-      drop_shadow = 0;
+      drop_shadow = mkForce 0;
       active_opacity = 1.0;
       inactive_opacity = 0.80;
       fullscreen_opacity = 1.0;
@@ -101,23 +102,23 @@ in
 # bind = $mainMod, E, exec, dolphin
     exec-once = ''${startupScript}/bin/start'';
     };
-    extraConfig = ''
-      env = HYPRCURSOR_THEME,rose-pine-hyprcursor
-      env = XCURSOR_THEME,rose-pine-hyprcursor
-      '';
+    # extraConfig = ''
+    #   env = HYPRCURSOR_THEME,rose-pine-hyprcursor
+    #   env = XCURSOR_THEME,rose-pine-hyprcursor
+    #   '';
   };
 
-  services.hyprpaper = {
-    enable = true;
-    settings = {
-      preload = [
-        "~/MEDIA/Pictures/wall.jpeg"
-      ];
-      wallpaper = [
-        " , ~/MEDIA/Pictures/wall.jpeg"
-      ];
-    };
-  };
+  # services.hyprpaper = {
+  #   enable = true;
+  #   settings = {
+  #     preload = [
+  #       "~/MEDIA/Pictures/wall.jpeg"
+  #     ];
+  #     wallpaper = [
+  #       " , ~/MEDIA/Pictures/wall.jpeg"
+  #     ];
+  #   };
+  # };
   
   programs.hyprlock = {
     enable = true;
@@ -129,29 +130,27 @@ in
         no_fade_in = false;
       };
 
-      # background = [
-      #   {
-      #     path = "screenshot";
-      #     blur_passes = 2;
-      #     blur_size = 5;
-      #   }
-      # ];
+      background = mkForce [
+        {
+          path = "screenshot";
+          blur_passes = 2;
+          blur_size = 5;
+        }
+      ];
 
-      # input-field = [
-      #   {
-      #     size = "200, 50";
-      #     position = "0, -80";
-      #     monitor = "";
-      #     dots_center = true;
-      #     fade_on_empty = false;
-      #     font_color = "rgb(202, 211, 245)";
-      #     inner_color = "rgb(91, 96, 120)";
-      #     outer_color = "rgb(24, 25, 38)";
-      #     outline_thickness = 5;
-      #     placeholder_text = ''Password...'';
-      #     shadow_passes = 2;
-      #   }
-      # ];
+      input-field = {
+          size = "200, 50";
+          position = "0, -80";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          # font_color = "rgb(202, 211, 245)";
+          # inner_color = "rgb(91, 96, 120)";
+          # outer_color = "rgb(24, 25, 38)";
+          outline_thickness = 5;
+          placeholder_text = ''Password...'';
+          shadow_passes = 2;
+        };
     };
   };
 

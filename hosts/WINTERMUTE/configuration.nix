@@ -95,11 +95,12 @@
     enable = true;
   };
       
+
   stylix = {
     enable = true;
+    image = ./wall.jpeg;
     polarity = "dark";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
-    image = ./wall.jpeg;
     cursor = {
       # package = pkgs.rose-pine-hyprcursor;
       # package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
@@ -121,7 +122,6 @@
       };
     };
   };
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

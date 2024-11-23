@@ -26,5 +26,6 @@
       providers.wl-copy.enable = true;
     };
     plugins.telescope.enable = true;
+    plugins.web-devicons.enable = true;
   };
 }

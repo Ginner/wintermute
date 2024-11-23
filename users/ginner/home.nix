@@ -5,6 +5,7 @@
     ./zsh.nix
     ./kitty.nix
     ./xdg.nix
+    # ./stylix.nix
     ./waybar.nix
     ./hyprland.nix
     ./firefox.nix

@@ -95,6 +95,33 @@
     enable = true;
   };
       
+  stylix = {
+    enable = true;
+    polarity = "dark";
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+    image = ./wall.jpeg;
+    cursor = {
+      # package = pkgs.rose-pine-hyprcursor;
+      # package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+      # name = "rose-pine-hyprcursor";
+      package = pkgs.phinger-cursors;
+      name = "phinger-cursors-dark";
+      size = 16;
+    };
+    fonts = {
+      monospace = {
+        package = pkgs.nerdfonts.override { fonts = [ "Hack" "FiraCode"]; };
+        name = "Hack Nerd Font Mono";
+      };
+      sizes = {
+        terminal = 11;
+        desktop = 11;
+        applications = 11;
+        popups = 14;
+      };
+    };
+  };
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

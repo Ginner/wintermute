@@ -23,6 +23,10 @@
       url = "github:ndom91/rose-pine-hyprcursor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
   };
 
@@ -45,6 +49,7 @@
         modules = [
           ./hosts/WINTERMUTE/configuration.nix
 	  inputs.home-manager.nixosModules.default
+          inputs.stylix.nixosModules.stylix
 	];
       };
       UMMON = nixpkgs.lib.nixosSystem {

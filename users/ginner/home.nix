@@ -83,13 +83,14 @@
   };
 
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    name = "rose-pine-hyprcursor";
-    package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
-    size = 16; # Adjust as needed
-  };
-  gtk.enable = true;
+  # I'll try setting it through stylix
+  # home.pointerCursor = {
+  #   gtk.enable = true;
+  #   name = "rose-pine-hyprcursor";
+  #   package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+  #   # size = 16; # Adjust as needed
+  # };
+  # gtk.enable = true;
 
   # home.pointerCursor = {
   #   gtk.enable = true;
@@ -103,7 +104,7 @@
     enable = true;
     settings = {
       vim_keys = true;
-      color_theme = "gruvbox_dark_v2";
+      # color_theme = "gruvbox_dark_v2";
     };
   };
 

@@ -15,7 +15,7 @@
   programs.nixvim = {
     enable = true;
 
-    colorschemes.gruvbox.enable = true;
+    # colorschemes.gruvbox.enable = true;
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;

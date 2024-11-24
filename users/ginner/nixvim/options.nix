@@ -8,6 +8,7 @@
     scrolloff = 5;
     showcmd = true;
     cmdheight = 0;
+    conceallevel = 2;
 
     # Tab & indentation
     shiftwidth = 2;

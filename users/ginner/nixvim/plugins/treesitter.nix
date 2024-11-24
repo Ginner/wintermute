@@ -16,7 +16,7 @@
     settings = {
       highlight = {
         enable = true;
-        disable = [ "markdown" ];
+        # disable = [ "markdown" ];
       };
       indent.enable = true;
       autopairs.enable = true;

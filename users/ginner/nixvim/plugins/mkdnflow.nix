@@ -6,6 +6,7 @@
     links.conceal = true;
     modules = {
       bib = false;
+      conceal = false;
     };
     perspective = {
       rootTell = "index.md";

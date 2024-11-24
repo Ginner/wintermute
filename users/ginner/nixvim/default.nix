@@ -27,5 +27,6 @@
     };
     plugins.telescope.enable = true;
     plugins.web-devicons.enable = true;
+    plugins.vim-surround.enable = true;
   };
 }

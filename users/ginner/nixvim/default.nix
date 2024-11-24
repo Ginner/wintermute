@@ -25,8 +25,11 @@
       register = "unnamedplus";
       providers.wl-copy.enable = true;
     };
-    plugins.telescope.enable = true;
-    plugins.web-devicons.enable = true;
-    plugins.vim-surround.enable = true;
+    plugins = {
+      telescope.enable = true;
+      web-devicons.enable = true;
+      vim-surround.enable = true;
+      lastplace.enable = true;
+    };
   };
 }

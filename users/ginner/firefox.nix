@@ -22,6 +22,7 @@
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
+        "signon.rememberSignons" = false;
       };
       search = {
         force = true;
@@ -53,6 +54,7 @@
       DisableFirefoxAccounts = true;
       DisableAccounts = true;
       DisableFirefoxScreenshots = true;
+      PasswordManagerEnabled = lock-false;
       OverrideFirstRunPage = "";
       OverridePostUpdatePage = "";
       DontCheckDefaultBrowser = true;

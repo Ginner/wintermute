@@ -3,8 +3,7 @@
     # Editor
     relativenumber = true;
     number = true;
-    # numberwidth = 4;   # Doesn't seem to have any effect...
-    signcolumn = "yes";# Preserve that precious screen real-estate
+    signcolumn = "yes";
     cursorline = true;
     scrolloff = 5;
     showcmd = true;
@@ -29,3 +28,7 @@
 
   };
 }
+
+
+
+

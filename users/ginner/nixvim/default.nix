@@ -54,6 +54,13 @@
           ;      (link_text))) @_checkmark (#lua-match? @_checkmark "\[-\]")(#set! conceal "󰄗"))
         ]]
       )
+      vim.treesitter.query.set(
+        'markdown_inline',
+        'highlights',
+        [[
+        ((shortcut_link) @conceal (#lua-match? @conceal "\[w\]")(#set! conceal "󰄗"))
+        ]]
+      )
     '';
   };
 }

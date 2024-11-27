@@ -9,6 +9,7 @@
     ./waybar.nix
     ./hyprland.nix
     ./firefox.nix
+    ./ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
     ./nixvim/default.nix
   ];

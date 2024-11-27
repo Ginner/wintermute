@@ -28,21 +28,5 @@
       event = [ "BufWritePre" ];
       pattern = [ "*" ];
     }
-    {
-      desc = "Match and conceal empty checkboxes in markdown";
-      event = [ "FileType" "BufRead" ];
-      pattern = [ "markdown" "*.md" "*.markdown" ];
-      group = "wikigrp";
-      command = "syntax match myCheckboxEmpty '\v(\s+)?(-|\*)\s\[\s\]'hs=e-4 conceal cchar=󰄱";
-      # callback.__raw = ''
-      #   function()
-      #     vim.cmd([[
-      #       syntax match myCheckboxEmpty '\v(\s+)?(-|\*)\s\[\s\]'hs=e-4 conceal cchar=󰄱
-      #       highlight default link myCheckboxEmpty task_list_marker_unchecked
-      #     ]])
-      #     vim.opt_local.conceallevel = 2
-      #   end
-      # '';
-    }
   ];
 }

@@ -13,6 +13,12 @@
       priority = "root";
     };
     mappings = {
+      MkdnCreateLink = {
+        key = "<leader>ln";
+        modes = [
+          "n"
+        ];
+      };
       MkdnEnter = {
         key = "<CR>";
         modes = [

@@ -58,6 +58,8 @@ in
 
     "$mod" = "SUPER";
     bind = [
+      ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
+      ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
       " , XF86ScreenSaver, exec, loginctl lock-session"
       "$mod, return, exec, kitty"
       "$mod, Q, killactive"

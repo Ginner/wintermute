@@ -131,7 +131,6 @@
     # eww-wayland
     libnotify
     gawk
-    rofi-wayland
     # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
     upower
     tlp

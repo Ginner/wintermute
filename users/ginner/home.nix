@@ -86,6 +86,10 @@
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
+  program.rofi = {
+    enable = true;
+    package = pkgs.rofi-wayland;
+  };
 
 
   # I'll try setting it through stylix

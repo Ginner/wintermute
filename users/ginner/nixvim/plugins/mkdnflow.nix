@@ -3,7 +3,7 @@
     enable = true;
     wrap = true;
     silent = true;
-    links.conceal = true;
+    links.conceal = false;
     modules = {
       bib = false;
       conceal = false;

@@ -58,6 +58,7 @@ in
 
     "$mod" = "SUPER";
     bind = [
+      " , XF86ScreenSaver, exec, loginctl lock-session"
       "$mod, return, exec, kitty"
       "$mod, Q, killactive"
       "$mod, M, exit"

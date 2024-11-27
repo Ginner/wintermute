@@ -21,6 +21,6 @@
       indent.enable = true;
       autopairs.enable = true;
     };
-    nixvimInjections = true;
+    # nixvimInjections = true;
   };
 }

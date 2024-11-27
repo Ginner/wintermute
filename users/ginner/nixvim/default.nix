@@ -36,6 +36,7 @@
         'markdown',
         'highlights',
         [[
+          ;; extends
           (list_item [
             (list_marker_plus)
             (list_marker_minus)
@@ -58,6 +59,7 @@
         'markdown_inline',
         'highlights',
         [[
+        ;; extends
         ((shortcut_link) @conceal (#lua-match? @conceal "\[w\]")(#set! conceal "󰄗"))
         ]]
       )

@@ -127,7 +127,7 @@ in
     settings = {
       general = {
         disable_loading_bar = true;
-        grace = 300;
+        grace = 10;
         hide_cursor = true;
         no_fade_in = false;
       };
@@ -149,7 +149,7 @@ in
           # font_color = "rgb(202, 211, 245)";
           # inner_color = "rgb(91, 96, 120)";
           # outer_color = "rgb(24, 25, 38)";
-          outline_thickness = 5;
+          outline_thickness = 3;
           placeholder_text = ''Password...'';
           shadow_passes = 2;
         };

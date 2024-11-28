@@ -25,9 +25,14 @@
   xdg.mimeApps.defaultApplications = {
     "text/plain" = [ "neovide.desktop" ];
     "application/pdf" = [ "zathura.desktop" ];
+    "image/jpeg" = [ "sxiv.desktop" ];
+    "image/png" = [ "sxiv.desktop" ];
     "image/*" = [ "sxiv.desktop" ];
     "video/png" = [ "mpv.desktop" ];
     "video/jpg" = [ "mpv.desktop" ];
     "video/*" = [ "mpv.desktop" ];
+  };
+  xdg.mimeApps.associations.added = {
+    "image/*" = [ "sxiv.desktop" ];
   };
 }

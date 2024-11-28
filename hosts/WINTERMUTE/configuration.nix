@@ -139,7 +139,10 @@
     wl-clipboard
     killall
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
+    nixd
   ];
+
+  nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   fonts.packages = with pkgs; [
     # (nerdfonts.override { fonts = [ "Hack Nerd Font" "FiraCode"]; })

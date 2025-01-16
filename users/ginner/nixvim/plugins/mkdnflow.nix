@@ -9,8 +9,8 @@
       conceal = false;
     };
     perspective = {
-      rootTell = "index.md";
-      priority = "root";
+      rootTell = "wiki.md";
+      priority = "current";
     };
     mappings = {
       MkdnCreateLink = {

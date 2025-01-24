@@ -31,7 +31,8 @@
     # '')
     zathura
     newsboat
-    bc
+    numbat
+    bat
     pass-wayland
     sxiv
     mpv

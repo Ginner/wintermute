@@ -33,6 +33,7 @@
     initExtra = ''
       setopt histverify
       setopt correct
+      eval "$(direnv hook zsh)"
     '';
   };
 }

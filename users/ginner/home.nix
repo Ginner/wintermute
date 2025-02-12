@@ -33,7 +33,6 @@
     newsboat
     numbat
     bat
-    direnv
     pass-wayland
     sxiv
     mpv
@@ -80,8 +79,18 @@
     # '';
   };
 
+  programs.zsh = {
+    enable = true;
+  };
+
   programs.yazi = {
     enable = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
 
   programs.git = {

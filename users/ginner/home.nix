@@ -33,6 +33,7 @@
     newsboat
     numbat
     bat
+    direnv
     pass-wayland
     sxiv
     mpv

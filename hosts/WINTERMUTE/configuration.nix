@@ -137,7 +137,6 @@
     killall
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     nixd
-    kmscon
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -167,6 +166,10 @@
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd Hyprland";
       };
     };
+  };
+
+  services.kmscon = {
+    enable = true;
   };
 
   services.tlp = {

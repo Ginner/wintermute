@@ -27,7 +27,10 @@
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    taskfinder = {
+      url = "git+https://codeberg.org/ginner/taskfinder";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, yazi, ... } @ inputs:

@@ -93,10 +93,6 @@
     enable = true;
   };
 
-  programs.kmscon = {
-    enable = true;
-  };
-
   stylix = {
     enable = true;
     image = ./wall.jpeg;
@@ -141,6 +137,7 @@
     killall
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     nixd
+    kmscon
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

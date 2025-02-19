@@ -45,8 +45,6 @@
   # Enable flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
   programs.hyprland.enable = true;
   programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
 
@@ -94,7 +92,10 @@
   programs.zsh = {
     enable = true;
   };
-      
+
+  programs.kmscon = {
+    enable = true;
+  };
 
   stylix = {
     enable = true;

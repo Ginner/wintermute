@@ -28,7 +28,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     taskfinder = {
-      url = "git+https://codeberg.org/ginner/taskfinder";
+      url = "git+https://codeberg.org/kdwarn/taskfinder";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

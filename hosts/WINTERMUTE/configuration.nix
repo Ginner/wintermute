@@ -106,7 +106,12 @@
     };
     fonts = {
       monospace = {
-        package = pkgs.nerdfonts.override { fonts = [ "Hack" "FiraCode"]; };
+        # package = pkgs.nerdfonts.override { fonts = [ "Hack" "FiraCode"]; };
+        # packages = [
+        #   pkgs.nerd-fonts.Hack
+        #   pkgs.nerd-fonts.FiraCode
+        # ];
+        package = pkgs.nerd-fonts.hack;
         name = "Hack Nerd Font Mono";
       };
       sizes = {
@@ -143,7 +148,8 @@
 
   fonts.packages = with pkgs; [
     # (nerdfonts.override { fonts = [ "Hack Nerd Font" "FiraCode"]; })
-    nerdfonts
+    nerd-fonts.hack
+    nerd-fonts.fira-code
     ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

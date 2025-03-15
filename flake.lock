@@ -100,6 +100,28 @@
         "type": "github"
       }
     },
+    "fenix": {
+      "inputs": {
+        "nixpkgs": [
+          "taskfinder",
+          "nixpkgs"
+        ],
+        "rust-analyzer-src": "rust-analyzer-src"
+      },
+      "locked": {
+        "lastModified": 1741588215,
+        "narHash": "sha256-XTZ051fwGcDPtCUSb7gJv5BsUPYcvjH9mFjVZboMIKQ=",
+        "owner": "nix-community",
+        "repo": "fenix",
+        "rev": "49b0989891f48cbfe6fc288ea76c3efa84000ed5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "fenix",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -861,6 +883,23 @@
         "type": "github"
       }
     },
+    "rust-analyzer-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1741517882,
+        "narHash": "sha256-MmYdZyVwKa3YHzqoHdHw9/jZXkDE/5M3M+7363t4Pkc=",
+        "owner": "rust-lang",
+        "repo": "rust-analyzer",
+        "rev": "5e7dd31c80d5821113ed9c9aa1616a73a63b49a1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rust-lang",
+        "ref": "nightly",
+        "repo": "rust-analyzer",
+        "type": "github"
+      }
+    },
     "rust-overlay": {
       "inputs": {
         "nixpkgs": [
@@ -1026,23 +1065,25 @@
     },
     "taskfinder": {
       "inputs": {
+        "fenix": "fenix",
         "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1741086424,
-        "narHash": "sha256-MhFPKbKGxnU7V0pUM1lT34zd19z/TQxYL7pjG18+dUw=",
-        "ref": "refs/heads/main",
-        "rev": "252e950c9aa28cf05b9531dab33b961a56834bc7",
-        "revCount": 150,
+        "lastModified": 1741634722,
+        "narHash": "sha256-11PeCMIP4LAU2iu+CL/woh22IM2IOvloWUtmtEkxZJc=",
+        "ref": "main",
+        "rev": "57104e5fa31de71cfedf0bb9f9c3409621ad3a89",
+        "revCount": 158,
         "type": "git",
-        "url": "https://codeberg.org/kdwarn/taskfinder"
+        "url": "https://codeberg.org/ginner/taskfinder"
       },
       "original": {
+        "ref": "main",
         "type": "git",
-        "url": "https://codeberg.org/kdwarn/taskfinder"
+        "url": "https://codeberg.org/ginner/taskfinder"
       }
     },
     "tinted-foot": {

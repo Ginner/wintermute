@@ -106,11 +106,6 @@
     };
     fonts = {
       monospace = {
-        # package = pkgs.nerdfonts.override { fonts = [ "Hack" "FiraCode"]; };
-        # packages = [
-        #   pkgs.nerd-fonts.Hack
-        #   pkgs.nerd-fonts.FiraCode
-        # ];
         package = pkgs.nerd-fonts.hack;
         name = "Hack Nerd Font Mono";
       };
@@ -147,7 +142,6 @@
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   fonts.packages = with pkgs; [
-    # (nerdfonts.override { fonts = [ "Hack Nerd Font" "FiraCode"]; })
     nerd-fonts.hack
     nerd-fonts.fira-code
     ];

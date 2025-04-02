@@ -27,12 +27,12 @@
       search = {
         force = true;
         default = "Startpage";
-        privateDefault = "DuckDuckGo";
-        order = [ "Startpage" "DuckDuckGo" "Google" ];
+        privateDefault = "ddg";
+        order = [ "Startpage" "ddg" "google" ];
         engines = {
           "Startpage" = {
             urls = [{template = "https://startpage.com/search?q={searchTerms}";}];
-            iconUpdateURL = "https://startpage.com/favicon.ico";
+            icon = "https://startpage.com/favicon.ico";
           };
         };
 
@@ -118,4 +118,5 @@
       };
     };
   };
+  stylix.targets.firefox.profileNames = [ "default" ];
 }

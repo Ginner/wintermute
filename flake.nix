@@ -36,30 +36,33 @@
   outputs = { self, nixpkgs, yazi, ... } @ inputs:
   let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = [ 
-        yazi.overlays.default 
-        # rose-pine-hyprcursor.overlays.default 
-      ];
-    };
   in
   {
     nixosConfigurations = {
       WINTERMUTE = nixpkgs.lib.nixosSystem {
       	inherit system;
-        specialArgs = { inherit inputs pkgs ; };
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/WINTERMUTE/configuration.nix
 	  inputs.home-manager.nixosModules.default
           inputs.stylix.nixosModules.stylix
+          {
+              nixpkgs.overlays = [
+                yazi.overlays.default
+              ];
+            }
 	];
       };
       UMMON = nixpkgs.lib.nixosSystem {
         inherit system;
-        specialArgs = { inherit inputs pkgs; };
+        specialArgs = { inherit inputs; };
         modules = [
           ./hosts/UMMON/configuration.nix
+            {
+              nixpkgs.overlays = [
+                yazi.overlays.default
+              ];
+            }
 	];
       };
     };

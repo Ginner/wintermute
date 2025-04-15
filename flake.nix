@@ -53,6 +53,20 @@
             }
 	];
       };
+      BISHOP = nixpkgs.lib.nixosSystem {
+      	inherit system;
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./hosts/BISHOP/configuration.nix
+	  inputs.home-manager.nixosModules.default
+          inputs.stylix.nixosModules.stylix
+          {
+              nixpkgs.overlays = [
+                yazi.overlays.default
+              ];
+            }
+	];
+      };
       UMMON = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = { inherit inputs; };

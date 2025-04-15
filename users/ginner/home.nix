@@ -13,6 +13,7 @@
     inputs.nixvim.homeManagerModules.nixvim
     ./nixvim/default.nix
     ./scripts.nix
+    ./ags.nix
   ];
   home.username = "ginner";
   home.homeDirectory = "/home/ginner";

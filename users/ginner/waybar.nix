@@ -4,7 +4,7 @@
     settings = {
       waybar = {
         layer = "top";
-	output = "LVDS-1";
+	output = "eDP-1";
         position = "top";
         modules-left = [
           "custom/logo"

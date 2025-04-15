@@ -11,6 +11,7 @@
     ./firefox.nix
     ./ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
+    inputs.ags.homeManagerModules.default
     ./nixvim/default.nix
     ./scripts.nix
     ./ags.nix
@@ -101,6 +102,7 @@
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
+
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;

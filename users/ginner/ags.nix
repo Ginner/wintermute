@@ -1,13 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   programs.ags = {
     enable = true;
     configDir = ./ags;
     extraPackages = with pkgs; [
-      gtksourceview
-      webkitgtk
-      accountsservice
+      inputs.ags.packages.${pkgs.system}.battery
+      fzf
     ];
   };
 }

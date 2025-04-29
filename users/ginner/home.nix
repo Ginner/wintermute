@@ -43,6 +43,7 @@
     calcurse
     khard
     imagemagick
+    inkscape
     brightnessctl
     jq
     eza
@@ -101,6 +102,16 @@
     enable = true;
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
+  };
+
+  programs.ssh = {
+    enable = true;
+    matchBlocks = {
+      "github.com" = {
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519_sk";
+      };
+    };
   };
 
   programs.rofi = {

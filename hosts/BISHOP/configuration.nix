@@ -61,6 +61,7 @@
     };
   # hardware.pulseaudio.enable = true;
   hardware.bluetooth.enable = true;
+  hardware.uinput.enable = true; # Necessary for xremap
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -69,7 +70,6 @@
   # home-manager.useGlobalPkgs = true;
   # home-manager.useUserPackages = true;
 
-
   users.defaultUserShell = pkgs.zsh;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ginner = {
@@ -77,6 +77,10 @@
     extraGroups = [ "wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
   };
   
+  # For xremap under home-manager
+  users.groups.uinput.members = [ "ginner" ];
+  users.groups.input.members = [ "ginner" ];
+
   home-manager = {
     extraSpecialArgs = { inherit inputs ; };
     users = {
@@ -189,17 +193,17 @@
     };
   };
 
-  services.interception-tools = {
-    enable = true;
-    plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];
-    udevmonConfig = ''
-    - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-      DEVICE:
-        EVENTS:
-          EV_KEY: [KEY_CAPSLOCK,]
-    '';
-  };
-  environment.etc."dual-function-keys.yaml".text = builtins.readFile ./dual-function-keys.yaml;
+  # services.interception-tools = {
+  #   enable = true;
+  #   plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];
+  #   udevmonConfig = ''
+  #   - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
+  #     DEVICE:
+  #       EVENTS:
+  #         EV_KEY: [KEY_CAPSLOCK,]
+  #   '';
+  # };
+  # environment.etc."dual-function-keys.yaml".text = builtins.readFile ./dual-function-keys.yaml;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

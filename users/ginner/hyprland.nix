@@ -27,10 +27,21 @@ in
       kb_variant = "nodeadkeys";
       follow_mouse = "1";
       natural_scroll = "false";
+      scroll_factor = "0.2";
       #"touchpad.natural_scroll" = "true";
-      sensitivity = "0";
+      # sensitivity = "0";
       repeat_delay = "300";
       repeat_rate = "70";  
+    };
+    monitor = [
+      "eDP-1, preffered, auto, 1.0"
+    ];
+    # Works for BISHOP:
+    "device[elan06c2:00-04f3:3195-touchpad]".enabled = false;
+    "device[tpps/2-synaptics-trackpoint]" = {
+      sensitivity = 0.2;
+      accel_profile = "flat";
+      natural_scroll = false;
     };
     misc = {
       disable_hyprland_logo = true;
@@ -147,8 +158,8 @@ in
       ];
 
       input-field = {
-          size = "200, 50";
-          position = "0, -80";
+          size = "300, 50";
+          position = "0, -150";
           monitor = "";
           dots_center = true;
           fade_on_empty = false;

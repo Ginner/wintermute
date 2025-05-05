@@ -12,6 +12,7 @@
     ./ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
+    inputs.xremap-flake.homeManagerModules.default
     ./nixvim/default.nix
     ./scripts.nix
     ./ags.nix
@@ -160,6 +161,21 @@
 
   services.mako = {
     enable = true;
+  };
+
+  services.xremap = {
+    enable = true;
+    withHypr = true;
+     config = {
+      modmap = [
+        {
+          name = "main-remaps";
+          remap = {
+            "CapsLock" = { held = "Super_L"; alone = "Esc"; alone_timeout_millis = 200; };
+          };
+        }
+      ];
+    };   
   };
 
   # You can also manage environment variables but you will have to manually

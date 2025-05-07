@@ -181,6 +181,10 @@
     TTYVTDisallocate = true;
   };
 
+  services.fwupd = {
+    enable = true;
+  };
+
   services.kmscon = {
     enable = true;
   };

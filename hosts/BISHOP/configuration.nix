@@ -135,12 +135,13 @@
     gawk
     # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
     upower
-    tlp
+    # tlp
     rsync
     wl-clipboard
     killall
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
     nixd
+    usbutils
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -162,6 +163,12 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services.netbird.enable = true;
+
+  
+  boot.kernelParams = [ 
+    "usbcore.autosuspend=-1"
+    "usbcore.use_both_schemes=1"
+  ];
 
   services.greetd = {
     enable = true;
@@ -189,13 +196,24 @@
     enable = true;
   };
 
-  services.tlp = {
-    enable = true;
-    settings = {
-      START_CHARGE_THRESH_BAT0=75;
-      STOP_CHARGE_THRESH_BAT0=80;
-    };
-  };
+  # services.tlp = {
+  #   enable = true;
+  #   settings = {
+  #     USB_AUTOSUSPEND = 0;
+  #
+  #   # Remove the Dell dock blacklist since you're using a ThinkPad dock now
+  #   # USB_DENYLIST = "";  # or comment out entirely
+  #
+  #   # Keep xhci_hcd out of runtime PM denylist (this looks good)
+  #     RUNTIME_PM_DRIVER_DENYLIST = "mei_me nouveau radeon";
+  #
+  #   # These settings look good as they are
+  #     RUNTIME_PM_ON_AC = "on";
+  #     RUNTIME_PM_ON_BAT = "auto";
+  #     START_CHARGE_THRESH_BAT0=75;
+  #     STOP_CHARGE_THRESH_BAT0=80;
+  #   };
+  # };
 
   # services.interception-tools = {
   #   enable = true;

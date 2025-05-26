@@ -124,7 +124,7 @@
     waybar
     file
     # eww-wayland
-    libnotify
+    # libnotify _duplicate functionality with mako_
     gawk
     # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
     upower

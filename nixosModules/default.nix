@@ -1,4 +1,4 @@
-{ config, pkgs, lib, . }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -8,4 +8,6 @@
     ./programs/
 
   ];
+
+  time.timezone = "Europe/Copenhagen";
 }

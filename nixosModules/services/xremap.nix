@@ -59,5 +59,6 @@ in
         ++ cfg.modmaps;
       } // cfg.extraConfig;
     };
+    hardware.uinput.enable = true; // Ensure uinput is enabled for xremap
   };
 }

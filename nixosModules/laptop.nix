@@ -21,6 +21,7 @@ in
 
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
+
       (lib.mkIf cfg.powerManagement.enable {
         myModules.services.tlp.enable = true;
       })
@@ -43,7 +44,13 @@ in
       };
     }
     {
-      myModules.services.pipewire.enable = true; # Enable PipeWire for audio management
+      myModules.services.pipewire.enable = true;
+    }
+    {
+      networking.networkmanager.enable = true;
+    }
+    {
+      hardware.bluetooth.enable = true;
     }
   ]);
 }

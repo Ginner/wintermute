@@ -16,6 +16,7 @@ in
         description = "Enable power management features";
       };
     };
+
   };
 
 
@@ -35,6 +36,14 @@ in
       ];
       services.upower.enable = true;
     }
-
+    {
+      myModules.services.xremap = {
+        enable = true; # Enable xremap with default CapsLock remap
+        withHypr = true; # Only if using Hyprland
+      };
+    }
+    {
+      myModules.services.pipewire.enable = true; # Enable PipeWire for audio management
+    }
   ]);
 }

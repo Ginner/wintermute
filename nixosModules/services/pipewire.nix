@@ -1,6 +1,9 @@
 
-{ pkgs, lib, config, ... }: 
+{ pkgs, lib, config, ... }:
 
+let
+  cfg = config.myModules.services.pipewire;
+in
 {
   options.myModules.services.pipewire = {
     enable = lib.mkEnableOption "server for handling audio and video streams";
@@ -30,11 +33,13 @@
     };
   };
 
-  config = lib.mkIf config.myModules.services.pipewire.enable {
-    enable = true;
-    alsa.enable = config.myModules.services.pipewire.alsaSupport;
-    alsa.support32Bit = config.myModules.services.pipewire.alsaSupport32Bit;
-    pulse.enable = config.myModules.services.pipewire.pulseEmulation;
-    jack.enable = config.myModules.services.pipewire.jackEmulation;
+  config = lib.mkIf cfg.enable {
+    services.pipewire = {
+      enable = true;
+      alsa.enable = cfg.alsaSupport;
+      alsa.support32Bit = cfg.alsaSupport32Bit;
+      pulse.enable = cfg.pulseEmulation;
+      jack.enable = cfg.jackEmulation;
+    };
   };
 }

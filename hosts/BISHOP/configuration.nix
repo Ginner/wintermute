@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
 
 { config, pkgs, inputs, ... }:
 # let
@@ -20,56 +17,18 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "BISHOP"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # Set your time zone.
-  time.timeZone = "Europe/Copenhagen";
+  myModules.laptop.enable = true; # Enable laptop module
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "da_DK.UTF-8";
-  i18n.extraLocaleSettings = {
-    LANG = "en_DK.UTF-8";
-  };
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "dk";
-    # useXkbConfig = true; # use xkbOptions in tty.
-  };
-
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  programs.hyprland.enable = true;
-  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  security.rtkit.enable = true;
-  # hardware.pulseaudio.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.uinput.enable = true; # Necessary for xremap
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Enable home-manager
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.useUserPackages = true;
-
+  ## Below has to be handled during the restructure
   users.defaultUserShell = pkgs.zsh;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.ginner = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
   };
-  
+
   # For xremap under home-manager
   users.groups.uinput.members = [ "ginner" ];
   users.groups.input.members = [ "ginner" ];
@@ -94,8 +53,8 @@
     enable = true;
     image = ./wall.jpeg;
     polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/google-dark.yaml"; 
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/codeschool.yaml"; 
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/google-dark.yaml";
+    # base16Scheme = "${pkgs.base16-schemes}/share/themes/codeschool.yaml";
     cursor = {
       package = pkgs.rose-pine-cursor;
       name = "BreezeX-RosePine-Linux";

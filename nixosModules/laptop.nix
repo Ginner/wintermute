@@ -8,6 +8,16 @@ in
 {
   options.myModules.laptop = {
     enable = lib.mkEnableOption "Laptop-specific system configurations";
+    enableGreetd = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable greetd for login management";
+    };
+    enableHyprland = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable Hyprland as the window manager";
+    };
 
     powerManagement = {
       enable = lib.mkOption {
@@ -21,6 +31,10 @@ in
 
 
   config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      myModules.services.xremap.enable = true;
+      myModules.services.pipewire.enable = true;
+      hardware.bluetooth.enable = true;
 
       (lib.mkIf cfg.powerManagement.enable {
         myModules.services.tlp.enable = true;

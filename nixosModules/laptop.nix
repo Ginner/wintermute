@@ -47,9 +47,6 @@ in
       myModules.services.pipewire.enable = true;
     }
     {
-      networking.networkmanager.enable = true;
-    }
-    {
       hardware.bluetooth.enable = true;
     }
   ]);

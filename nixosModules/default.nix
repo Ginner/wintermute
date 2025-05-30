@@ -4,6 +4,7 @@
   imports = [
     ./services/tlp.nix
     ./services/xremap.nix
+    ./services/greetd.nix
 
     ./programs/
 

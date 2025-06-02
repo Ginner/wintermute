@@ -19,6 +19,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+
   networking.hostName = "BISHOP"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -164,12 +165,11 @@
   # services.openssh.enable = true;
   services.netbird.enable = true;
 
-  
-  boot.kernelParams = [ 
-    "usbcore.autosuspend=-1"
-    "usbcore.use_both_schemes=1"
-  ];
-
+  # boot.kernelParams = [ 
+  #   "usbcore.autosuspend=-1"
+  #   "usbcore.use_both_schemes=1"
+  # ];
+  #
   services.greetd = {
     enable = true;
     settings = {
@@ -195,6 +195,7 @@
   services.kmscon = {
     enable = true;
   };
+  services.hardware.bolt.enable = true;
 
   # services.tlp = {
   #   enable = true;

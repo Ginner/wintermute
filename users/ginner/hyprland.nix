@@ -34,7 +34,10 @@ in
       repeat_rate = "70";  
     };
     monitor = [
-      "eDP-1, preffered, auto, 1.0"
+      "eDP-1, preffered, 0x0, 1.0"
+      "DP-8, preffered, 1920x-820, 1.0"
+      "DP-7, preffered, 4480x-1035, 1.0, transform, 3"
+      ", preffered, auto, 1"
     ];
     # Works for BISHOP:
     "device[elan06c2:00-04f3:3195-touchpad]".enabled = false;

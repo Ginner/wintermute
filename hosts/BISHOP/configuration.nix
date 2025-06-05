@@ -20,14 +20,12 @@
 
   myModules.laptop.enable = true; # Enable laptop module
 
+  userGlobals = {
+    username = "ginner";
+  };
+
 
   ## Below has to be handled during the restructure
-  users.defaultUserShell = pkgs.zsh;
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ginner = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
-  };
 
   # For xremap under home-manager
   users.groups.uinput.members = [ "ginner" ];
@@ -38,15 +36,6 @@
     users = {
       "ginner" = import ../../users/ginner/home.nix;
     };
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
-
-  programs.zsh = {
-    enable = true;
   };
 
   stylix = {
@@ -86,8 +75,6 @@
     # libnotify _duplicate functionality with mako_
     gawk
     # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
-    upower
-    tlp
     rsync
     wl-clipboard
     killall
@@ -114,53 +101,7 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  services.fwupd = {
-    enable = true;
-  };
-
-  services.kmscon = {
-    enable = true;
-  };
-
-  # Moved to standalone
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     START_CHARGE_THRESH_BAT0=75;
-  #     STOP_CHARGE_THRESH_BAT0=80;
-  #   };
-  # };
-
-  # services.interception-tools = {
-  #   enable = true;
-  #   plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];
-  #   udevmonConfig = ''
-  #   - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-  #     DEVICE:
-  #       EVENTS:
-  #         EV_KEY: [KEY_CAPSLOCK,]
-  #   '';
-  # };
-  # environment.etc."dual-function-keys.yaml".text = builtins.readFile ./dual-function-keys.yaml;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Don't change this value unless you know what you are doing.
 
 }
 

@@ -2,20 +2,15 @@
 
 let
   cfg = config.myModules.laptop;
-  hasIntelCPU = config.hardware.cpu.intel.updateMicrocode or false;
-  hasAMDCPU = config.hardware.cpu.amd.updateMicrocode or false;
-  user = config.userGlobals.username;
 in
 {
-  options.myModules.laptop = {
-    enable = lib.mkEnableOption "Laptop-specific system configurations";
-
+  options.myModules.server = {
+    enable = lib.mkEnableOption "Server-specific system configurations";
     enableGreetd = lib.mkOption {
       type = lib.types.bool;
       default = true;
       description = "Enable greetd for login management";
     };
-
     enableHyprland = lib.mkOption {
       type = lib.types.bool;
       default = true;
@@ -47,12 +42,9 @@ in
       })
     {
       environment.systemPackages = with pkgs; [
-        acpi
-        acpid
         lm_sensors
-        upower
+        git
       ];
-      services.upower.enable = true;
     }
     {
       myModules.services.xremap = {
@@ -64,11 +56,7 @@ in
       myModules.services.pipewire.enable = true;
     }
     {
-      networking.networkmanager.enable = true;
-      users.users.${user}.extraGroups = [ "networkmanager" ];
-    }
-    {
-      hardware.bluetooth.enable = true;
+      services.openssh.enable = true;
     }
   ]);
 }

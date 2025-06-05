@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: 
+{ pkgs, lib, config, ... }:
 
 let
   cfg = config.myModules.services.tlp;
@@ -40,19 +40,26 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    services.tlp = {
-      enable = true;
-      settings = {
-        START_CHARGE_THRESH_BAT0 = cfg.batteryThresholds.BAT0.start;
-        STOP_CHARGE_THRESH_BAT0 = cfg.batteryThresholds.BAT0.stop;
-        START_CHARGE_THRESH_BAT1 = cfg.batteryThresholds.BAT1.start;
-        STOP_CHARGE_THRESH_BAT1 = cfg.batteryThresholds.BAT1.stop;
-       } // cfg.extraSettings;
-    };
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    {
+      services.tlp = {
+        enable = true;
+        settings = {
+          START_CHARGE_THRESH_BAT0 = cfg.batteryThresholds.BAT0.start;
+          STOP_CHARGE_THRESH_BAT0 = cfg.batteryThresholds.BAT0.stop;
+          START_CHARGE_THRESH_BAT1 = cfg.batteryThresholds.BAT1.start;
+          STOP_CHARGE_THRESH_BAT1 = cfg.batteryThresholds.BAT1.stop;
+         } // cfg.extraSettings;
+      };
+
     environment.systemPackages = with pkgs; [
       # powertop # Only applicable to Intel laptops
       tlp
+      acpi
     ];
-  };
+
+    services.acpid.enable = true;
+    services.upower.enable = true;
+    }
+  ]);
 }

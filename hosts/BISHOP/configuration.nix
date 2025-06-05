@@ -1,4 +1,3 @@
-
 { config, pkgs, inputs, ... }:
 # let
 #   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
@@ -13,8 +12,6 @@
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "BISHOP"; # Define your hostname.
 
@@ -26,10 +23,6 @@
 
 
   ## Below has to be handled during the restructure
-
-  # For xremap under home-manager
-  users.groups.uinput.members = [ "ginner" ];
-  users.groups.input.members = [ "ginner" ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs ; };
@@ -67,19 +60,10 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    kitty
-    mako
-    waybar
-    file
     # eww-wayland
     # libnotify _duplicate functionality with mako_
-    gawk
     # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
-    rsync
-    wl-clipboard
-    killall
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    nixd
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -87,7 +71,7 @@
   fonts.packages = with pkgs; [
     nerd-fonts.hack
     nerd-fonts.fira-code
-    ];
+  ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

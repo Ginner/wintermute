@@ -2,6 +2,7 @@
 
 let
   cfg = config.myModules.services.xremap;
+  user = config.userGlobals.username;
 in
 {
   options.myModules.services.xremap = {
@@ -48,7 +49,7 @@ in
       enable = true;
       withHypr = cfg.withHypr;
       config = {
-        modmap = (li.optionals cfg.includeDefaults [
+        modmap = (lib.optionals cfg.includeDefaults [
           {
             name = "main-remaps";
             remap = {
@@ -60,5 +61,7 @@ in
       } // cfg.extraConfig;
     };
     hardware.uinput.enable = true; # Ensure uinput is enabled for xremap
+    users.groups.uinput.members = lib.mkMerge [ [ user ] ];
+    users.groups.input.members = lib.mkMerge [ [ user ] ];
   };
 }

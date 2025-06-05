@@ -1,4 +1,3 @@
-
 { pkgs, lib, config, ... }:
 
 let
@@ -41,5 +40,6 @@ in
       pulse.enable = cfg.pulseEmulation;
       jack.enable = cfg.jackEmulation;
     };
+    security.rtkit.enable = true;
   };
 }

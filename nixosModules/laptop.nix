@@ -64,11 +64,16 @@ in
     # enableUpower = lib.mkEnableOption "Enable upower for power management." // { default = true; };
 
     # Make available packages toggleable
+    defaultPackages = lib.mkOption {
+      type = lib.types.listOf lib.types.package;
+      default = with pkgs; [ kitty mako waybar wl-clipboard nixd ];
+      description = "Default packages to install on the system.";
+    };
     addKitty = lib.mkEnableOption "Add Kitty terminal emulator." // { default = true; };
     addMako = lib.mkEnableOption "Add Mako notification daemon." // { default = true; };
     addWaybar = lib.mkEnableOption "Add Waybar as the status bar." // { default = true; }; # Swap w. AGS
     addClipboard = lib.mkEnableOption "Add wl-clipboard." // { default = true; };
-    addNixdb = lib.mkEnableOption "Add the nixd nix language server." // { default = true; };
+    addNixd = lib.mkEnableOption "Add the nixd nix language server." // { default = true; };
 
   };
 
@@ -82,6 +87,16 @@ in
     })
     (lib.mkIf cfg.enablePowerManagement.enable {
       myModules.services.tlp.enable = true; # Enable TLP for power management
+      services.upower.enable = true;
+      services.acpid.enable = true;
+      {
+        environment.systemPackages = with pkgs; [
+          acpi
+          powerstat
+          (lib.mkIf hasIntelCPU powertop)
+
+        ];
+      }
     })
     (lib.mkIf cfg.enableBluetooth { hardware.bluetooth.enable = true; })
     (lib.mkIf cfg.enablePipewire { myModules.services.pipewire.enable = true; })

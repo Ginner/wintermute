@@ -7,7 +7,7 @@ in
     enable = lib.mkEnableOption "Enable fwupd for managing firmware";
   };
   config = lib.mkIf cfg.enable {
-    services.fwupd.enable = lib.mkDefault true;
+    services.fwupd.enable = true;
   };
 }
 

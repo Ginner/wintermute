@@ -93,8 +93,7 @@ in
         environment.systemPackages = with pkgs; [
           acpi
           powerstat
-          (lib.mkIf hasIntelCPU powertop)
-
+          powertop
         ];
       }
     })

@@ -60,9 +60,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    # eww-wayland
-    # libnotify _duplicate functionality with mako_
-    # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 

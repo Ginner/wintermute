@@ -116,6 +116,6 @@ in
     (lib.mkIf cfg.addMako { environment.systemPackages = [ pkgs.mako ]; })
     (lib.mkIf cfg.addWaybar { environment.systemPackages = [ pkgs.waybar ]; })
     (lib.mkIf cfg.addClipboard { environment.systemPackages = [ pkgs.wl-clipboard ]; })
-    (lib.mkIf cfg.addNixdb { environment.systemPackages = [ pkgs.nixd ]; })
+    (lib.mkIf cfg.addNixd { environment.systemPackages = [ pkgs.nixd ]; })
   ]);
 }

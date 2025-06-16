@@ -11,6 +11,7 @@ in
     ./services/greetd.nix
 
     ./programs/
+    ./shared/stylix.nix
 
   ];
 

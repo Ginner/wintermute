@@ -1,7 +1,7 @@
 # LT·HL OS
 
 ## Laptop module
-Dock fix: `boltctl list` -> b`oltctl enroll <device-id>`
+Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
 
 
 ## Default module

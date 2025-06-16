@@ -31,29 +31,9 @@
     };
   };
 
-  stylix = {
+  myModules.shared.stylix = {
     enable = true;
     image = ./wall.jpeg;
-    polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/google-dark.yaml";
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/codeschool.yaml";
-    cursor = {
-      package = pkgs.rose-pine-cursor;
-      name = "BreezeX-RosePine-Linux";
-      size = 16;
-    };
-    fonts = {
-      monospace = {
-        package = pkgs.nerd-fonts.hack;
-        name = "Hack Nerd Font Mono";
-      };
-      sizes = {
-        terminal = 11;
-        desktop = 11;
-        applications = 11;
-        popups = 14;
-      };
-    };
   };
 
   # List packages installed in system profile. To search, run:
@@ -65,10 +45,6 @@
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.hack
-    nerd-fonts.fira-code
-  ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

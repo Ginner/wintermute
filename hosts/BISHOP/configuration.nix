@@ -7,8 +7,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.default
-      # (import "${home-manager}/nixos")
-      # ./home/home.nix
+      ../../nixosModules
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -27,13 +26,13 @@
   home-manager = {
     extraSpecialArgs = { inherit inputs ; };
     users = {
-      "ginner" = import ../../users/ginner/home.nix;
+      "ginner" = import ./home.nix;
     };
   };
 
   myModules.shared.stylix = {
     enable = true;
-    image = ./wall.jpeg;
+    image = ../../assets/wall.jpeg;
   };
 
   # List packages installed in system profile. To search, run:

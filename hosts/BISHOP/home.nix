@@ -2,20 +2,20 @@
 
 {
   imports = [
-    ./zsh.nix
-    ./kitty.nix
-    ./xdg.nix
-    # ./stylix.nix
-    ./waybar.nix
-    ./hyprland.nix
-    ./firefox.nix
-    ./ncspot.nix
+    ../../users/ginner/zsh.nix
+    ../../users/ginner/kitty.nix
+    ../../users/ginner/xdg.nix
+    # ../../users/ginner/stylix.nix
+    ../../users/ginner/waybar.nix
+    ../../users/ginner/hyprland.nix
+    ../../users/ginner/firefox.nix
+    ../../users/ginner/ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
     inputs.xremap-flake.homeManagerModules.default
-    ./nixvim/default.nix
-    ./scripts.nix
-    ./ags.nix
+    ../../users/ginner/nixvim/default.nix
+    ../../users/ginner/scripts.nix
+    ../../users/ginner/ags.nix
   ];
   home.username = "ginner";
   home.homeDirectory = "/home/ginner";

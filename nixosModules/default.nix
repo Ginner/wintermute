@@ -9,9 +9,13 @@ in
     ./services/tlp.nix
     ./services/xremap.nix
     ./services/greetd.nix
+    ./services/pipewire.nix
+    ./services/fwupd.nix
+    ./services/tailscale.nix
 
     ./programs
     ./shared/stylix.nix
+    ./laptop.nix
 
   ];
 

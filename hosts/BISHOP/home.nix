@@ -2,14 +2,14 @@
 
 {
   imports = [
-    ../../users/ginner/zsh.nix
-    ../../users/ginner/kitty.nix
+    ../../homeManagerModules/cliPrograms/zsh.nix
+    ../../homeManagerModules/cliPrograms/kitty.nix
     ../../users/ginner/xdg.nix
     # ../../users/ginner/stylix.nix
     ../../users/ginner/waybar.nix
     ../../users/ginner/hyprland.nix
-    ../../users/ginner/firefox.nix
-    ../../users/ginner/ncspot.nix
+    ../../homeManagerModules/guiPrograms/firefox.nix
+    ../../homeManagerModules/cliPrograms/ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
     inputs.xremap-flake.homeManagerModules.default

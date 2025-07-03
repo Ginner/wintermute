@@ -10,7 +10,7 @@ in
     ./services/xremap.nix
     ./services/greetd.nix
 
-    ./programs/
+    ./programs
     ./shared/stylix.nix
 
   ];

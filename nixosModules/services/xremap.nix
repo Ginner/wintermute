@@ -35,7 +35,7 @@ in
       type = lib.types.attrs;
       default = { };
       description = "Extra configuration options for xremap.";
-    };    (lib.mkIf cfg.enableGreetd { myModules.services.greetd.enable = true; })
+    };    
 
     includeDefaults = lib.mkOption {
       type = lib.types.bool;

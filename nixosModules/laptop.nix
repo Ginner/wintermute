@@ -89,13 +89,11 @@ in
       myModules.services.tlp.enable = true; # Enable TLP for power management
       services.upower.enable = true;
       services.acpid.enable = true;
-      {
-        environment.systemPackages = with pkgs; [
-          acpi
-          powerstat
-          powertop
-        ];
-      }
+      environment.systemPackages = with pkgs; [
+        acpi
+        powerstat
+        powertop
+      ];
     })
     (lib.mkIf cfg.enableBluetooth { hardware.bluetooth.enable = true; })
     (lib.mkIf cfg.enablePipewire { myModules.services.pipewire.enable = true; })

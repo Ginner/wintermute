@@ -98,7 +98,7 @@ in
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
 
-      time.timezone = cfg.setTimezone;
+      time.timeZone = cfg.setTimezone;
       i18n.defaultLocale = cfg.setLocale;
       i18n.extraLocaleSettings = {
         LANG = cfg.setLocale;

@@ -83,5 +83,6 @@ in
     environment.systemPackages = with pkgs; [
       eza
     ];
+    programs.kitty.enableZshIntegration = lib.mkDefault true;
   };
 }

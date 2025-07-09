@@ -14,7 +14,7 @@ in
       package = inputs.hyprland.packages."${pkgs.system}".hyprland;
     };
 
-    myModules.services.xremap.withHypr = lib.mkDefault true;
+    services.xremap.withHypr = lib.mkDefault true;
   };
 }
 

@@ -6,23 +6,20 @@ in
 {
   options.myModules.server = {
     enable = lib.mkEnableOption "Server-specific system configurations";
-    enableGreetd = lib.mkOption {
+
+    enablePodman = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Enable greetd for login management";
+      description = "Enable podman for container management";
     };
 
   };
 
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    {
-      environment.systemPackages = with pkgs; [
-        git
-      ];
-    }
-    {
-      services.openssh.enable = true;
-    }
-  ]);
+  config = lib.mkIf cfg.enable {
+    # Fill in when relevant
+    environment.systemPackages = with pkgs; [
+    ];
+    services.openssh.enable = true;
+  };
 }

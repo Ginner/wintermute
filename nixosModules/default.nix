@@ -1,18 +1,14 @@
 { config, pkgs, lib, ... }:
 
+let
+  user = config.userGlobals.username;
+in
 {
   imports = [
     ./services/xremap.nix
     ./services/fwupd.nix
     ./services/tailscale.nix
 
-    # Remember to disable these for servers
-    ./services/greetd.nix
-    ./services/pipewire.nix
-
-    ./programs
-    ./shared/stylix.nix
-    ./laptop.nix
   ];
 
   # options.userGlobals = {
@@ -32,10 +28,19 @@
         description = "Enable default system configuration";
       };
     };
+    # Another way of creating an enable option
+    home-manager = {
+      enable = lib.mkEnableOption "Enable home-manager";
+    };
   };
 
   config = lib.mkIf config.myModules.default.enable {
     # Default configurations for all systems
+    users.users.${user} = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ];
+    };
+
     nix = {
       settings = {
         experimental-features = [ "nix-command" "flakes" ];
@@ -64,16 +69,13 @@
 
     # Default packages for all systems
     environment.systemPackages = with pkgs; [
-      vim
       git
-      htop
       wget
       curl
       rsync
       tree
       file
       which
-      gnumake
       unzip
       lm_sensors
     ];
@@ -88,15 +90,15 @@
     security.sudo.wheelNeedsPassword = true;
     
     # Enable zram swap
-    zramSwap = {
+    # zramSwap = {
+    #   enable = true;
+    #   algorithm = "zstd";
+    # };
+    # Import neovim config instead
+    programs.neovim = {
       enable = true;
-      algorithm = "zstd";
+      defaultEditor = true;
     };
   };
 
-  # Import neovim config instead
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
 }

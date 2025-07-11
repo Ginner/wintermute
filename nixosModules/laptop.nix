@@ -9,92 +9,44 @@ in
 {
   imports = [
     ./services/tlp.nix
+
+    # Remember to disable these for servers
+    ./services/greetd.nix
+    ./services/pipewire.nix
+
+    ./programs
+    ./shared/stylix.nix
   ];
 
   options.myModules.laptop = {
     enable = lib.mkEnableOption "Laptop-specific system configurations";
-
-    # enableGreetd = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable greetd for login management";
-    # };
-    #
-    # enableHyprland = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable Hyprland as the window manager";
-    # };
-    #
-    # enableRemap = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable xremap for key remapping";
-    # };
-    #
-    # enablePowerManagement = {
-    #   enable = lib.mkOption {
-    #     type = lib.types.bool;
-    #     default = true;
-    #     description = "Enable power management features";
-    #   };
-    # };
-    #
-    # enableBluetooth = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable Bluetooth support";
-    # };
-    #
-    # enablePipewire = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable PipeWire for audio and video management";
-    # };
-    #
-    # enableNetworkManager = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable NetworkManager for network management";
-    # };
-    #
-    # enableThermald = lib.mkOption {
-    #   type = lib.types.bool;
-    #   default = true;
-    #   description = "Enable thermald for thermal management";
-    # };
-    #
-    # Make services toggleable
-    # enableUpower = lib.mkEnableOption "Enable upower for power management." // { default = true; };
-
-    # Make available packages toggleable
-    defaultPackages = lib.mkOption {
-      type = lib.types.listOf lib.types.package;
-      default = with pkgs; [ kitty mako waybar wl-clipboard nixd ];
-      description = "Default packages to install on the system.";
-    };
-    addKitty = lib.mkEnableOption "Add Kitty terminal emulator." // { default = true; };
-    addMako = lib.mkEnableOption "Add Mako notification daemon." // { default = true; };
-    addWaybar = lib.mkEnableOption "Add Waybar as the status bar." // { default = true; }; # Swap w. AGS
-    addClipboard = lib.mkEnableOption "Add wl-clipboard." // { default = true; };
-    addNixd = lib.mkEnableOption "Add the nixd nix language server." // { default = true; };
 
   };
 
 
   # config = lib.mkIf cfg.enable (lib.mkMerge [
   config = lib.mkIf cfg.enable {
+    networking.networkmanager.enable = true;
+    users.users.${user}.extraGroups = [ "networkmanager" ];
+
     environment.systemPackages = with pkgs; [
       acpi
       powerstat
       powertop
 
       wl-clipboard
+      htop
 
+      kitty
+      mako
+      waybar
+      nixd
     ];
     services = {
       upower.enable = true;
       acpid.enable = true;
+      pipewire.enable = true;
+      thermald.enable = lib.mkIf (cfg.enableThermald && hasIntelCPU) (lib.mkDefault true);
     };
     hardware.bluetooth = {
       enable = true;
@@ -102,25 +54,3 @@ in
     };
   };
 }
-  #   (lib.mkIf cfg.enableGreetd { myModules.services.greetd.enable = true; })
-  #   (lib.mkIf cfg.enableHyprland { myModules.programs.hyprland.enable = true; })
-  #   (lib.mkIf cfg.enableRemap {
-  #     myModules.services.xremap.enable = true; # Enable xremap with default CapsLock remap
-  #     myModules.services.xremap.withHypr = cfg.enableHyprland; # Only if using Hyprland
-  #   })
-  #   (lib.mkIf cfg.enablePipewire { myModules.services.pipewire.enable = true; })
-  #   (lib.mkIf cfg.enableNetworkManager {
-  #     networking.networkmanager.enable = true;
-  #     users.users.${user}.extraGroups = [ "networkmanager" ];
-  #   })
-  #
-  #
-  #   (lib.mkIf (cfg.enableThermald && hasIntelCPU) { services.thermald.enable = true; })
-  #
-  #   # Packages
-  #   (lib.mkIf cfg.addKitty { environment.systemPackages = [ pkgs.kitty ]; })
-  #   (lib.mkIf cfg.addMako { environment.systemPackages = [ pkgs.mako ]; })
-  #   (lib.mkIf cfg.addWaybar { environment.systemPackages = [ pkgs.waybar ]; })
-  #   (lib.mkIf cfg.addNixd { environment.systemPackages = [ pkgs.nixd ]; })
-  #
-  # ]);

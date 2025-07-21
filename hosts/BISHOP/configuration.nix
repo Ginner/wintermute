@@ -19,8 +19,6 @@
     username = "ginner";
   };
 
-  # Does the following belong here? It should maybe be in the default configuration
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   myModules.laptop.enable = true; # Enable laptop module
 
   ## Below has to be handled during the restructure

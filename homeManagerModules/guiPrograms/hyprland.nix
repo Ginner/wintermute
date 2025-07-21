@@ -1,7 +1,6 @@
 { config, pkgs, lib, ... }:
 
 let
-  inherit (lib) mkForce; 
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     waybar &
     mako &
@@ -149,7 +148,7 @@ in
         no_fade_in = false;
       };
 
-      background = mkForce [
+      background = lib.mkForce [
         {
           path = "screenshot";
           blur_passes = 2;

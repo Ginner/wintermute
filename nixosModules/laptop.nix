@@ -33,6 +33,7 @@ in
       acpi
       powerstat
       powertop
+      brightnessctl
 
       wl-clipboard
       htop

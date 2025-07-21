@@ -2,6 +2,9 @@
 
 {
   imports = [
+    ../../homeManagerModules
+    ./guiPrograms/firefox.nix
+
     ../../homeManagerModules/cliPrograms/zsh.nix
     ../../homeManagerModules/cliPrograms/kitty.nix
     ../../users/ginner/xdg.nix
@@ -34,26 +37,13 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-    zathura
-    newsboat
-    numbat
-    bat
-    pass-wayland
-    sxiv
-    mpv
-    calcurse
-    khard
-    imagemagick
-    inkscape
-    brightnessctl
+    neomutt
     jq
     eza
     tree
     wget
     btop
     unzip
-    cheat
-    ffmpegthumbnailer
     p7zip
     zip
     xz
@@ -63,11 +53,6 @@
     ripgrep
     fzf
     zoxide
-    wl-clipboard
-    grim
-    slurp
-    wf-recorder
-    swappy
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -86,10 +71,6 @@
   };
 
   programs.zsh = {
-    enable = true;
-  };
-
-  programs.yazi = {
     enable = true;
   };
 

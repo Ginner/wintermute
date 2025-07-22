@@ -115,10 +115,10 @@
     };
   };
 
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi-wayland;
-  };
+  # programs.rofi = {
+  #   enable = true;
+  #   package = pkgs.rofi-wayland;
+  # };
 
 
   # I'll try setting it through stylix
@@ -138,24 +138,24 @@
   #   size = 16;
   # };
 
-  programs.btop = {
-    enable = true;
-    settings = {
-      vim_keys = true;
-      # color_theme = "gruvbox_dark_v2";
-    };
-  };
+  # programs.btop = {
+  #   enable = true;
+  #   settings = {
+  #     vim_keys = true;
+  #     # color_theme = "gruvbox_dark_v2";
+  #   };
+  # };
 
-  programs.starship = {
-    enable = true;
-    # custom settings
-    settings = {
-      add_newline = false;
-      aws.disabled = true;
-      gcloud.disabled = true;
-      line_break.disabled = true;
-    };
-  };
+  # programs.starship = {
+  #   enable = true;
+  #   # custom settings
+  #   settings = {
+  #     add_newline = false;
+  #     aws.disabled = true;
+  #     gcloud.disabled = true;
+  #     line_break.disabled = true;
+  #   };
+  # };
 
   stylix.targets.waybar.enable = false;
 
@@ -163,21 +163,21 @@
     enable = true;
   };
 
-  services.xremap = {
-    enable = true;
-    withHypr = true;
-     config = {
-      modmap = [
-        {
-          name = "main-remaps";
-          remap = {
-            "CapsLock" = { held = "Super_L"; alone = "Esc"; alone_timeout_millis = 200; };
-          };
-        }
-      ];
-    };   
-  };
-
+  # services.xremap = {
+  #   enable = true;
+  #   withHypr = true;
+  #    config = {
+  #     modmap = [
+  #       {
+  #         name = "main-remaps";
+  #         remap = {
+  #           "CapsLock" = { held = "Super_L"; alone = "Esc"; alone_timeout_millis = 200; };
+  #         };
+  #       }
+  #     ];
+  #   };   
+  # };
+  #
   # You can also manage environment variables but you will have to manually
   # source
   #

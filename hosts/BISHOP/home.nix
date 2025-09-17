@@ -3,16 +3,6 @@
 {
   imports = [
     ../../homeManagerModules
-    ./guiPrograms/firefox.nix
-
-    ../../homeManagerModules/cliPrograms/zsh.nix
-    ../../homeManagerModules/cliPrograms/kitty.nix
-    ../../users/ginner/xdg.nix
-    # ../../users/ginner/stylix.nix
-    ../../users/ginner/waybar.nix
-    ../../users/ginner/hyprland.nix
-    ../../homeManagerModules/guiPrograms/firefox.nix
-    ../../homeManagerModules/cliPrograms/ncspot.nix
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
     inputs.xremap-flake.homeManagerModules.default
@@ -20,38 +10,14 @@
     ../../users/ginner/scripts.nix
     ../../users/ginner/ags.nix
   ];
-  home.username = "ginner";
-  home.homeDirectory = "/home/ginner";
+  # Enable laptop home configuration
+  myHomeModules.laptop.enable = true;
 
+  # Additional packages not covered by laptop bundle
   home.packages = with pkgs; [
-    inputs.taskfinder.packages.${pkgs.system}.default
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
     neomutt
-    jq
     eza
-    tree
-    wget
-    btop
-    unzip
-    p7zip
-    zip
-    xz
-    unzip
     poppler
-    fd
-    ripgrep
-    fzf
     zoxide
   ];
 
@@ -70,22 +36,13 @@
     # '';
   };
 
-  programs.zsh = {
-    enable = true;
-  };
-
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-    nix-direnv.enable = true;
-  };
-
-  programs.git = {
-    enable = true;
+  # Override git configuration with proper values
+  myHomeModules.cliPrograms.git = {
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
 
+  # Override SSH configuration
   programs.ssh = {
     enable = true;
     matchBlocks = {
@@ -101,32 +58,6 @@
     package = pkgs.rofi-wayland;
   };
 
-
-  # I'll try setting it through stylix
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   name = "rose-pine-hyprcursor";
-  #   package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
-  #   # size = 16; # Adjust as needed
-  # };
-  # gtk.enable = true;
-
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   # x11.enable = true;
-  #   package = pkgs.rose-pine-hyprcursor;
-  #   name = "rose-pine-hyprcursor";
-  #   size = 16;
-  # };
-
-  programs.btop = {
-    enable = true;
-    settings = {
-      vim_keys = true;
-      # color_theme = "gruvbox_dark_v2";
-    };
-  };
-
   # programs.starship = {
   #   enable = true;
   #   # custom settings
@@ -138,11 +69,7 @@
   #   };
   # };
 
-  stylix.targets.waybar.enable = false;
-
-  services.mako = {
-    enable = true;
-  };
+  # Stylix configuration is handled by laptop bundle
 
   #moved
   # services.xremap = {
@@ -170,11 +97,6 @@
   #  /etc/profiles/per-user/ginner/etc/profile.d/hm-session-vars.sh
   #
   # if you don't want to manage your shell through Home Manager.
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-
-  home.stateVersion = "22.11"; # Please read the manual before changing.
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  # Host-specific configuration
+  home.stateVersion = "22.11"; # Set based on when this host was installed
 }

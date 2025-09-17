@@ -1,19 +1,31 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-  let
-    lock-false = {
-      Value = false;
-      Status = "locked";
-    };
-    lock-true = {
-      Value = true;
-      Status = "locked";
-    };
-  in
+let
+  cfg = config.myHomeModules.guiPrograms.firefox;
+  lock-false = {
+    Value = false;
+    Status = "locked";
+  };
+  lock-true = {
+    Value = true;
+    Status = "locked";
+  };
+in
 {
-  programs.firefox = {
-    enable = true;
-    languagePacks = [ "dk" "en-US" ];
+  options.myHomeModules.guiPrograms.firefox = {
+    enable = lib.mkEnableOption "Firefox web browser with privacy-focused settings";
+
+    languagePacks = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "en-US" ];
+      description = "Language packs to install for Firefox";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    programs.firefox = {
+      enable = true;
+      languagePacks = cfg.languagePacks;
 
     profiles.default = {
       isDefault = true;

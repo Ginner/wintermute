@@ -21,11 +21,27 @@ in
   options.myModules.laptop = {
     enable = lib.mkEnableOption "Laptop-specific system configurations";
 
+    enableThermald = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable thermald for Intel CPU thermal management";
+    };
+
+    enableTouchpad = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable touchpad support";
+    };
   };
 
 
   # config = lib.mkIf cfg.enable (lib.mkMerge [
   config = lib.mkIf cfg.enable {
+    # Enable laptop-specific services through module options
+    myModules.services.tlp.enable = lib.mkDefault true;
+    myModules.services.pipewire.enable = lib.mkDefault true;
+    myModules.shared.stylix.enable = lib.mkDefault true;
+
     networking.networkmanager.enable = true;
     users.users.${user}.extraGroups = [ "networkmanager" ];
 
@@ -34,24 +50,26 @@ in
       powerstat
       powertop
       brightnessctl
-
       wl-clipboard
       htop
-
-      kitty
-      mako
-      waybar
-      nixd
+    ] ++ lib.optionals hasIntelCPU [
+      powertop
+    ] ++ lib.optionals hasAMDCPU [
+      ryzenadj
     ];
+
     services = {
       upower.enable = true;
       acpid.enable = true;
-      pipewire.enable = true;
       thermald.enable = lib.mkIf (cfg.enableThermald && hasIntelCPU) (lib.mkDefault true);
     };
+
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = false;
     };
+
+    # Enable touchpad support for laptops
+    services.libinput.enable = lib.mkIf cfg.enableTouchpad true;
   };
 }

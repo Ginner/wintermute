@@ -5,19 +5,33 @@ let
 in
 {
   imports = [
+    # Individual service modules
     ./services/xremap.nix
     ./services/fwupd.nix
     ./services/tailscale.nix
+    ./services/pipewire.nix
+    ./services/tlp.nix
+    ./services/greetd.nix
 
+    # Individual program modules
+    ./programs
+
+    # Shared modules
+    ./shared/stylix.nix
+
+    # Bundle modules
+    ./laptop.nix
+    ./desktop.nix
+    ./server.nix
   ];
 
-  # options.userGlobals = {
-  #   username = lib.mkOption {
-  #     type = lib.types.str;
-  #     default = "nixos";
-  #     description = "The username for the default user.";
-  #   };
-  # };
+  options.userGlobals = {
+    username = lib.mkOption {
+      type = lib.types.str;
+      default = "nixos";
+      description = "The username for the default user.";
+    };
+  };
 
   options.myModules = {
     # Global options that apply to all systems

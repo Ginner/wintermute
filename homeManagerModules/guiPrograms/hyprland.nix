@@ -1,13 +1,25 @@
 { config, pkgs, lib, ... }:
 
 let
+  cfg = config.myHomeModules.guiPrograms.hyprland;
   startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
     waybar &
     mako &
   '';
 in
 {
-  wayland.windowManager.hyprland = {
+  options.myHomeModules.guiPrograms.hyprland = {
+    enable = lib.mkEnableOption "Hyprland wayland compositor";
+
+    startupPrograms = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "waybar" "mako" ];
+      description = "Programs to start with Hyprland";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
     settings = {

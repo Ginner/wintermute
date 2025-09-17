@@ -2,28 +2,29 @@
 
 let
   cfg = config.myHomeModules.cliPrograms.git;
-  user = config.userGlobals.username;
 in
 {
   options.myHomeModules.cliPrograms.git = {
-    enable = lib.mkEnableOption "Enable useer level git";
+    enable = lib.mkEnableOption "User level git configuration";
 
-    user = lib.mkOption {
+    userName = lib.mkOption {
       type = lib.types.str;
-      default = config.myModules.services.hyprland.enable or false;
+      default = "User";
       description = "Git user name";
     };
 
-    mail = lib.mkOption {
+    userEmail = lib.mkOption {
       type = lib.types.str;
-      description = "Git mail";
+      default = "user@example.com";
+      description = "Git user email";
     };
+  };
 
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = cfg.user;
-      userMail = cfg.mail;
+      userName = cfg.userName;
+      userEmail = cfg.userEmail;
     };
   };
 }

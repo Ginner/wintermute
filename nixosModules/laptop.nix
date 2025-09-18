@@ -40,7 +40,14 @@ in
     # Enable laptop-specific services through module options
     myModules.services.tlp.enable = lib.mkDefault true;
     myModules.services.pipewire.enable = lib.mkDefault true;
+    myModules.services.greetd.enable = lib.mkDefault true;
+    myModules.services.brightnessctl.enable = lib.mkDefault true;
+    myModules.services.bolt.enable = lib.mkDefault true;  # Auto-detects Thunderbolt
+    myModules.services.fwupd.enable = lib.mkDefault true;
+    myModules.services.tailscale.enable = lib.mkDefault false;  # Optional
     myModules.shared.stylix.enable = lib.mkDefault true;
+    myModules.programs.hyprland.enable = lib.mkDefault true;
+    myModules.programs.usbutils.enable = lib.mkDefault true;
 
     networking.networkmanager.enable = true;
     users.users.${user}.extraGroups = [ "networkmanager" ];
@@ -49,9 +56,6 @@ in
       acpi
       powerstat
       powertop
-      brightnessctl
-      wl-clipboard
-      htop
     ] ++ lib.optionals hasIntelCPU [
       powertop
     ] ++ lib.optionals hasAMDCPU [

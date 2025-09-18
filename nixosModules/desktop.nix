@@ -38,11 +38,17 @@ in
   config = lib.mkIf cfg.enable {
     # Enable desktop-specific services through module options
     myModules.services.pipewire.enable = lib.mkDefault true;
+    myModules.services.greetd.enable = lib.mkDefault true;
+    myModules.services.brightnessctl.enable = lib.mkDefault true;
+    myModules.services.fwupd.enable = lib.mkDefault true;
+    myModules.services.tailscale.enable = lib.mkDefault false;  # Optional
+    myModules.services.kde-connect.enable = lib.mkDefault false;  # Optional
     myModules.shared.stylix.enable = lib.mkDefault true;
+    myModules.programs.hyprland.enable = lib.mkDefault true;
+    myModules.programs.usbutils.enable = lib.mkDefault true;
 
     environment.systemPackages = with pkgs; [
       # Desktop utilities
-      htop
       pavucontrol
 
       # Multi-monitor tools
@@ -53,7 +59,6 @@ in
     ] ++ lib.optionals cfg.enableGraphicsTools [
       # Graphics and design tools
       gimp
-      inkscape
       blender
       krita
     ] ++ lib.optionals cfg.enableGaming [

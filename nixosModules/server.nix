@@ -52,11 +52,11 @@ in
   config = lib.mkIf cfg.enable {
     # Enable server-specific services through module options
     myModules.services.tailscale.enable = lib.mkDefault true;
+    myModules.programs.usbutils.enable = lib.mkDefault true;
 
     # Server packages
     environment.systemPackages = with pkgs; [
       # System administration tools
-      htop
       iotop
       lsof
       netstat-nat

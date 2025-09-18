@@ -14,45 +14,40 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    # Enable laptop-specific home modules
+    # Enable laptop-specific home modules according to the table
+    # Required applications
     myHomeModules.guiPrograms.firefox.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.hyprland.enable = lib.mkDefault true;
-    myHomeModules.cliPrograms.btop.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.cli-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;
+
+    # Optional applications (default = false per table)
+    myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;
+    myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault false;
+    myHomeModules.guiPrograms.mpv.enable = lib.mkDefault false;
+    myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
+    myHomeModules.guiPrograms.latex.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.btop.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.ncspot.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
-      # Laptop-specific tools
+      # Laptop-specific tools not covered by modules
       inputs.taskfinder.packages.${pkgs.system}.default
-      zathura
-      newsboat
-      numbat
-      bat
+      newsboat  # Could be made into module
+      numbat    # Could be made into module
       pass-wayland
-      sxiv
-      mpv
-      calcurse
-      khard
+      calcurse  # Could be made into module
+      khard     # Could be made into module
       imagemagick
-      inkscape
-      cheat
+      cheat     # Could be made into module
       ffmpegthumbnailer
-
-      # Screenshot and recording tools
-      grim
-      slurp
-      wf-recorder
-      swappy
-      wl-clipboard
-
-      # System monitoring
-      brightnessctl
+      poppler
     ];
 
     programs.yazi = {
-      enable = lib.mkDefault true;
-    };
-
-    services.mako = {
       enable = lib.mkDefault true;
     };
 

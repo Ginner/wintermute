@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 let
   cfg = config.myModules.shared.stylix;
@@ -27,13 +27,13 @@ in
     cursor = {
       package = lib.mkOption {
         type = lib.types.package;
-        default = pkgs.rose-pine-cursor;
+        default = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
         description = "Cursor theme package";
       };
 
       name = lib.mkOption {
         type = lib.types.str;
-        default = "BreezeX-RosePine-Linux";
+        default = "rose-pine-hyprcursor";
         description = "Cursor theme name";
       };
 

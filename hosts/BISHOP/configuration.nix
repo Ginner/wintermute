@@ -39,7 +39,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];

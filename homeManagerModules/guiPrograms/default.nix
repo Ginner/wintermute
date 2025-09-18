@@ -3,10 +3,17 @@
     ./ags.nix
     ./firefox.nix
     ./hyprland.nix
+    ./inkscape.nix
+    ./kde-connect.nix
+    ./latex.nix
+    ./mpv.nix
     ./nixvim
     ./scripts.nix
     ./stylix.nix
+    ./sxiv.nix
     ./waybar.nix
+    ./wayland-tools.nix
     ./xdg.nix
+    ./zathura.nix
   ];
 }

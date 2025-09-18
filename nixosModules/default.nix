@@ -12,6 +12,9 @@ in
     ./services/pipewire.nix
     ./services/tlp.nix
     ./services/greetd.nix
+    ./services/bolt.nix
+    ./services/brightnessctl.nix
+    ./services/kde-connect.nix
 
     # Individual program modules
     ./programs
@@ -81,38 +84,30 @@ in
       keyMap = lib.mkDefault "dk";
     };
 
-    # Default packages for all systems
+    # Default packages for all systems - minimal core only
     environment.systemPackages = with pkgs; [
-      git
-      wget
-      curl
-      rsync
-      tree
       file
       which
-      unzip
       lm_sensors
     ];
 
-    # Enable basic services
+    # Enable basic services that apply to all systems
     services = {
-      openssh.enable = true;
-      fwupd.enable = true; # Firmware updates
+      openssh.enable = true;  # SSH daemon enabled everywhere
     };
 
     # Basic security
     security.sudo.wheelNeedsPassword = true;
-    
-    # Enable zram swap
-    # zramSwap = {
-    #   enable = true;
-    #   algorithm = "zstd";
-    # };
-    # Import neovim config instead
+
+    # System provides neovim binary + minimal defaults
     programs.neovim = {
       enable = true;
       defaultEditor = true;
     };
+
+    # Enable zsh as system shell (user configs handled by HM)
+    programs.zsh.enable = true;
+    users.defaultUserShell = pkgs.zsh;
   };
 
 }

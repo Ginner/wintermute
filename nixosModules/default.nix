@@ -15,6 +15,7 @@ in
     ./services/bolt.nix
     ./services/brightnessctl.nix
     ./services/kde-connect.nix
+    ./services/openssh.nix
 
     # Individual program modules
     ./programs
@@ -92,9 +93,7 @@ in
     ];
 
     # Enable basic services that apply to all systems
-    services = {
-      openssh.enable = true;  # SSH daemon enabled everywhere
-    };
+    myModules.services.openssh.enable = lib.mkDefault true;
 
     # Basic security
     security.sudo.wheelNeedsPassword = true;
@@ -105,9 +104,8 @@ in
       defaultEditor = true;
     };
 
-    # Enable zsh as system shell (user configs handled by HM)
-    programs.zsh.enable = true;
-    users.defaultUserShell = pkgs.zsh;
+    # Enable zsh system-wide (user configs handled by HM)
+    myModules.programs.zsh.enable = lib.mkDefault true;
   };
 
 }

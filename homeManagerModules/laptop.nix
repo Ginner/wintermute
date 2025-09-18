@@ -18,11 +18,13 @@ in
     # Required applications
     myHomeModules.guiPrograms.firefox.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.hyprland.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.kitty.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.cli-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.direnv.enable = lib.mkDefault true;
 
     # Optional applications (default = false per table)
     myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;
@@ -32,6 +34,7 @@ in
     myHomeModules.guiPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.btop.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.ncspot.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.yazi.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules

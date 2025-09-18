@@ -1,88 +1,50 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.myHomeModules.cli.zsh;
+  cfg = config.myModules.programs.zsh;
+  user = config.userGlobals.username;
 in
 {
-  options.myHomeModules.cli.zsh = {
-    enable = lib.mkEnableOption "Zsh shell";
+  options.myModules.programs.zsh = {
+    enable = lib.mkEnableOption "Zsh shell system configuration";
 
-    enableAutosuggestions = lib.mkOption {
+    setAsDefaultShell = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Enable zsh autosuggestions";
-    };
-
-    enableSyntaxHighlighting = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable zsh syntax highlighting";
+      description = "Set zsh as the default shell";
     };
 
     enableCompletion = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "Enable zsh completion";
-    };
-
-    enableAutocd = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable autocd in zsh";
-    };
-
-    dotDir = lib.mkOption {
-      type = lib.types.str;
-      default = ".config/zsh";
-      description = "Directory for zsh configuration files";
-    };
-
-    extraInit = lib.mkOption {
-      type = lib.types.lines;
-      default = ''
-        setopt histverify
-        setopt correct
-        eval "$(direnv hook zsh)"
-      '';
-      description = "Extra initialization commands for zsh";
+      description = "Enable system-wide zsh completion";
     };
   };
 
   config = lib.mkIf cfg.enable {
+    # Enable zsh system-wide
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = cfg.enableAutosuggestions;
-      enableSyntaxHighlighting = cfg.enableSyntaxHighlighting;
       enableCompletion = cfg.enableCompletion;
-      autocd = cfg.autocd;
-      dotDir = "${config.home.homeDirectory}" + "/${cfg.dotDir}";
-      history = {
-        ignoreDups = lib.mkDefault true;
-        expireDuplicatesFirst = lib.mkDefault true;
-        ignoreSpace = lib.mkDefault true;
-        share = lib.mkDefault true;
-        size = lib.mkDefault 10000;
-        path = "${config.home.homeDirectory}/.local/share/zsh/history";
-      };
-      shellAliases = lib.mkDefault {
-        history = "history 1";
-        ls = "eza";
-        ll = "eza -l";
-        lt = "eza -T";
-        la = "eza -lah --group-directories-first";
-        las = "eza -lah --group-directories-first --total-size";
-        cal = "cal -wm";
-        cp = "cp -riv";
-        mv = "mv -iv";
-        rm = "rm -I";
-        mkdir = "mkdir -vp";
-        ":q" = "exit";
-      };
-      initExtra = cfg.extraInit;
+      # System-level zsh configuration
+      promptInit = ''
+        # Basic prompt for system-level zsh
+        PS1="%n@%m:%~%# "
+      '';
     };
+
+    # Set as default shell if requested
+    users.defaultUserShell = lib.mkIf cfg.setAsDefaultShell pkgs.zsh;
+
+    # Ensure user has zsh as their shell
+    users.users.${user} = lib.mkIf cfg.setAsDefaultShell {
+      shell = pkgs.zsh;
+    };
+
+    # System packages for zsh functionality
     environment.systemPackages = with pkgs; [
-      eza
+      zsh
+      zsh-completions
     ];
-    programs.kitty.enableZshIntegration = lib.mkDefault true;
   };
 }

@@ -39,15 +39,12 @@
       jq
     ];
 
-    # Basic program configurations
-    programs.direnv = {
-      enable = lib.mkDefault true;
-      enableZshIntegration = lib.mkDefault true;
-      nix-direnv.enable = lib.mkDefault true;
-    };
+    # Direnv configuration is handled by the direnv module
 
-    # Git configuration is handled by the git module
+    # Enable basic CLI programs
     myHomeModules.cliPrograms.git.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.ssh.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.zsh.enable = lib.mkDefault true;
 
     home.sessionVariables = {
       EDITOR = lib.mkDefault "nvim";

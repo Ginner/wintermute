@@ -5,6 +5,7 @@
     ./hyprland.nix
     ./inkscape.nix
     ./kde-connect.nix
+    ./kitty.nix
     ./latex.nix
     ./mpv.nix
     ./nixvim

@@ -52,6 +52,7 @@ in
   config = lib.mkIf cfg.enable {
     # Enable server-specific services through module options
     myModules.services.tailscale.enable = lib.mkDefault true;
+    myModules.services.podman.enable = lib.mkIf cfg.enableContainers (lib.mkDefault true);
     myModules.programs.usbutils.enable = lib.mkDefault true;
 
     # Server packages
@@ -72,8 +73,6 @@ in
       restic
       rclone
       borgbackup
-    ] ++ lib.optionals cfg.enableContainers [
-      podman-compose
     ];
 
     # Core server services
@@ -84,13 +83,6 @@ in
           PasswordAuthentication = false;
           PermitRootLogin = "no";
         };
-      };
-
-      # Container runtime
-      podman = lib.mkIf cfg.enableContainers {
-        enable = true;
-        dockerCompat = true;
-        defaultNetwork.settings.dns_enabled = true;
       };
 
       # Web server
@@ -118,11 +110,6 @@ in
         enable = true;
         enabledCollectors = [ "systemd" ];
       };
-    };
-
-    # Container user configuration
-    users.users.${user} = lib.mkIf cfg.enableContainers {
-      extraGroups = [ "podman" ];
     };
 
     # Firewall configuration

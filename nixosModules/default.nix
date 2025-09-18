@@ -16,6 +16,7 @@ in
     ./services/brightnessctl.nix
     ./services/kde-connect.nix
     ./services/openssh.nix
+    ./services/podman.nix
 
     # Individual program modules
     ./programs

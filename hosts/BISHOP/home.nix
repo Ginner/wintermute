@@ -6,9 +6,6 @@
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
     inputs.xremap-flake.homeManagerModules.default
-    ../../users/ginner/nixvim/default.nix
-    ../../users/ginner/scripts.nix
-    ../../users/ginner/ags.nix
   ];
   # Enable laptop home configuration
   myHomeModules.laptop.enable = true;

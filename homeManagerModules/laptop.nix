@@ -5,8 +5,8 @@ let
 in
 {
   imports = [
-    ./guiPrograms/firefox.nix
-    ./guiPrograms/hyprland.nix
+    ./guiPrograms
+    ./guiPrograms
   ];
 
   options.myHomeModules.laptop = {

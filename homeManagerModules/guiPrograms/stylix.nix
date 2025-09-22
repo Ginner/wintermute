@@ -23,7 +23,7 @@
       };
       fonts = {
         monospace = {
-          package = pkgs.nerdfonts.hack;
+          package = pkgs.nerd-fonts.hack;
           name = "Hack Nerd Font Mono";
         };
         sizes = {

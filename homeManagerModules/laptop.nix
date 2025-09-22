@@ -21,6 +21,7 @@ in
     myHomeModules.guiPrograms.kitty.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.cli-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;

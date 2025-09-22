@@ -10,6 +10,9 @@
   # Enable laptop home configuration
   myHomeModules.laptop.enable = true;
 
+  # Override stylix wallpaper for BISHOP
+  myHomeModules.guiPrograms.stylix.image = ../../assets/wall.jpeg;
+
   # Additional packages not covered by laptop bundle
   home.packages = with pkgs; [
     neomutt

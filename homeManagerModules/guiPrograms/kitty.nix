@@ -13,12 +13,6 @@ in
       description = "Font size for Kitty terminal";
     };
 
-    enableZshIntegration = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable zsh integration";
-    };
-
     extraConfig = lib.mkOption {
       type = lib.types.lines;
       default = ''
@@ -32,7 +26,6 @@ in
     programs.kitty = {
       enable = true;
       font.size = cfg.fontSize;
-      shellIntegration.enableZshIntegration = cfg.enableZshIntegration;
       extraConfig = cfg.extraConfig;
     };
   };

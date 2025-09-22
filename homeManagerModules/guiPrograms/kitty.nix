@@ -32,7 +32,7 @@ in
     programs.kitty = {
       enable = true;
       font.size = cfg.fontSize;
-      enableZshIntegration = cfg.enableZshIntegration;
+      shellIntegration.enableZshIntegration = cfg.enableZshIntegration;
       extraConfig = cfg.extraConfig;
     };
   };

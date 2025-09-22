@@ -45,6 +45,7 @@ in
     myModules.services.bolt.enable = lib.mkDefault true;  # Auto-detects Thunderbolt
     myModules.services.fwupd.enable = lib.mkDefault true;
     myModules.services.tailscale.enable = lib.mkDefault false;  # Optional
+    myModules.services.xremap.enable = lib.mkDefault true;  # Key remapping
     myModules.shared.stylix.enable = lib.mkDefault true;
     myModules.programs.hyprland.enable = lib.mkDefault true;
     myModules.programs.usbutils.enable = lib.mkDefault true;

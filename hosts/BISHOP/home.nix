@@ -5,7 +5,6 @@
     ../../homeManagerModules
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
-    inputs.xremap-flake.homeManagerModules.default
   ];
   # Enable laptop home configuration
   myHomeModules.laptop.enable = true;

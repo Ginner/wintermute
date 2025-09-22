@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.myHomeModules.starship = {
+  options.myHomeModules.cliPrograms.starship = {
     enable = lib.mkEnableOption "Starship shell prompt customization";
   };
 
-  config = lib.mkIf config.myHomeModules.starship.enable {
+  config = lib.mkIf config.myHomeModules.cliPrograms.starship.enable {
     programs.starship = {
       enable = true;
       settings = {

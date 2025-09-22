@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.myHomeModules.walker = {
+  options.myHomeModules.cliPrograms.walker = {
     enable = lib.mkEnableOption "Application launcher (like rofi)";
   };
 
-  config = lib.mkIf config.myHomeModules.walker.enable {
+  config = lib.mkIf config.myHomeModules.cliPrograms.walker.enable {
     # Read off of here: https://github.com/scoiatael/dotfiles/blob/7ef8a8e90742e27cceb0c496f473cad2a5b55c53/modules/walker.nix
     programs.walker = {
       package = pkgs.walker;

@@ -42,50 +42,21 @@
     userEmail = "26798615+Ginner@users.noreply.github.com";
   };
 
-  # Override SSH configuration
-  programs.ssh = {
-    enable = true;
-    matchBlocks = {
-      "github.com" = {
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519_sk";
-      };
-    };
-  };
+  # Override SSH configuration with host-specific settings
+  myHomeModules.cliPrograms.ssh.extraConfig = ''
+    Host github.com
+      User git
+      IdentityFile ~/.ssh/id_ed25519_sk
+  '';
 
   programs.rofi = {
     enable = true;
     package = pkgs.rofi-wayland;
   };
 
-  # programs.starship = {
-  #   enable = true;
-  #   # custom settings
-  #   settings = {
-  #     add_newline = false;
-  #     aws.disabled = true;
-  #     gcloud.disabled = true;
-  #     line_break.disabled = true;
-  #   };
-  # };
+  # Starship configuration is handled by the laptop module
 
-  # Stylix configuration is handled by laptop bundle
-
-  #moved
-  # services.xremap = {
-  #   enable = true;
-  #   withHypr = true;
-  #    config = {
-  #     modmap = [
-  #       {
-  #         name = "main-remaps";
-  #         remap = {
-  #           "CapsLock" = { held = "Super_L"; alone = "Esc"; alone_timeout_millis = 200; };
-  #         };
-  #       }
-  #     ];
-  #   };   
-  # };
+  # xremap configuration moved to system-level modules
   #
   # You can also manage environment variables but you will have to manually
   # source

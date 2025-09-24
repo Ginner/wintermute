@@ -24,15 +24,7 @@
 
     # Default packages for all users
     home.packages = with pkgs; [
-      # Core CLI tools
-      tree
-      wget
-      curl
       git
-      fd
-      ripgrep
-      fzf
-      jq
     ];
 
     myHomeModules.cliPrograms.git.enable = lib.mkDefault true;

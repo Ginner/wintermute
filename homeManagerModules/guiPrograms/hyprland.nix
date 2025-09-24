@@ -90,7 +90,7 @@ in
       "$mod, Q, killactive"
       "$mod, M, exit"
       "$mod, V, togglefloating"
-      "$mod, d, exec, rofi -show drun -show-icons"
+      "$mod, d, exec, walker"
       "$mod, P, pseudo" # dwindle
       "$mod, S, togglesplit" # dwindle
       "$mod, h, movefocus, l"

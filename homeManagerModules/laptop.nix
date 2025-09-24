@@ -26,6 +26,7 @@ in
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.direnv.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.walker.enable = lib.mkDefault true;
 
     # Optional applications (default = false per table)
     myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;

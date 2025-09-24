@@ -48,10 +48,10 @@
       IdentityFile ~/.ssh/id_ed25519_sk
   '';
 
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi-wayland;
-  };
+  # programs.rofi = {
+  #   enable = true;
+  #   package = pkgs.rofi-wayland;
+  # };
 
   # Starship configuration is handled by the laptop module
 

@@ -41,6 +41,7 @@
     };
     walker = {
       url = "github:abenz1267/walker";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -57,6 +58,7 @@
           ./hosts/WINTERMUTE/configuration.nix
 	  inputs.home-manager.nixosModules.default
           inputs.stylix.nixosModules.stylix
+          inputs.walker.homeManagerModules.walker
           {
               nixpkgs.overlays = [
                 yazi.overlays.default
@@ -71,6 +73,7 @@
           ./hosts/BISHOP/configuration.nix
 	  inputs.home-manager.nixosModules.default
           inputs.stylix.nixosModules.stylix
+          inputs.walker.homeManagerModules.walker
           {
               nixpkgs.overlays = [
                 yazi.overlays.default

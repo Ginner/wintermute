@@ -56,7 +56,6 @@ in
     environment.systemPackages = with pkgs; [
       acpi
       powerstat
-      powertop
     ] ++ lib.optionals hasIntelCPU [
       powertop
     ] ++ lib.optionals hasAMDCPU [

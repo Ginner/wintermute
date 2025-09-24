@@ -29,19 +29,12 @@
       wget
       curl
       git
-      unzip
-      p7zip
-      zip
-      xz
       fd
       ripgrep
       fzf
       jq
     ];
 
-    # Direnv configuration is handled by the direnv module
-
-    # Enable basic CLI programs
     myHomeModules.cliPrograms.git.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.ssh.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.zsh.enable = lib.mkDefault true;

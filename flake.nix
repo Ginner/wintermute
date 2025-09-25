@@ -58,7 +58,6 @@
           ./hosts/WINTERMUTE/configuration.nix
 	  inputs.home-manager.nixosModules.default
           inputs.stylix.nixosModules.stylix
-          inputs.walker.homeManagerModules.walker
           {
               nixpkgs.overlays = [
                 yazi.overlays.default

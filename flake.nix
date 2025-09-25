@@ -39,10 +39,10 @@
       url = "git+https://codeberg.org/ginner/taskfinder?ref=main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # walker = {
-    #   url = "github:abenz1267/walker";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    walker = {
+      url = "github:abenz1267/walker";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, yazi, ... } @ inputs:
@@ -67,12 +67,11 @@
       };
       BISHOP = nixpkgs.lib.nixosSystem {
       	inherit system;
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs ; };
         modules = [
           ./hosts/BISHOP/configuration.nix
 	  inputs.home-manager.nixosModules.default
           inputs.stylix.nixosModules.stylix
-          # inputs.walker.homeManagerModules.walker
           {
               nixpkgs.overlays = [
                 yazi.overlays.default

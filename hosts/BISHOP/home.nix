@@ -5,6 +5,7 @@
     ../../homeManagerModules
     inputs.nixvim.homeManagerModules.nixvim
     inputs.ags.homeManagerModules.default
+    inputs.walker.homeManagerModules.walker
   ];
   # Enable laptop home configuration
   myHomeModules.laptop.enable = true;

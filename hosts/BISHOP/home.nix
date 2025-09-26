@@ -3,7 +3,7 @@
 {
   imports = [
     ../../homeManagerModules
-    inputs.nixvim.homeManagerModules.nixvim
+    inputs.nixvim.homeModules.nixvim
     inputs.ags.homeManagerModules.default
     inputs.walker.homeManagerModules.walker
   ];

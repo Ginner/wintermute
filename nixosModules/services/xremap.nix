@@ -49,6 +49,7 @@ in
       enable = true;
       package = inputs.xremap-flake.packages."${pkgs.system}".default;
       withHypr = cfg.withHypr;
+      watch = true;
       config = {
         modmap = (lib.optionals cfg.includeDefaults [
           {
@@ -61,8 +62,7 @@ in
         ++ cfg.modmaps;
       } // cfg.extraConfig;
     };
-    hardware.uinput.enable = true; # Ensure uinput is enabled for xremap
-    users.groups.uinput.members = lib.mkMerge [ [ user ] ];
-    users.groups.input.members = lib.mkMerge [ [ user ] ];
+    users.users.${user}.extraGroups = [ "input" "uinput" ];
+    hardware.uinput.enable = true; 
   };
 }

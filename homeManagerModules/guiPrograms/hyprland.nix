@@ -38,19 +38,19 @@ in
       kb_variant = "nodeadkeys";
       follow_mouse = "1";
       natural_scroll = "false";
-      scroll_factor = "0.2";
+      scroll_factor = "0.4";
       #"touchpad.natural_scroll" = "true";
       # sensitivity = "0";
       repeat_delay = "300";
       repeat_rate = "70";  
     };
     monitor = [
-      "eDP-1, preffered, auto, 1.0"
+      ", preffered, auto, 1.0"
     ];
-    # Works for BISHOP:
+    # TODO: Works for BISHOP, has to be handled in the host configurations:
     "device[elan06c2:00-04f3:3195-touchpad]".enabled = false;
     "device[tpps/2-synaptics-trackpoint]" = {
-      sensitivity = 0.2;
+      sensitivity = 0.15;
       accel_profile = "flat";
       natural_scroll = false;
     };

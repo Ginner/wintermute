@@ -18,6 +18,21 @@ in
     programs.yazi = {
       enable = true;
       enableZshIntegration = cfg.enableZshIntegration;
+      settings = {
+        opener = {
+          edit = [
+            { run = '' ${pkgs.kitty}/bin/kitty -e ${pkgs.runtimeShell} -lc '${config.home.sessionVariables.EDITOR or "nvim"} "$@"' ''; block = false; orphan = true; }
+          ];
+
+          app_default = [{
+            run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
+            block = false;
+            orphan = true;
+          }];
+
+        };
+
+      };
     };
   };
 }

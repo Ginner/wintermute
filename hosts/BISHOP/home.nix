@@ -43,12 +43,15 @@
   };
 
   # Override SSH configuration with host-specific settings
-  myHomeModules.cliPrograms.ssh.extraConfig = ''
-    Host github.com
-      User git
-      IdentityFile ~/.ssh/id_ed25519_sk
-  '';
-
+  # myHomeModules.cliPrograms.ssh.extraConfig = ''
+  #   Host github.com
+  #     User git
+  #     IdentityFile ~/.ssh/id_ed25519_sk
+  # '';
+  myHomeModules.cliPrograms.ssh.matchBlocks."github.com" = {
+    user = "git";
+    identityFile = "~/.ssh/id_ed25519_sk";
+  };
   # programs.rofi = {
   #   enable = true;
   #   package = pkgs.rofi-wayland;

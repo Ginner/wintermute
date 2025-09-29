@@ -4,6 +4,7 @@
     ./firefox.nix
     ./hyprland.nix
     ./inkscape.nix
+    ./kanshi.nix
     ./kde-connect.nix
     ./kitty.nix
     ./latex.nix

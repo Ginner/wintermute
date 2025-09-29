@@ -22,6 +22,10 @@ in
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.kanshi.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.mpv.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.btop.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.cli-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;
@@ -31,11 +35,8 @@ in
 
     # Optional applications (default = false per table)
     myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;
-    myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault false;
-    myHomeModules.guiPrograms.mpv.enable = lib.mkDefault false;
     myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
     myHomeModules.guiPrograms.latex.enable = lib.mkDefault false;
-    myHomeModules.cliPrograms.btop.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.ncspot.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [

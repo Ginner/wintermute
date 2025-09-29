@@ -21,7 +21,7 @@ in
       settings = {
         opener = {
           edit = [
-            { run = ''${lib.getBin pkgs.kitty}/bin/kitty ${lib.getBin pkgs.neovim}/bin/nvim "$@"''; block = false; orphan = true; for = "linux"; }
+            { run = ''${lib.getBin pkgs.kitty}/bin/kitty --single-instance ${lib.getBin pkgs.neovim}/bin/nvim "$@"''; block = false; orphan = true; for = "linux"; }
           ];
           open = [
             { run = '' ${pkgs.xdg-utils}/bin/xdg-open "$1"''; block = false; orphan = true; }

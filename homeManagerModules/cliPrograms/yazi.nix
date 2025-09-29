@@ -21,18 +21,21 @@ in
       settings = {
         opener = {
           edit = [
-            { run = '' ${pkgs.kitty}/bin/kitty -e ${pkgs.runtimeShell} -lc '${config.home.sessionVariables.EDITOR or "nvim"} "$@"' ''; block = false; orphan = true; }
+            { run = ''${lib.getBin pkgs.kitty} -e ${lib.getBin pkgs.neovim} -lc '${config.home.sessionVariables.EDITOR or "nvim"} "$@"' ''; block = false; orphan = true; for = "linux"; }
           ];
-
-          app_default = [{
-            run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
-            block = false;
-            orphan = true;
-          }];
-
+          open = [
+            { run = '' ${pkgs.xdg-utils}/bin/xdg-open "$1"''; block = false; orphan = true; }
+          ];
         };
-
+        open.rules = [
+            { mime = "text/*"; use = [ "edit" "reveal" ]; }
+          ];
       };
     };
+    home.shellAliases = {
+      y = "yazi";
+    };
+    stylix.targets.yazi.enable = true;
   };
+
 }

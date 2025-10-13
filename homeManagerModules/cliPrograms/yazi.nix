@@ -18,6 +18,12 @@ in
     programs.yazi = {
       enable = true;
       enableZshIntegration = cfg.enableZshIntegration;
+      plugins = { smart-enter = pkgs.yaziPlugins.smart-enter; };
+      keymap = {
+        mgr.prepend_keymap = [
+          { on = "l"; run = "plugin smart-enter"; desc = "Enter child dir or open file"; }
+        ];
+      };
       settings = {
         opener = {
           edit = [

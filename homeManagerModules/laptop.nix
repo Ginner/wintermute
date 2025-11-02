@@ -32,9 +32,6 @@ in
     myHomeModules.cliPrograms.direnv.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.walker.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.yazi.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.mpv.enable = lib.mkDefault true;
-    myHomeModules.cliPrograms.btop.enable = lib.mkDefault true;
 
     # Optional applications (default = false per table)
     myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;

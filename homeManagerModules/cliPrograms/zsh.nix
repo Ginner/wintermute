@@ -52,6 +52,7 @@ in
     programs.zsh = {
       enable = true;
       enableAutosuggestions = cfg.enableAutosuggestions;
+      # autosuggestions.enable = cfg.enableAutosuggestions;
       syntaxHighlighting.enable = cfg.enableSyntaxHighlighting;
       enableCompletion = cfg.enableCompletion;
       autocd = cfg.enableAutocd;
@@ -78,7 +79,7 @@ in
         mkdir = "mkdir -vp";
         ":q" = "exit";
       };
-      initExtra = cfg.extraInit;
+      initContent = cfg.extraInit;
     };
 
     # Enable kitty integration if kitty is enabled

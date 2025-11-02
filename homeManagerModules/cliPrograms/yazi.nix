@@ -18,10 +18,16 @@ in
     programs.yazi = {
       enable = true;
       enableZshIntegration = cfg.enableZshIntegration;
+      plugins = { smart-enter = pkgs.yaziPlugins.smart-enter; };
+      keymap = {
+        mgr.prepend_keymap = [
+          { on = "l"; run = "plugin smart-enter"; desc = "Enter child dir or open file"; }
+        ];
+      };
       settings = {
         opener = {
           edit = [
-            { run = ''${lib.getBin pkgs.kitty}/bin/kitty --single-instance ${lib.getBin pkgs.neovim}/bin/nvim "$@"''; block = false; orphan = true; for = "linux"; }
+            { run = ''kitty --detach nvim "$@"''; block = false; orphan = true; for = "linux"; }
           ];
           open = [
             { run = '' ${pkgs.xdg-utils}/bin/xdg-open "$1"''; block = false; orphan = true; }

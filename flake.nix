@@ -7,6 +7,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,52 +49,31 @@
     };
   };
 
-  outputs = { self, nixpkgs, yazi, ... } @ inputs:
+  outputs = { self, nixpkgs, yazi, home-manager, agenix, stylix, ... } @ inputs:
   let
     system = "x86_64-linux";
   in
   {
     nixosConfigurations = {
-      WINTERMUTE = nixpkgs.lib.nixosSystem {
-      	inherit system;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/WINTERMUTE/configuration.nix
-	  inputs.home-manager.nixosModules.default
-          inputs.stylix.nixosModules.stylix
-          {
-              nixpkgs.overlays = [
-                yazi.overlays.default
-              ];
-            }
-	];
-      };
+      # Copy per-host, could it be 'templated'?
       BISHOP = nixpkgs.lib.nixosSystem {
       	inherit system;
         specialArgs = { inherit inputs ; };
         modules = [
+          # Host configuration
           ./hosts/BISHOP/configuration.nix
-	  inputs.home-manager.nixosModules.default
-          inputs.stylix.nixosModules.stylix
+	  agenix.nixosModules.default
+	  home-manager.nixosModules.default
+          stylix.nixosModules.stylix
           {
+              home-manager.sharedModules = [ agenix.homeManagerModules.default ];
               nixpkgs.overlays = [
                 yazi.overlays.default
               ];
             }
 	];
       };
-      UMMON = nixpkgs.lib.nixosSystem {
-        inherit system;
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/UMMON/configuration.nix
-            {
-              nixpkgs.overlays = [
-                yazi.overlays.default
-              ];
-            }
-	];
-      };
+      # 
     };
   };
 }

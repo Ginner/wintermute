@@ -42,7 +42,7 @@
 | ncspot                                            |         |        |    X*   |   X*   |    |  X  | Spotify TUI, we shouldn't use Spotify though, bastards.              |
 | newsboat                                          |         |        |    X*   |   X*   |    |  X  | RSS reader.                                                          |
 | calcurse                                          |         |        |    X*   |   X*   |    |  X  | Calendar TUI.                                                        |
-| khard                                             |         |        |    X*   |   X*   |    |  X  | Contacts TUI, is it really better that abook?                        |
+| khard                                             |         |        |    X*   |   X*   |    |  X  | Contacts TUI, is it really better than abook?                        |
 | cheat                                             |         |        |    X*   |   X*   |    |  X  | Cheat sheets. Use in conjunction w. tealdeer?                        |
 | LaTeX (texlive)                                   |         |        |    X*   |   X*   |    |  X  | Big footprint, off by default.                                       |
 | podman (engine)                                   |         |   X*   |         |        |  X |     | System sets cgroups, subuids; CLI can be added via HM.               |

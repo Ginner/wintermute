@@ -7,6 +7,7 @@
     ./keymaps.nix
     ./plugins/lualine.nix
     ./plugins/lsp.nix
+    ./plugins/autoclose.nix
     ./plugins/cmp.nix
     ./plugins/treesitter.nix 
     ./plugins/mkdnflow.nix
@@ -22,7 +23,7 @@
     vimdiffAlias = true;
     globals.mapleader = " ";
     clipboard = {
-      register = "unnamedplus";
+      register = "unnamed";
       providers.wl-copy.enable = true;
     };
     plugins = {
@@ -30,7 +31,6 @@
       web-devicons.enable = true;
       vim-surround.enable = true;
       lastplace.enable = true;
-      autoclose.enable = true;
     };
   };
   home.file = {

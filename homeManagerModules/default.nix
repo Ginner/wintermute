@@ -21,6 +21,7 @@
   config = lib.mkIf config.myHomeModules.default.enable {
     home.username = lib.mkDefault "ginner";
     home.homeDirectory = lib.mkDefault "/home/ginner";
+    home.preferXdgDirectories = lib.mkDefault true;
 
     # Default packages for all users
     home.packages = with pkgs; [

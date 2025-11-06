@@ -1,9 +1,11 @@
 {
   programs.nixvim.plugins.autoclose = {
     enable = true;
-    keys = {
-      "'" = {
-        disabled_filetypes = [ "markdown" ];
+    settings = {
+      keys = {
+        "'" = {
+          disabled_filetypes = [ "markdown" "latex" ];
+        };
       };
     };
   };

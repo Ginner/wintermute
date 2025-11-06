@@ -33,7 +33,7 @@ in
 
     dotDir = lib.mkOption {
       type = lib.types.str;
-      default = ".config/zsh";
+      default = "${config.xdg.configHome}/zsh";
       description = "Directory for zsh configuration files";
     };
 
@@ -51,8 +51,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.zsh = {
       enable = true;
-      enableAutosuggestions = cfg.enableAutosuggestions;
-      # autosuggestions.enable = cfg.enableAutosuggestions;
+      autosuggestion.enable = cfg.enableAutosuggestions;
       syntaxHighlighting.enable = cfg.enableSyntaxHighlighting;
       enableCompletion = cfg.enableCompletion;
       autocd = cfg.enableAutocd;
@@ -63,7 +62,7 @@ in
         ignoreSpace = true;
         share = true;
         size = 10000;
-        path = "${config.home.homeDirectory}/.local/share/zsh/history";
+        path = "${config.xdg.dataHome}/zsh/history";
       };
       shellAliases = {
         history = "history 1";

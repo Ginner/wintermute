@@ -41,8 +41,10 @@ in
     # Configure mako notifications
     services.mako = lib.mkIf cfg.notifications {
       enable = true;
-      defaultTimeout = 5000;
-      ignoreTimeout = true;
+      settings = {
+        default-timeout = 5000;
+        ignore-timeout = true;
+      };
     };
   };
 }

@@ -6,13 +6,10 @@
     ./inkscape.nix
     ./kanshi.nix
     ./kde-connect.nix
-    ./kitty.nix
-    ./latex.nix
     ./mpv.nix
-    ./nixvim
-    ./scripts.nix
     ./stylix.nix
     ./sxiv.nix
+    ./walker.nix
     ./waybar.nix
     ./wayland-tools.nix
     ./xdg.nix

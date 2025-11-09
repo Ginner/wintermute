@@ -37,7 +37,7 @@ in
     # Optional applications (default = false per table)
     myHomeModules.guiPrograms.inkscape.enable = lib.mkDefault false;
     myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
-    myHomeModules.guiPrograms.latex.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
@@ -56,5 +56,8 @@ in
 
     # Disable stylix for waybar in laptop config
     stylix.targets.waybar.enable = false;
+
+    # Enable ssh connection multiplexing
+    myHomeModules.cliPrograms.ssh.enableControlMaster = true;
   };
 }

@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.myHomeModules.cliPrograms.yazi;
+  cfg = config.myHomeModules.tuiPrograms.yazi;
 in
 {
-  options.myHomeModules.cliPrograms.yazi = {
+  options.myHomeModules.tuiPrograms.yazi = {
     enable = lib.mkEnableOption "Yazi terminal file manager";
 
     enableZshIntegration = lib.mkOption {

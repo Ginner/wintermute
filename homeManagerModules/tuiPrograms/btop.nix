@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 {
-  options.myHomeModules.cliPrograms.btop = {
+  options.myHomeModules.tuiPrograms.btop = {
     enable = lib.mkEnableOption "System monitor/manager";
   };
 
-  config = lib.mkIf config.myHomeModules.cliPrograms.btop.enable {
+  config = lib.mkIf config.myHomeModules.tuiPrograms.btop.enable {
     programs.btop = {
       enable = true;
       settings = {

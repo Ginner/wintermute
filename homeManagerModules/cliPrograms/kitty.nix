@@ -1,10 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.myHomeModules.guiPrograms.kitty;
+  cfg = config.myHomeModules.cliPrograms.kitty;
 in
 {
-  options.myHomeModules.guiPrograms.kitty = {
+  options.myHomeModules.cliPrograms.kitty = {
     enable = lib.mkEnableOption "Kitty terminal emulator";
 
     fontSize = lib.mkOption {

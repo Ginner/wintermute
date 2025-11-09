@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.myHomeModules.cliPrograms.tmux;
+  cfg = config.myHomeModules.tuiPrograms.tmux;
 in
 {
-  options.myHomeModules.cliPrograms.tmux = {
+  options.myHomeModules.tuiPrograms.tmux = {
     enable = lib.mkEnableOption "Terminal multiplexer with sensible defaults";
 
     enableVim = lib.mkOption {

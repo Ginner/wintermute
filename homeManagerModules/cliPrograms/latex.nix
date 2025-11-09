@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.myHomeModules.guiPrograms.latex;
+  cfg = config.myHomeModules.cliPrograms.latex;
 in
 {
-  options.myHomeModules.guiPrograms.latex = {
+  options.myHomeModules.cliPrograms.latex = {
     enable = lib.mkEnableOption "LaTeX distribution and tools";
 
     enableFull = lib.mkOption {

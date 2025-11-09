@@ -48,9 +48,17 @@
   #     User git
   #     IdentityFile ~/.ssh/id_ed25519_sk
   # '';
-  myHomeModules.cliPrograms.ssh.matchBlocks."github.com" = {
-    user = "git";
-    identityFile = "~/.ssh/id_ed25519_sk";
+  myHomeModules.cliPrograms.ssh.matchBlocks = {
+    "github.com" = {
+      user = "git";
+      identityFile = "~/.ssh/id_ed25519_sk";
+    };
+    "forgejo" = {
+      hostname = "forgejo.ginnerskov.co";
+      user = "git";
+      port = "222";
+      identityFile = "~/.ssh/id_ed25519_sk";
+    };
   };
   # programs.rofi = {
   #   enable = true;

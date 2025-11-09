@@ -1,11 +1,11 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  options.myHomeModules.cliPrograms.walker = {
+  options.myHomeModules.guiPrograms.walker = {
     enable = lib.mkEnableOption "Application launcher";
   };
 
-  config = lib.mkIf config.myHomeModules.cliPrograms.walker.enable {
+  config = lib.mkIf config.myHomeModules.guiPrograms.walker.enable {
     # # Walker package installation
     # home.packages = [
     #   pkgs.walker

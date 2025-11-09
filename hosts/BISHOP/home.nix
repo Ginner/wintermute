@@ -42,7 +42,7 @@
 
     # To override default branchname (main):
     # extraConfig.init.defaultBranch = "trunk"; 
-  }
+  };
 
   # Override SSH configuration with host-specific settings
   # myHomeModules.cliPrograms.ssh.extraConfig = ''

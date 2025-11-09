@@ -36,11 +36,13 @@
     # '';
   };
 
-  # Override git configuration with proper values
-  myHomeModules.cliPrograms.git = {
+  programs.git = {
     userName = "Ginner";
     userEmail = "26798615+Ginner@users.noreply.github.com";
-  };
+
+    # To override default branchname (main):
+    # extraConfig.init.defaultBranch = "trunk"; 
+  }
 
   # Override SSH configuration with host-specific settings
   # myHomeModules.cliPrograms.ssh.extraConfig = ''

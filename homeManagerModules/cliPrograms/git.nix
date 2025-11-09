@@ -5,26 +5,15 @@ let
 in
 {
   options.myHomeModules.cliPrograms.git = {
-    enable = lib.mkEnableOption "User level git configuration";
-
-    userName = lib.mkOption {
-      type = lib.types.str;
-      default = "User";
-      description = "Git user name";
-    };
-
-    userEmail = lib.mkOption {
-      type = lib.types.str;
-      default = "user@example.com";
-      description = "Git user email";
-    };
+    enable = lib.mkEnableOption "User level git defaults";
   };
 
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      userName = cfg.userName;
-      userEmail = cfg.userEmail;
+      extraConfig = {
+        init.defaultBranch = "main";
+      };
     };
   };
 }

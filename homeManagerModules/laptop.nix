@@ -23,7 +23,7 @@ in
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.kanshi.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.kanshi.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.mpv.enable = lib.mkDefault true;
     myHomeModules.tuiPrograms.btop.enable = lib.mkDefault true;

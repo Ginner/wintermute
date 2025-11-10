@@ -4,7 +4,6 @@
     ./firefox.nix
     ./hyprland.nix
     ./inkscape.nix
-    ./kanshi.nix
     ./kde-connect.nix
     ./mpv.nix
     ./stylix.nix

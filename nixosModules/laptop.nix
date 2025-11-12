@@ -8,12 +8,7 @@ let
 in
 {
   imports = [
-    ./services/tlp.nix
-
-    # Remember to disable these for servers
-    ./services/greetd.nix
-    ./services/pipewire.nix
-
+    ./services
     ./programs
     ./shared/stylix.nix
   ];
@@ -46,6 +41,7 @@ in
     myModules.services.fwupd.enable = lib.mkDefault true;
     myModules.services.tailscale.enable = lib.mkDefault false;  # Optional
     myModules.services.xremap.enable = lib.mkDefault true;  # Key remapping
+    myModules.services.xdg.enable = lib.mkDefault true;  
     myModules.shared.stylix.enable = lib.mkDefault true;
     myModules.programs.hyprland.enable = lib.mkDefault true;
     myModules.programs.usbutils.enable = lib.mkDefault true;

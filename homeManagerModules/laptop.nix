@@ -8,6 +8,7 @@ in
     ./guiPrograms
     ./tuiPrograms
     ./cliPrograms
+    ./services/xdg.nix
   ];
 
   options.myHomeModules.laptop = {
@@ -17,6 +18,7 @@ in
   config = lib.mkIf cfg.enable {
     # Enable laptop-specific home modules according to the table
     # Required applications
+    myHomeModules.services.xdg.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.firefox.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.hyprland.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.kitty.enable = lib.mkDefault true;
@@ -45,7 +47,7 @@ in
       inputs.taskfinder.packages.${pkgs.system}.default
       newsboat  # Could be made into module
       numbat    # Could be made into module
-      pass-wayland
+      pass-wayland # Use bitwardn as default instead
       calcurse  # Could be made into module
       khard     # Could be made into module
       imagemagick

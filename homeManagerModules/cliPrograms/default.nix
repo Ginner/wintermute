@@ -11,7 +11,6 @@
     ./ssh.nix
     ./starship.nix
     ./wayland-tools.nix
-    ./xdg.nix
     ./zsh.nix
   ];
 }

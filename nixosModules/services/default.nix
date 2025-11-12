@@ -10,7 +10,6 @@
     ./podman.nix
     ./tailscale.nix
     ./tlp.nix 
-    ./xdg.nix
     ./xremap.nix
   ];
 }

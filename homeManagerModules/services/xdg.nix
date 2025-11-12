@@ -6,6 +6,10 @@
 
   config = lib.mkIf config.myHomeModules.services.xdg.enable {
     xdg.enable = true;
+    home.packages = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
 
     xdg.portal = {
       enable = true;

@@ -21,9 +21,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
+    home.packages = config.home.packages ++ (with pkgs; [
       kdeconnect
-    ];
+    ]);
 
     # Enable the user service
     services.kdeconnect = {

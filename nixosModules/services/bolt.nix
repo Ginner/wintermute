@@ -27,9 +27,9 @@ in
       enable = true;
     };
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
       bolt
-    ];
+    ]);
 
     # Set authorization mode if supported
     # Note: This may require additional configuration for specific auth modes

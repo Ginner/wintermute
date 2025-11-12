@@ -15,12 +15,12 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
       usbutils
-    ] ++ lib.optionals cfg.enableExtraTools [
+    ]) ++ lib.optionals cfg.enableExtraTools (with pkgs; [
       usbtop
       usbview
-    ];
+    ]);
 
     # Ensure proper permissions for USB device access
     services.udev.packages = [ pkgs.usbutils ];

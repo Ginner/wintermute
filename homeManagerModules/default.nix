@@ -25,9 +25,9 @@
     home.preferXdgDirectories = lib.mkDefault true;
 
     # Default packages for all users
-    home.packages = with pkgs; [
+    home.packages = config.home.packages ++ (with pkgs; [
       git
-    ];
+    ]);
 
     myHomeModules.cliPrograms.git.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.ssh.enable = lib.mkDefault true;

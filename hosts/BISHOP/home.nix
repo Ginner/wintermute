@@ -14,8 +14,8 @@
   myHomeModules.guiPrograms.stylix.image = ../../assets/wall.jpeg;
 
   # Additional packages not covered by the bundles
-  home.packages = with pkgs; [
-  ];
+  home.packages = config.home.packages ++ (with pkgs; [
+  ]);
 
   home.file = {
   };

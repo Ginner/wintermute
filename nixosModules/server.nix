@@ -56,7 +56,7 @@ in
     myModules.programs.usbutils.enable = lib.mkDefault true;
 
     # Server packages
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
       # System administration tools
       iotop
       lsof
@@ -66,14 +66,14 @@ in
       screen
 
       # Monitoring tools
-    ] ++ lib.optionals cfg.enableMonitoring [
+    ]) ++ lib.optionals cfg.enableMonitoring (with pkgs; [
       prometheus-node-exporter
       grafana-agent
-    ] ++ lib.optionals cfg.enableBackups [
+    ]) ++ lib.optionals cfg.enableBackups (with pkgs; [
       restic
       rclone
       borgbackup
-    ];
+    ]);
 
     # Core server services
     services = {

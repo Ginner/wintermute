@@ -42,9 +42,9 @@ in
     };
 
     # System packages for zsh functionality
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
       zsh
       zsh-completions
-    ];
+    ]);
   };
 }

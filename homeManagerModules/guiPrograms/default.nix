@@ -7,7 +7,7 @@
     ./kde-connect.nix
     ./mpv.nix
     ./stylix.nix
-    ./sxiv.nix
+    ./swayimg.nix
     ./walker.nix
     ./waybar.nix
     ./zathura.nix

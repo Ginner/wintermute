@@ -33,14 +33,14 @@
       "text/plain" = [ "nvim.desktop" ];
       "text/markdown" = [ "nvim.desktop" ];
       "application/pdf" = [ "zathura.desktop" ];
-      "image/jpeg" = [ "sxiv.desktop" ];
-      "image/png" = [ "sxiv.desktop" ];
-      "image/*" = [ "sxiv.desktop" ];
+      "image/jpeg" = [ "swayimg.desktop" ];
+      "image/png" = [ "swayimg.desktop" ];
+      "image/*" = [ "swayimg.desktop" ];
       "video/*" = [ "mpv.desktop" ];
     };
-    # Example. sxiv is already the default.
+    # Example. swayimg is already the default.
     associations.added = {
-      "image/*" = [ "sxiv.desktop" ];
+      "image/*" = [ "swayimg.desktop" ];
     };
   };
 }

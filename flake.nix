@@ -67,6 +67,8 @@
           stylix.nixosModules.stylix
           {
               home-manager.sharedModules = [ agenix.homeManagerModules.default ];
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
               nixpkgs.overlays = [
                 yazi.overlays.default
               ];

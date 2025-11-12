@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = config.home.packages ++ [
+  home.packages = [
 
     (pkgs.writeShellApplication {
       name = "mailias";

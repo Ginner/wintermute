@@ -21,10 +21,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = config.home.packages ++ (with pkgs; [
+    home.packages = with pkgs; [
       (if cfg.scheme == "small" then texlive.combined.scheme-small
        else if cfg.scheme == "medium" then texlive.combined.scheme-medium
        else texlive.combined.scheme-full)
-    ]);
+    ];
   };
 }

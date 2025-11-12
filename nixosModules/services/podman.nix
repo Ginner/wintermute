@@ -45,11 +45,11 @@ in
     users.users.${user}.extraGroups = [ "podman" ];
 
     # Install additional container tools
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       podman-compose
       buildah
       skopeo
-    ]) ++ cfg.extraPackages;
+    ] ++ cfg.extraPackages;
 
     # Enable podman socket for docker-compose compatibility
     systemd.sockets.podman = lib.mkIf cfg.dockerCompat {

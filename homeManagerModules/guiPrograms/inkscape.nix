@@ -15,11 +15,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = config.home.packages ++ (with pkgs; [
+    home.packages = with pkgs; [
       inkscape
-    ]) ++ lib.optionals cfg.enableExtensions [
+    ] ++ lib.optionals cfg.enableExtensions [
       # Add common extensions if available
-      pkgs.python3Packages.lxml  # Required for many extensions
+      python3Packages.lxml  # Required for many extensions
     ];
   };
 }

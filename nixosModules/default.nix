@@ -87,11 +87,11 @@ in
     };
 
     # Default packages for all systems - minimal core only
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       file
       which
       lm_sensors
-    ]);
+    ];
 
     # Enable basic services that apply to all systems
     myModules.services.openssh.enable = lib.mkDefault true;

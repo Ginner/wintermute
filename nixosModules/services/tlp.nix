@@ -52,11 +52,11 @@ in
          } // cfg.extraSettings;
       };
 
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       # powertop # Only applicable to Intel laptops
       tlp
       acpi
-    ]);
+    ];
 
     services.acpid.enable = true;
     services.upower.enable = true;

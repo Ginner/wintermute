@@ -47,31 +47,31 @@ in
     myModules.programs.hyprland.enable = lib.mkDefault true;
     myModules.programs.usbutils.enable = lib.mkDefault true;
 
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       # Desktop utilities
       pavucontrol
 
       # Multi-monitor tools
-    ]) ++ lib.optionals cfg.enableMultiMonitor [
+    ] ++ lib.optionals cfg.enableMultiMonitor [
       arandr
       autorandr
       wdisplays
-    ] ++ lib.optionals cfg.enableGraphicsTools (with pkgs; [
+    ] ++ lib.optionals cfg.enableGraphicsTools [
       # Graphics and design tools
       gimp
       blender
       krita
-    ]) ++ lib.optionals cfg.enableGaming (with pkgs; [
+    ] ++ lib.optionals cfg.enableGaming [
       # Gaming tools
       steam
       lutris
       gamemode
       mangohud
-    ]) ++ lib.optionals hasIntelGPU (with pkgs; [
+    ] ++ lib.optionals hasIntelGPU [
       intel-gpu-tools
-    ]) ++ lib.optionals hasAMDGPU (with pkgs; [
+    ] ++ lib.optionals hasAMDGPU [
       radeontop
-    ]);
+    ];
 
     # Gaming-specific configurations
     programs.steam.enable = lib.mkIf cfg.enableGaming true;

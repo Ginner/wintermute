@@ -9,9 +9,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = config.home.packages ++ (with pkgs; [
+    home.packages = with pkgs; [
       swayimg
-    ]);
+    ];
   };
 }
 

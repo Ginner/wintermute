@@ -22,9 +22,9 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       brightnessctl
-    ]);
+    ];
 
     # Add user to video group for brightness control
     users.users.${user}.extraGroups = [ "video" ];

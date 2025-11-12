@@ -48,14 +48,14 @@ in
     networking.networkmanager.enable = true;
     users.users.${user}.extraGroups = [ "networkmanager" ];
 
-    environment.systemPackages = config.environment.systemPackages ++ (with pkgs; [
+    environment.systemPackages = with pkgs; [
       acpi
       powerstat
-    ]) ++ lib.optionals hasIntelCPU (with pkgs; [
+    ] ++ lib.optionals hasIntelCPU [
       powertop
-    ]) ++ lib.optionals hasAMDCPU (with pkgs; [
+    ] ++ lib.optionals hasAMDCPU [
       ryzenadj
-    ]);
+    ];
 
     services = {
       upower.enable = true;

@@ -42,7 +42,7 @@ in
     myHomeModules.cliPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
 
-    home.packages = config.home.packages ++ (with pkgs; [
+    home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules
       inputs.taskfinder.packages.${pkgs.system}.default
       newsboat  # Could be made into module
@@ -54,7 +54,7 @@ in
       cheat     # Could be made into module
       ffmpegthumbnailer
       poppler
-    ]);
+    ];
 
     # Disable stylix for waybar in laptop config
     stylix.targets.waybar.enable = false;

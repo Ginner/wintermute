@@ -21,7 +21,7 @@ in
     myHomeModules.guiPrograms.hyprland.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.kitty.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.wayland-tools.enable = lib.mkDefault true;
+    myHomeModules.cliPrograms.wayland-tools.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.kanshi.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.sxiv.enable = lib.mkDefault true;

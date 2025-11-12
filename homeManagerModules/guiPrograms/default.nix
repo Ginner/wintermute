@@ -10,8 +10,6 @@
     ./sxiv.nix
     ./walker.nix
     ./waybar.nix
-    ./wayland-tools.nix
-    ./xdg.nix
     ./zathura.nix
   ];
 }

@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.myHomeModules.guiPrograms.wayland-tools;
+  cfg = config.myHomeModules.cliPrograms.wayland-tools;
 in
 {
-  options.myHomeModules.guiPrograms.wayland-tools = {
+  options.myHomeModules.cliPrograms.wayland-tools = {
     enable = lib.mkEnableOption "Wayland-specific tools";
 
     clipboard = lib.mkOption {

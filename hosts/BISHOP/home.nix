@@ -62,6 +62,11 @@
         port = 222;
         identityFile = "~/.ssh/id_ed25519_sk";
       };
+      "codeberg" = {
+        user = "git";
+        hostname = "codeberg.org";
+        identityFile = "~/.ssh/id_ed25519_sk";
+      }
     };
   };
   

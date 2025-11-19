@@ -40,10 +40,11 @@
   ];
 
 
-  programs.git = {
-    userName = "Ginner";
-    userEmail = "26798615+Ginner@users.noreply.github.com";
-
+  programs.git.settings = {
+    user = {
+      name = "Ginner";
+      email = "26798615+Ginner@users.noreply.github.com";
+    };
     # To override default branchname (main):
     # extraConfig.init.defaultBranch = "trunk"; 
   };

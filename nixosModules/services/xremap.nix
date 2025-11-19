@@ -47,7 +47,7 @@ in
   config = lib.mkIf cfg.enable {
     services.xremap = {
       enable = true;
-      package = inputs.xremap-flake.packages."${pkgs.system}".default;
+      package = inputs.xremap-flake.packages."${pkgs.stdenv.hostPlatform.system}".default;
       withHypr = cfg.withHypr;
       watch = true;
       config = {

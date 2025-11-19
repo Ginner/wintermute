@@ -27,7 +27,7 @@ in
     cursor = {
       package = lib.mkOption {
         type = lib.types.package;
-        default = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
+        default = inputs.rose-pine-hyprcursor.packages.${pkgs.stdenv.hostPlatform.system}.default;
         description = "Cursor theme package";
       };
 

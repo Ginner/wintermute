@@ -1,37 +1,39 @@
 {
   programs.nixvim.plugins.mkdnflow = {
     enable = true;
-    wrap = true;
-    silent = true;
-    links.conceal = false;
-    modules = {
-      bib = false;
-      conceal = false;
-    };
-    perspective = {
-      rootTell = "wiki.md";
-      priority = "current";
-    };
-    mappings = {
-      MkdnCreateLink = {
-        key = "<leader>ln";
-        modes = [
-          "n"
-        ];
+    settings = {
+      wrap = true;
+      silent = true;
+      links.conceal = false;
+      perspective = {
+        root_tell = "wiki.md";
+        priority = "current";
       };
-      MkdnEnter = {
-        key = "<CR>";
-        modes = [
-          "i"
-          "n"
-          "v"
-        ];
+      modules = {
+        bib = false;
+        conceal = false;
       };
+      mappings = {
+        MkdnCreateLink = {
+          key = "<leader>ln";
+          modes = [
+            "n"
+          ];
+        };
+        MkdnEnter = {
+          key = "<CR>";
+          modes = [
+            "i"
+            "n"
+            "v"
+          ];
+        };
+      };
+      to_do.symbols = [
+        " "
+        "/"
+        "x"
+      ];
     };
-    toDo.symbols = [
-      " "
-      "/"
-      "x"
-    ];
   };
 }

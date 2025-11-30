@@ -28,7 +28,7 @@
       enable = true;
       runAsService = true;
       config = {
-        placeholders."default".input = "...";
+        placeholders."default" = { input = "Search"; list = "No Results"; };
         providers.prefixes = [
           {provider = "websearch"; prefix = "?";}
           {provider = "providerlist"; prefix = "_";}

@@ -7,6 +7,7 @@
     ./kanshi.nix
     ./kitty.nix
     ./latex.nix
+    ./rbw.nix
     ./scripts.nix
     ./ssh.nix
     ./starship.nix

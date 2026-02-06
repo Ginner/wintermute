@@ -41,6 +41,7 @@ in
     myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.rbw.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules
@@ -51,6 +52,7 @@ in
       calcurse  # Could be made into module
       khard     # Could be made into module
       imagemagick
+      pinentry-tty
       cheat     # Could be made into module
       ffmpegthumbnailer
       poppler

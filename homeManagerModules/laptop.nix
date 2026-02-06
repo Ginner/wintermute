@@ -45,7 +45,7 @@ in
 
     home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules
-      inputs.taskfinder.packages.${pkgs.system}.default
+      inputs.taskfinder.packages.${pkgs.stdenv.hostPlatform.system}.default
       newsboat  # Could be made into module
       numbat    # Could be made into module
       pass-wayland # Use bitwardn as default instead

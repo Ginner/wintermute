@@ -11,21 +11,22 @@
   myHomeModules.laptop.enable = true;
 
   # Agenix secrets
-  age.secrets.rbw-email.file = ./.secrets/rbw-email.age;
-  age.secrets.rbw-base-url.file = ./.secrets/rbw-base-url.age;
+  # age.secrets.rbw-email.file = ./.secrets/rbw-email.age;
+  # age.secrets.rbw-base-url.file = ./.secrets/rbw-base-url.age;
 
   # rbw (Bitwarden client)
-  myHomeModules.cliPrograms.rbw = {
-    enable = true;
-    emailSecret = config.age.secrets.rbw-email.path;
-    baseUrlSecret = config.age.secrets.rbw-base-url.path;
-  };
+  # myHomeModules.cliPrograms.rbw = {
+  #   enable = true;
+  #   emailSecret = config.age.secrets.rbw-email.path;
+  #   baseUrlSecret = config.age.secrets.rbw-base-url.path;
+  # };
 
   # Override stylix wallpaper for BISHOP
   myHomeModules.guiPrograms.stylix.image = ../../assets/wall.jpeg;
 
   # Additional packages not covered by the bundles
   home.packages = with pkgs; [
+    rbw
   ];
 
   home.file = {

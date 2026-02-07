@@ -20,6 +20,9 @@
   #   emailSecret = config.age.secrets.rbw-email.path;
   #   baseUrlSecret = config.age.secrets.rbw-base-url.path;
   # };
+  myHomeModules.tuiPrograms.opencode = {
+    enable = true;
+  };
 
   # Override stylix wallpaper for BISHOP
   myHomeModules.guiPrograms.stylix.image = ../../assets/wall.jpeg;

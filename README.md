@@ -28,3 +28,5 @@ _Bitwarden commandline client_
 After build, `rbw` is configured using the following commands:
 `rbw config set email <user-email>`
 
+### OpenCode
+Start opencode and do `/connect` and connect to the API of choice. 

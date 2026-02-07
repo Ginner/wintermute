@@ -42,6 +42,7 @@ in
     myModules.services.tailscale.enable = lib.mkDefault false;  # Optional
     myModules.services.xremap.enable = lib.mkDefault true;  # Key remapping
     myModules.shared.stylix.enable = lib.mkDefault true;
+    myModules.programs.agenix.enable = lib.mkDefault true;  # Secret management
     myModules.programs.hyprland.enable = lib.mkDefault true;
     myModules.programs.usbutils.enable = lib.mkDefault true;
 

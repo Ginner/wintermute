@@ -27,6 +27,7 @@
   # Additional packages not covered by the bundles
   home.packages = with pkgs; [
     rbw
+    opencode
   ];
 
   home.file = {

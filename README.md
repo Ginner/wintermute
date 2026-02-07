@@ -15,4 +15,16 @@ The user is set, you need to set a password for the user with `passwd <username>
 - [ ] [cheat](https://github.com/cheat/cheat)/[cheat.sh](https://github.com/chubin/cheat.sh)/[navi](https://github.com/denisidoro/navi)?
 - [ ] Combine desktop/Laptop - The only differences are tlp, I think. Maybe it could just be handled as a 'small' toggle...
 - [ ] Add host-options: VM, wsl, 
+- [ ] preconfigure pinentry for rbw (`pinentry-tty`)
+
+## Pre-build
+### agenix
+
+## Post build
+
+### rbw
+_Bitwarden commandline client_
+
+After build, `rbw` is configured using the following commands:
+`rbw config set email <user-email>`
 

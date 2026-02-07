@@ -7,7 +7,7 @@ in
     enable = lib.mkEnableOption "Enable greetd display manager";
     sessionCommand = lib.mkOption {
       type = lib.types.str;
-      default = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
+      default = "${pkgs.tuigreet}/bin/tuigreet --time --remember --cmd start-hyprland";
       description = "Command for default greetd session";
     };
   };

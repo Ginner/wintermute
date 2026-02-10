@@ -14,20 +14,8 @@
         conceal = false;
       };
       mappings = {
-        MkdnCreateLink = {
-          key = "<leader>ln";
-          modes = [
-            "n"
-          ];
-        };
-        MkdnEnter = {
-          key = "<CR>";
-          modes = [
-            "i"
-            "n"
-            "v"
-          ];
-        };
+        MkdnCreateLink = "<leader>ln";
+        MkdnEnter = "<CR>";
       };
       to_do.symbols = [
         " "

@@ -4,7 +4,8 @@ let
   host = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILynUYr3LVtwmRZUGvaT8hLX8hSxp15D8cx98i1gnz3x";
   
   # User key (ginner's key)
-  user = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHCOLe1UXRrkVahNDo+L5NwLMAwaX3X97tD8RqSHFLaNAAAABHNzaDo=";
+  # user = "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIHCOLe1UXRrkVahNDo+L5NwLMAwaX3X97tD8RqSHFLaNAAAABHNzaDo=";
+  # Key format not compatible.
   
   # Backup keys
   gerty = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDs3a6dwyLN6UjKt77bWU8QwYBbtJWFxY32jN3T3/C8s3ArmL0aT9TThm5Su2hfDcpBNXX4HmnZWGs8qeVu3ZTqdVQNj0J3tzuonS6HP5bxFrxA1SnGu+rV/3+YJqSgysK7SLlHMyjpoSR9rZBOm8M4RIJqNZi+Re+gH1KZEVZD1GmSr+N0vjFji/71uq+NsIVfmKUJ2B90JWN2xJDHaBbr4iLvxzmMLUv6Q+3/ttvhBsd9z6zwU/wYaK5Q29p+MD++MIgHNPNCVmH8oMr48SFCZLI97ugp7zA2qJrs7aA/IbnN5t0Gkkit4UQaZUJAzUih4hzcYU94dCtCQfpl1gefeheQqRedPQdynwq5kKvJAyffCqLXzWYQzhgsVVIRo6b2D/DrfRDUUU2yABjQYB2TOpHyf8KF6VzHhDuYsr36gDSRlMnkp0/0/iF15Ih1E4Zv8qZLgqxh6R15/V3k5Y7g/8u6wi9Q8ymE0R8Iji8pYy4KGmm9YRxgW8ZDQfVt02M=";
@@ -12,12 +13,12 @@ let
 in
 {
   # Work email account secrets
-  "email-work-address.age".publicKeys = [ host user gerty backup ];
-  "email-work-realname.age".publicKeys = [ host user gerty backup ];
-  "email-work-rbw-key.age".publicKeys = [ host user gerty backup ];
+  "email-work-address.age".publicKeys = [ host gerty backup ];
+  "email-work-realname.age".publicKeys = [ host gerty backup ];
+  "email-work-rbw-key.age".publicKeys = [ host gerty backup ];
   
   # Private email account secrets
-  "email-private-address.age".publicKeys = [ host user gerty backup ];
-  "email-private-realname.age".publicKeys = [ host user gerty backup ];
-  "email-private-rbw-key.age".publicKeys = [ host user gerty backup ];
+  "email-private-address.age".publicKeys = [ host gerty backup ];
+  "email-private-realname.age".publicKeys = [ host gerty backup ];
+  "email-private-rbw-key.age".publicKeys = [ host gerty backup ];
 }

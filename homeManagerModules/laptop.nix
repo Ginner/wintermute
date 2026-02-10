@@ -43,6 +43,11 @@ in
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
     # myHomeModules.cliPrograms.rbw.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.opencode.enable = lib.mkDefault false;
+    
+    # Email and contacts (optional, disabled by default)
+    myHomeModules.tuiPrograms.neomutt.enable = lib.mkDefault false;
+    myHomeModules.tuiPrograms.khard.enable = lib.mkDefault false;
+    myHomeModules.services.email-accounts.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules
@@ -51,7 +56,7 @@ in
       numbat    # Could be made into module
       pass-wayland # Use bitwardn as default instead
       calcurse  # Could be made into module
-      khard     # Could be made into module
+      # khard - now managed by tuiPrograms.khard module
       imagemagick
       pinentry-tty
       cheat     # Could be made into module

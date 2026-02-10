@@ -1,33 +1,35 @@
 { config, pkgs, lib, ... }:
 
+let
+  cfg = config.myHomeModules.tuiPrograms.neomutt;
+in
 {
   options.myHomeModules.tuiPrograms.neomutt = {
     enable = lib.mkEnableOption "neomutt TUI mail app";
+    
+    mailsyncCommand = lib.mkOption {
+      type = lib.types.str;
+      default = "mbsync -a";
+      description = "Command to sync all mail";
+    };
+    
+    enableKhard = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable khard integration for contacts";
+    };
   };
 
-  config = lib.mkIf config.myHomeModules.tuiPrograms.neomutt.enable {
+  config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      neomutt
-      isync   # mbsync
-      msmtp
-      rbw     # Depend on whether bitwarden is enabled, otherwise default to pass
+      # Mail clients are managed by accounts.email
+      # neomutt, isync (mbsync), msmtp, notmuch are auto-installed
       gnupg
-      notmuch
       lynx
-      khard
       urlscan
       w3m
-    ];
-    programs.notmuch = {
-      enable = true;
-      new.tags = [ "unread" "inbox" ];
-      new.ignore = [ ".mbsyncstate" ".uidvalidity" ];
-      search.excludeTags = [ "deleted" "spam" ];
-      maildir.synchronizeFlags = true;
-      extraConfig = {
-        database.path = "${config.xdg.dataHome}/mail";
-      };
-    };
+    ] ++ lib.optional config.myHomeModules.cliPrograms.rbw.enable pkgs.rbw;
+    
     programs.neomutt = {
       enable = true;
       vimKeys = true;
@@ -36,19 +38,35 @@
         shortPath = true;
         width = 28;
         visible = true;
-        format = "%D%* %?F? %F? %?N?%N/?%?S?%S?";
+        format = "%D%* %?F? %F? %?N?%N/?%?S?%S?";
       };
       settings = {
         nobeep = true;
         allow_ansi = true;
-        status_chars = " ";
+        status_chars = " ";
         date_format = "%Y.%m.%d %H:%M";
-        index_format = "%3C %Z %?X?& ? %D %-20.20F %s";
+        index_format = "%3C %Z %?X?& ? %D %-20.20F %s";
         sidebar_divider_char = " | ";   # Character used as divider between sidebar and panels
         sidebar_indent_string = "  ";   # Indent mailboxes this amount
         sidebar_next_new_wrap = "yes" ;    # Should search wrap around when it reaches the end of the list?
         sidebar_sort_method = "unsorted";    # ['unsorted'] Method for sorting the mailboxes
         markers = false;
+        
+        # Migrated from extraConfig
+        use_threads = "threads";
+        sort = "reverse-last-date";
+        sort_aux = "reverse-last-date";
+        uncollapse_jump = true;
+        sort_re = true;
+        charset = "utf-8";
+        send_charset = "utf-8:iso-8859-1:us-ascii";
+        pager_index_lines = 15;
+        pager_context = 3;
+        pager_stop = true;
+        menu_scroll = true;
+        tilde = true;
+        abort_key = "<Esc>";
+        mail_check_stats = true;
       };
       binds = [
         { action = "noop"; key = "\\Ck"; map = [ "index" "pager" ]; }
@@ -72,36 +90,19 @@
       extraConfig = ''
         #
         # Statusbar, date format, finding stuff etc.
-        # set status_chars = " "               # Mailbox status symbols, called with '%r'. 'mailbox is unchanged', 'mailbox has changed and needs to be synced', 'mailbox is read-only', 'attach message mode'
-        set to_chars = " "        # 'not adressed to your address', 'you are the only recipient', 'multiple recipient', 'you are cc', 'sent by you', 'mailing list', 'address in reply-to'
-        set crypt_chars = " "       # Encryption status symbols, 'signed and verified', 'pgp encrypted', 'signed', 'contains public key', 'no crypto info'
-        set flag_chars = " "  # 'tagged', 'important', 'flagged for deletion', 'attachment flagged for deletion', 'replied to', 'old - unread but seen', 'new mail', 'old thread', 'new tread', 'the mail is read'(%S), 'the mail is read' (%Z)
+        # set status_chars = " "               # Mailbox status symbols, called with '%r'. 'mailbox is unchanged', 'mailbox has changed and needs to be synced', 'mailbox is read-only', 'attach message mode'
+        set to_chars = " "        # 'not adressed to your address', 'you are the only recipient', 'multiple recipient', 'you are cc', 'sent by you', 'mailing list', 'address in reply-to'
+        set crypt_chars = " "       # Encryption status symbols, 'signed and verified', 'pgp encrypted', 'signed', 'contains public key', 'no crypto info'
+        set flag_chars = " "  # 'tagged', 'important', 'flagged for deletion', 'attachment flagged for deletion', 'replied to', 'old - unread but seen', 'new mail', 'old thread', 'new tread', 'the mail is read'(%S), 'the mail is read' (%Z)
         set status_format = "%*-  %D%r  %m messages%?n? (%n new)?%?d? (%d to delete)?%?t? (%t tagged)?  %?p?(  ---  %p postponed  )?%*-"
 
         # Allow showing longer attachment file-names (180)
         set attach_format = "%u%D%I %t%4n %T%.180d%> [%.7m/%.10M, %.6e%?C?, %C?, %s] "
 
-        set use_threads=threads
-        set sort=reverse-last-date
-        set sort_aux=reverse-last-date   # this one is already the default
-        set uncollapse_jump
-        set sort_re
-        set charset = "utf-8"
-        set send_charset = "utf-8:iso-8859-1:us-ascii"
-        
-        # Pager View Options
-        set pager_index_lines = 15
-        set pager_context = 3
-        set pager_stop
-        set menu_scroll
-        set tilde
-        set abort_key = "<Esc>"     # Set environment variable ESCDELAY=0 to avoid a 1 second delay
-        
         # Additional sidebar settings (see whether programs.neomutt.settings works)
         # set sidebar_divider_char = " | "    # Character used as divider between sidebar and panels
         # set sidebar_indent_string = '  '    # Indent mailboxes this amount
         # set sidebar_sort_method = 'unsorted'    # ['unsorted'] Method for sorting the mailboxes
-        set mail_check_stats
         
         # color sidebar_divider brightwhite default
         # color sidebar_flagged default default
@@ -118,20 +119,38 @@
         
         # the programs.neomutt.macros/binds unfortunately doesn't allow for descriptions/helptex. I'll keep most here for now
         macro attach s "<save-entry><bol>$HOME/Downloads/<eol>" "Save to Downloads folder"
-        macro index,pager U '<enter-command>set pipe_decode = yes<enter><pipe-message>urlscan<enter><enter-command>set pipe_decode = no<enter>' "view URLs"
         
-        # Abook
-        set query_command= "abook --config ~/.config/abook/abookrc --datafile ~/.contacts/abook/addressbook-private --mutt-query '%s'"
-        macro index,pager a "<pipe-message>abook --config ~/.config/abook/abookrc --datafile ~/.contacts/abook/addressbook-private --add-email-quiet<return>" "Add this sender to Abook"
-        
-        source /home/ginner/.config/mutt/accounts/1-6inner@gmail.com.muttrc
-        macro index,pager i1 '<sync-mailbox><enter-command>source /home/ginner/.config/mutt/accounts/1-6inner@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to 6inner@gmail.com"
-        macro index,pager i2 '<sync-mailbox><enter-command>source /home/ginner/.config/mutt/accounts/2-ginnersjov@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to ginnersjov@gmail.com"
-        
-        macro index,pager i3 '<sync-mailbox><enter-command>source /home/ginner/.config/mutt/accounts/3-ginnerskov86@gmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to ginnerskov86@gmail.com"
-        
-        macro index,pager i4 '<sync-mailbox><enter-command>source /home/ginner/.config/mutt/accounts/morten@ginnerskov.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to morten@ginnerskov.com"
-        macro index,pager i5 '<sync-mailbox><enter-command>source /home/ginner/.config/mutt/accounts/ginner@startmail.com.muttrc<enter><change-folder>!<enter>;<check-stats>' "switch to ginner@startmail.com"
+        # Khard integration for contacts
+        ${lib.optionalString cfg.enableKhard ''
+          set query_command = "khard email --parsable '%s'"
+          macro index,pager a "<pipe-message>khard add-email<return>" "add sender to khard contacts"
+        ''}
+
+        # Account switching macros - dynamically generated from accounts.email
+        ${let
+          accounts = config.accounts.email.accounts;
+          # Map account names to macro keys and display names
+          accountMacros = {
+            "work" = { key = "1"; name = "Work"; };
+            "private" = { key = "2"; name = "Private"; };
+          };
+        in lib.concatStringsSep "\n" (lib.mapAttrsToList (accountName: macro:
+          let
+            account = accounts.${accountName} or null;
+          in lib.optionalString (account != null) ''
+            macro index,pager i${macro.key} '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/${accountName}<enter><change-folder>!<enter>;<check-stats>' "switch to ${macro.name}"
+          ''
+        ) accountMacros)}
+
+        # Source primary account at startup
+        ${let
+          primaryAccountName = lib.findFirst 
+            (name: config.accounts.email.accounts.${name}.primary or false) 
+            null 
+            (lib.attrNames config.accounts.email.accounts);
+        in lib.optionalString (primaryAccountName != null) ''
+          source ${config.xdg.configHome}/neomutt/${primaryAccountName}
+        ''}
 
         ### From mutt-wizard:
         set mime_type_query_command = "file --mime-type -b %s"
@@ -198,11 +217,7 @@ macro index,pager ga "<change-folder>=Archive<enter>" "go to archive"
 macro index,pager Ma ";<save-message>=Archive<enter>" "move mail to archive"
 macro index,pager Ca ";<copy-message>=Archive<enter>" "copy mail to archive"
 
-macro index \eg "<enter-command>unset wait_key<enter><shell-escape>gpg --list-secret-keys; printf 'Enter email ID of user to publish: '; read eID; printf 'Enter fingerprint of GPG key to publish: '; read eFGPT; $prefix/libexec/gpg-wks-client --create \\\$eFGPT \\\$eID | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>"  "publish GPG key to WKS provider"
-macro index \eh "<pipe-message>$prefix/libexec/gpg-wks-client --receive | msmtp --read-envelope-from --read-recipients -a $fulladdr<enter>" "confirm GPG publication"
-
-macro index,pager a "<enter-command>set my_pipe_decode=\$pipe_decode pipe_decode<return><pipe-message>abook --add-email<return><enter-command>set pipe_decode=\$my_pipe_decode; unset my_pipe_decode<return>" "add the sender address to abook"
-macro index O "<shell-escape>mailsync<enter>" "run mailsync to sync all mail"
+macro index O "<shell-escape>${cfg.mailsyncCommand}<enter>" "run mailsync to sync all mail"
 macro index \Cf "<enter-command>unset wait_key<enter><shell-escape>printf 'Enter a search term to find with notmuch: '; read x; echo \$x >\"\${XDG_CACHE_HOME:-\$HOME/.cache}/mutt_terms\"<enter><limit>~i \"\`notmuch search --output=messages \$(cat \"\${XDG_CACHE_HOME:-\$HOME/.cache}/mutt_terms\") | head -n 600 | perl -le '@a=<>;s/\^id:// for@a;$,=\"|\";print@a' | perl -le '@a=<>; chomp@a; s/\\+/\\\\+/g for@a; s/\\$/\\\\\\$/g for@a;print@a' \`\"<enter>" "show only messages matching a notmuch pattern"
 macro index A "<limit>all\n" "show all messages (undo limit)"
 

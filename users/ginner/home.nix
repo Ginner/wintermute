@@ -1,46 +1,71 @@
 { config, pkgs, inputs, lib, ... }:
 
 let
-  # Helper function to read secrets and strip newlines
-  readSecret = path: lib.removeSuffix "\n" (builtins.readFile path);
+  # Import email configuration from external file (outside git repo)
+  # Location: ~/.config/nixos-secrets/email-config.nix
+  # Template: users/ginner/email-config.template.nix
+  emailConfigPath = "${config.home.homeDirectory}/.config/nixos-secrets/email-config.nix";
+  
+  # Provide placeholder values if external config doesn't exist (with warning)
+  emailConfig = 
+    if builtins.pathExists emailConfigPath
+    then import emailConfigPath
+    else (
+      builtins.trace ''
+        WARNING: Email configuration not found at ${emailConfigPath}
+        
+        Using placeholder values. To set up your email accounts:
+          1. mkdir -p ~/.config/nixos-secrets
+          2. cp users/ginner/email-config.template.nix ~/.config/nixos-secrets/email-config.nix
+          3. Edit ~/.config/nixos-secrets/email-config.nix with your real values
+          4. Rebuild: sudo nixos-rebuild switch --flake .#BISHOP
+      ''
+      {
+        work = {
+          address = "placeholder-work@example.com";
+          realName = "Work Account Placeholder";
+          passwordCommand = "echo 'PLACEHOLDER_PASSWORD'";
+        };
+        private = {
+          address = "placeholder-private@example.com";
+          realName = "Private Account Placeholder";
+          passwordCommand = "echo 'PLACEHOLDER_PASSWORD'";
+        };
+      }
+    );
 in
 {
-  # Import user-specific secrets
-  age.secrets = {
-    email-work-address.file = ./.secrets/email-work-address.age;
-    email-work-realname.file = ./.secrets/email-work-realname.age;
-    email-work-rbw-key.file = ./.secrets/email-work-rbw-key.age;
-    email-private-address.file = ./.secrets/email-private-address.age;
-    email-private-realname.file = ./.secrets/email-private-realname.age;
-    email-private-rbw-key.file = ./.secrets/email-private-rbw-key.age;
-  };
-
   # Enable email services (infrastructure only, accounts defined below)
   myHomeModules.services.email-accounts.enable = true;
   myHomeModules.tuiPrograms.neomutt.enable = true;
   myHomeModules.tuiPrograms.khard.enable = true;
 
-  # Define email accounts with encrypted data
+  # Define email accounts from external configuration
   accounts.email.accounts = {
     "work" = {
       primary = true;
-      address = readSecret config.age.secrets.email-work-address.path;
-      userName = readSecret config.age.secrets.email-work-address.path;
-      realName = readSecret config.age.secrets.email-work-realname.path;
-      passwordCommand = "rbw get '${readSecret config.age.secrets.email-work-rbw-key.path}'";
+      address = emailConfig.work.address;
+      userName = emailConfig.work.address;
+      realName = emailConfig.work.realName;
+      passwordCommand = emailConfig.work.passwordCommand;
       
+      # IMAP settings for StartMail
       imap = {
         host = "imap.startmail.com";
         port = 993;
-        tls.enable = true;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
       };
       
+      # SMTP settings for StartMail
       smtp = {
         host = "smtp.startmail.com";
         port = 465;
         tls = {
           enable = true;
-          useStartTls = false;  # Port 465 uses implicit TLS
+          useStartTls = false;
         };
       };
       
@@ -49,7 +74,6 @@ in
         sent = "Sent";
         drafts = "Drafts";
         trash = "Trash";
-        junk = "Junk";
       };
       
       neomutt = {
@@ -73,17 +97,22 @@ in
     
     "private" = {
       primary = false;
-      address = readSecret config.age.secrets.email-private-address.path;
-      userName = readSecret config.age.secrets.email-private-address.path;
-      realName = readSecret config.age.secrets.email-private-realname.path;
-      passwordCommand = "rbw get '${readSecret config.age.secrets.email-private-rbw-key.path}'";
+      address = emailConfig.private.address;
+      userName = emailConfig.private.address;
+      realName = emailConfig.private.realName;
+      passwordCommand = emailConfig.private.passwordCommand;
       
+      # IMAP settings for StartMail
       imap = {
         host = "imap.startmail.com";
         port = 993;
-        tls.enable = true;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
       };
       
+      # SMTP settings for StartMail
       smtp = {
         host = "smtp.startmail.com";
         port = 465;
@@ -98,7 +127,6 @@ in
         sent = "Sent";
         drafts = "Drafts";
         trash = "Trash";
-        junk = "Junk";
       };
       
       neomutt = {

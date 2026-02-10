@@ -37,12 +37,11 @@ in
         enable = true;
         shortPath = true;
         width = 28;
-        visible = true;
         format = "%D%* %?F? %F? %?N?%N/?%?S?%S?";
       };
       settings = {
-        nobeep = true;
-        allow_ansi = true;
+        nobeep = "yes";
+        allow_ansi = "yes";
         status_chars = " ";
         date_format = "%Y.%m.%d %H:%M";
         index_format = "%3C %Z %?X?& ? %D %-20.20F %s";
@@ -50,23 +49,23 @@ in
         sidebar_indent_string = "  ";   # Indent mailboxes this amount
         sidebar_next_new_wrap = "yes" ;    # Should search wrap around when it reaches the end of the list?
         sidebar_sort_method = "unsorted";    # ['unsorted'] Method for sorting the mailboxes
-        markers = false;
+        markers = "no";
         
         # Migrated from extraConfig
         use_threads = "threads";
         sort = "reverse-last-date";
         sort_aux = "reverse-last-date";
-        uncollapse_jump = true;
-        sort_re = true;
+        uncollapse_jump = "yes";
+        sort_re = "yes";
         charset = "utf-8";
         send_charset = "utf-8:iso-8859-1:us-ascii";
-        pager_index_lines = 15;
-        pager_context = 3;
-        pager_stop = true;
-        menu_scroll = true;
-        tilde = true;
+        pager_index_lines = "15";
+        pager_context = "3";
+        pager_stop = "yes";
+        menu_scroll = "yes";
+        tilde = "yes";
         abort_key = "<Esc>";
-        mail_check_stats = true;
+        mail_check_stats = "yes";
       };
       binds = [
         { action = "noop"; key = "\\Ck"; map = [ "index" "pager" ]; }

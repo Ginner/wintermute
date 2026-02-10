@@ -38,3 +38,11 @@ After build, `rbw` is configured using the following commands:
 
 ### OpenCode
 Start opencode and do `/connect` and connect to the API of choice. 
+
+## Email (neomutt)
+`agenix` secrets not available at build time + files not tracked by `git` not 'seen' by Nix → Manual steps:
+```
+mkdir -p ~/.config/nixos-secrets
+cp users/ginner/email-config.template.nix ~/.config/nixos-secrets/email-config.nix
+nvim ~/.config/nixos-secrets/email-config.nix
+```

@@ -4,6 +4,7 @@
   imports = [
     ./cliPrograms
     ./guiPrograms
+    ./services
     ./tuiPrograms
     ./laptop.nix
   ];

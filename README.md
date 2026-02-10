@@ -1,5 +1,13 @@
 # LT·HL OS
 
+## Host-specific configuration
+`./hosts/<HOSTNAME/[configuration.nix,home.nix]`
+Intended for at per-host (each computer) configuration. This should reflect the intended use of the host.
+
+## User-specific configuration
+`./users/<username>/[configuration.nix,home.nix]`
+Intended for per-user configuration.
+
 ## Laptop module
 Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
 

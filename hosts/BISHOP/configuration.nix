@@ -9,6 +9,7 @@
       inputs.home-manager.nixosModules.default
       inputs.xremap-flake.nixosModules.default
       ../../nixosModules
+      ../../users/ginner  # User-specific NixOS config
     ];
 
   # Use the systemd-boot EFI boot loader.

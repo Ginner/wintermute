@@ -1,38 +1,14 @@
 { config, pkgs, inputs, lib, ... }:
 
 let
-  # Import email configuration from external file (outside git repo)
-  # Location: ~/.config/nixos-secrets/email-config.nix
+  # Import email configuration from git-ignored file
+  # Location: users/ginner/email-config.nix (in repo but git-ignored)
   # Template: users/ginner/email-config.template.nix
-  emailConfigPath = "${config.home.homeDirectory}/.config/nixos-secrets/email-config.nix";
-  
-  # Provide placeholder values if external config doesn't exist (with warning)
-  emailConfig = 
-    if builtins.pathExists emailConfigPath
-    then import emailConfigPath
-    else (
-      builtins.trace ''
-        WARNING: Email configuration not found at ${emailConfigPath}
-        
-        Using placeholder values. To set up your email accounts:
-          1. mkdir -p ~/.config/nixos-secrets
-          2. cp users/ginner/email-config.template.nix ~/.config/nixos-secrets/email-config.nix
-          3. Edit ~/.config/nixos-secrets/email-config.nix with your real values
-          4. Rebuild: sudo nixos-rebuild switch --flake .#BISHOP
-      ''
-      {
-        work = {
-          address = "placeholder-work@example.com";
-          realName = "Work Account Placeholder";
-          passwordCommand = "echo 'PLACEHOLDER_PASSWORD'";
-        };
-        private = {
-          address = "placeholder-private@example.com";
-          realName = "Private Account Placeholder";
-          passwordCommand = "echo 'PLACEHOLDER_PASSWORD'";
-        };
-      }
-    );
+  #
+  # IMPORTANT: After creating email-config.nix, run:
+  #   git add -N users/ginner/email-config.nix
+  # This makes the file visible to Nix without committing its content.
+  emailConfig = import ./email-config.nix;
 in
 {
   # Enable email services (infrastructure only, accounts defined below)

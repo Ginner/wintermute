@@ -1,21 +1,24 @@
 # Email account configuration template
 # 
-# LOCATION: This file should be placed at:
-#   ~/.config/nixos-secrets/email-config.nix
+# LOCATION: This file should be copied to:
+#   users/ginner/email-config.nix (in repo but git-ignored)
 # 
 # SETUP INSTRUCTIONS:
-#   1. Create the directory and copy this template:
-#      mkdir -p ~/.config/nixos-secrets
-#      cp users/ginner/email-config.template.nix ~/.config/nixos-secrets/email-config.nix
+#   1. Copy this template:
+#      cp users/ginner/email-config.template.nix users/ginner/email-config.nix
 #   
 #   2. Edit with your real values:
-#      $EDITOR ~/.config/nixos-secrets/email-config.nix
+#      $EDITOR users/ginner/email-config.nix
 #   
-#   3. Rebuild your system:
+#   3. Make visible to Nix without committing content:
+#      git add -N -f users/ginner/email-config.nix
+#   
+#   4. Rebuild your system:
 #      sudo nixos-rebuild switch --flake .#BISHOP
 #
-# This file is NEVER in git and contains your actual email addresses.
-# The file location is outside the NixOS config repo to avoid any git tracking.
+# This file is git-ignored so your actual email addresses are never committed.
+# The 'git add -N' command makes the file visible to Nix flake evaluation
+# without staging its content for commit.
 #
 # Password command options:
 # - rbw (Bitwarden): "rbw get 'Email - account@example.com'"

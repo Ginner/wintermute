@@ -13,15 +13,16 @@
         bib = false;
         conceal = false;
       };
-      mappings = {
-        MkdnCreateLink = "<leader>ln";
-        MkdnEnter = "<CR>";
-      };
       to_do.symbols = [
         " "
         "/"
         "x"
       ];
+      mappings = {
+        MkdnCreateLink = [ [ "n" ] "<leader>ln" ];
+        MkdnEnter = [ [ "i" "n" "v" ] "<cr>" ];
+        MkdnToggleToDo = [ ["n" "i"] "<c-space>" ];
+        };
+      };
     };
-  };
 }

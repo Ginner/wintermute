@@ -47,7 +47,6 @@ in
             icon = "https://startpage.com/favicon.ico";
           };
         };
-
       };
     };
 
@@ -104,6 +103,21 @@ in
           installation_mode = "normal_installed";
           default_area = "menupanel";
         };
+        "darkreaderapp@gmail.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # "sienori.firefox+tsm@gmail.com" = {
+        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/tab-session-manager/latest.xpi";
+        #   installation_mode = "normal_installed";
+        #   default_area = "menupanel";
+        # };
+        # "@testpilot-containers" = {
+        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi_account_containers/latest.xpi";
+        #   installation_mode = "normal_installed";
+        #   default_area = "menupanel";
+        # };
       };
   
       /* ---- PREFERENCES ---- */

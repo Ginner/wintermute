@@ -29,12 +29,20 @@ in
           edit = [
             { run = ''kitty --detach nvim "$@"''; block = false; orphan = true; for = "linux"; }
           ];
+          pdf = [
+            { run = ''${pkgs.zathura}/bin/zathura "$1"''; block = false; orphan = true; for = "linux"; }
+          ];
+          image = [
+            { run = ''${pkgs.swayimg}/bin/swayimg "$1"''; block = false; orphan = true; for = "linux"; }
+          ];
           open = [
             { run = '' ${pkgs.xdg-utils}/bin/xdg-open "$1"''; block = false; orphan = true; }
           ];
         };
         open.rules = [
             { mime = "text/*"; use = [ "edit" "reveal" ]; }
+            { mime = "application/pdf"; use = [ "pdf" "reveal" ]; }
+            { mime = "image/*"; use = [ "image" "reveal" ]; }
           ];
       };
     };

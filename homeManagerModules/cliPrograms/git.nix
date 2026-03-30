@@ -14,6 +14,7 @@ in
       settings = {
         init.defaultBranch = "main";
       };
+      signing.format = "openpgp";
     };
   };
 }

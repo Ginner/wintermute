@@ -45,9 +45,7 @@ in
             { mime = "image/*"; use = [ "image" "reveal" ]; }
           ];
       };
-    };
-    home.shellAliases = {
-      y = "yazi";
+      shellWrapperName = "y";
     };
     stylix.targets.yazi.enable = true;
   };

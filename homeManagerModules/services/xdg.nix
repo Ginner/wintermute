@@ -21,6 +21,7 @@
     xdg.userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
       download = "${config.home.homeDirectory}/INBOX";
       music = "${config.home.homeDirectory}/MEDIA/Music";
       videos = "${config.home.homeDirectory}/MEDIA/Videos";

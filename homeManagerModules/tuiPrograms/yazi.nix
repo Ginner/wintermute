@@ -20,9 +20,13 @@ in
       enableZshIntegration = cfg.enableZshIntegration;
       plugins = { smart-enter = pkgs.yaziPlugins.smart-enter; };
       keymap = {
-        mgr.prepend_keymap = [
-          { on = "l"; run = "plugin smart-enter"; desc = "Enter child dir or open file"; }
-        ];
+        mgr = {
+          prepend_keymap = [
+            { on = "l"; run = "plugin smart-enter"; desc = "Enter child dir or open file"; }
+            { on = ["g" "I"]; run = "cd ~/INBOX"; desc = "Go to ~/INBOX"; }
+          ];
+          ratio = [ 1 3 4 ];
+        };
       };
       settings = {
         opener = {

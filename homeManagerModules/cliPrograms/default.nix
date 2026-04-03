@@ -4,7 +4,6 @@
     ./cli-tools.nix
     ./direnv.nix
     ./git.nix
-    ./kanshi.nix
     ./kitty.nix
     ./latex.nix
     ./rbw.nix

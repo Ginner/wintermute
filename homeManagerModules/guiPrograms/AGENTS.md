@@ -1,4 +1,4 @@
-# CLAUDE.md — homeManagerModules/guiPrograms/
+# AGENTS.md — homeManagerModules/guiPrograms/
 
 GUI programs requiring a Wayland compositor. All modules here assume Hyprland as the compositor unless noted.
 
@@ -12,7 +12,7 @@ GUI programs requiring a Wayland compositor. All modules here assume Hyprland as
 
 | File | Option path | Description |
 |---|---|---|
-| ags.nix | `myHomeModules.guiPrograms.ags` | Aylur's GTK Shell (widget system) |
+| ags.nix | `myHomeModules.guiPrograms.ags` | Aylur's GTK Shell (widget system) — enabled by laptop bundle |
 | firefox.nix | `myHomeModules.guiPrograms.firefox` | Firefox browser |
 | hyprland.nix | `myHomeModules.guiPrograms.hyprland` | Hyprland compositor + hyprlock + hypridle |
 | inkscape.nix | `myHomeModules.guiPrograms.inkscape` | Vector graphics editor |
@@ -21,7 +21,7 @@ GUI programs requiring a Wayland compositor. All modules here assume Hyprland as
 | stylix.nix | `myHomeModules.guiPrograms.stylix` | HM-level Stylix theming |
 | swayimg.nix | `myHomeModules.guiPrograms.swayimg` | Image viewer (Wayland-native) |
 | walker.nix | `myHomeModules.guiPrograms.walker` | Application launcher |
-| waybar.nix | *(no option gate)* | Status bar for Hyprland |
+| waybar.nix | `myHomeModules.guiPrograms.waybar` | Status bar for Hyprland |
 | zathura.nix | `myHomeModules.guiPrograms.zathura` | PDF/document viewer |
 
 ## Wayland/Hyprland-specific conventions
@@ -48,15 +48,11 @@ Separate from `nixosModules/shared/stylix.nix`. Exposes:
 - `enable` (mkEnableOption)
 - `image` (path, default `../../assets/default.jpg`)
 
-Uses catppuccin-frappe color scheme (different from the system-level google-dark default). BISHOP overrides `image` in `hosts/BISHOP/home.nix`.
+When enabled, overrides `stylix.image` at the HM level. The NixOS-level `stylix.nixosModules.stylix` (in `flake.nix`) is the authoritative source for all Stylix settings; this module only overrides the wallpaper. Enabling `stylix.enable` from the HM side is intentionally avoided to prevent option conflicts with the NixOS module. BISHOP overrides `image` in `hosts/BISHOP/home.nix`.
 
-**Note**: Both NixOS-level and HM-level Stylix modules are active on BISHOP. This works because Stylix supports both levels, but the NixOS-level settings take precedence for system-level targets.
+## waybar.nix
 
-## waybar.nix — not option-gated
-
-`waybar.nix` does not follow the `myHomeModules.*.enable` pattern. It directly sets `programs.waybar.enable = true` and provides a full config. Adding this module to the import list unconditionally activates waybar. This is inconsistent with all other modules. The laptop bundle explicitly disables Stylix for waybar (`stylix.targets.waybar.enable = false`).
-
-The waybar config is hardcoded for BISHOP (output = `"eDP-1"`).
+Follows the standard `myHomeModules.guiPrograms.waybar.enable` pattern. The laptop bundle enables it with `mkDefault true`. Exposes an `output` option (default `"eDP-1"`) so hosts can override which monitor waybar is anchored to.
 
 ## MIME associations
 

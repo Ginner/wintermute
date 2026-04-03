@@ -1,4 +1,4 @@
-# CLAUDE.md — hosts/BISHOP/
+# AGENTS.md — hosts/BISHOP/
 
 ## Hardware
 
@@ -49,7 +49,6 @@ The laptop bundle detects AMD CPU via `config.hardware.cpu.amd.updateMicrocode` 
 
 - The elan touchpad is explicitly disabled in Hyprland (`"device[elan06c2:00-04f3:3195-touchpad]".enabled = false`)
 - Hyprland config has a hardcoded TODO comment noting that device config "has to be handled in host configurations" — this is a known issue; device-specific Hyprland settings are currently in the shared `homeManagerModules/guiPrograms/hyprland.nix`
-- `configuration.nix` imports `inputs.home-manager.nixosModules.default` locally even though home-manager is already a module in `flake.nix`. Harmless duplicate; noted in root CLAUDE.md.
 - `configuration.nix` imports `inputs.xremap-flake.nixosModules.default` directly (not via nixosModules system)
 
 ## Quirks for future maintenance

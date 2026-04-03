@@ -1,4 +1,4 @@
-# CLAUDE.md — nixosModules/
+# AGENTS.md — nixosModules/
 
 System-level NixOS modules. All modules are imported unconditionally by `default.nix` but are **opt-in by default** — each module's config block is gated behind an `enable` option.
 
@@ -10,8 +10,8 @@ nixosModules/
   laptop.nix        ← bundle: enables groups of modules for a laptop
   desktop.nix       ← bundle: enables groups of modules for a desktop
   server.nix        ← bundle: enables groups of modules for a server
-  services/         ← daemon-level services (see services/CLAUDE.md)
-  programs/         ← system-level program configs (see programs/CLAUDE.md)
+  services/         ← daemon-level services; imported via services/default.nix (see services/AGENTS.md)
+  programs/         ← system-level program configs; imported via programs/default.nix (see programs/AGENTS.md)
   shared/
     stylix.nix      ← system-wide theming via Stylix (base16)
 ```
@@ -92,15 +92,14 @@ Modules must work for any host. No hardcoded:
 
 ## Import pattern
 
-`default.nix` imports all sub-modules. Adding a new module requires two steps:
-1. Create the `.nix` file
-2. Add it to the relevant `default.nix` (or `services/default.nix` / `programs/default.nix`)
+`default.nix` imports `./services`, `./programs`, `./shared/stylix.nix`, and the three bundle files. Services and programs are each collected by their own `default.nix`.
+
+Adding a new module requires two steps:
+1. Create the `.nix` file under `services/` or `programs/`
+2. Add it to the relevant `services/default.nix` or `programs/default.nix`
 
 Hosts do NOT import individual modules — they import `../../nixosModules` and everything comes in.
 
 ## Known issues / notes
 
-> **Note for developer**
-
-- `laptop.nix`, `desktop.nix`, and `server.nix` each have their own `imports = [./services ./programs ...]` blocks. These sub-directories are already imported by `nixosModules/default.nix`. This is redundant but harmless due to NixOS import deduplication.
-- `nixosModules/shared/stylix.nix` and `homeManagerModules/guiPrograms/stylix.nix` are two separate Stylix configurations with different default color schemes. The NixOS one (google-dark) is the primary one; the HM one (catppuccin-frappe) is a secondary override.
+No outstanding known issues.

@@ -1,4 +1,4 @@
-# CLAUDE.md — hosts/
+# AGENTS.md — hosts/
 
 Each subdirectory is one machine. The directory name is the hostname.
 

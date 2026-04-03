@@ -1,4 +1,4 @@
-# CLAUDE.md — homeManagerModules/
+# AGENTS.md — homeManagerModules/
 
 User-level Home Manager modules. Same option-gating philosophy as `nixosModules/` but for the user environment.
 
@@ -8,17 +8,17 @@ User-level Home Manager modules. Same option-gating philosophy as `nixosModules/
 homeManagerModules/
   default.nix       ← imports everything; defines myHomeModules.default and baseline HM config
   laptop.nix        ← HM bundle for laptop users
-  cliPrograms/      ← terminal tools with no display dependency
-  guiPrograms/      ← GUI programs requiring a display/compositor
-  tuiPrograms/      ← terminal UI programs (ncurses, full-screen TUIs)
-  services/         ← user-level services (xdg portals, email sync, etc.)
+  cliPrograms/      ← terminal tools with no display dependency (see cliPrograms/AGENTS.md)
+  guiPrograms/      ← GUI programs requiring a display/compositor (see guiPrograms/AGENTS.md)
+  tuiPrograms/      ← terminal UI programs (ncurses, full-screen TUIs) (see tuiPrograms/AGENTS.md)
+  services/         ← user-level services (xdg portals, email sync, etc.) (see services/AGENTS.md)
 ```
 
 ## default.nix
 
 Defines `myHomeModules.default.enable` (bool, default true). Gated behind it:
-- `home.username = lib.mkDefault "ginner"` ← **hardcoded; override in user's home.nix**
-- `home.homeDirectory = lib.mkDefault "/home/ginner"` ← **same**
+- `home.username = lib.mkDefault username` — derived from `extraSpecialArgs.username`, which hosts set to `config.userGlobals.username`
+- `home.homeDirectory = lib.mkDefault "/home/${username}"` — same
 - `home.preferXdgDirectories = true`
 - Default packages: `git`
 - Default module enables: `myHomeModules.cliPrograms.{git,ssh,zsh}.enable = mkDefault true`
@@ -28,7 +28,7 @@ Defines `myHomeModules.default.enable` (bool, default true). Gated behind it:
 ## laptop.nix (HM bundle)
 
 `myHomeModules.laptop.enable` enables the following with `mkDefault true`:
-- xdg, firefox, hyprland, kitty, zathura, wayland-tools, stylix, kanshi, swayimg, mpv, btop, cli-tools, starship, archive-tools, direnv, walker, yazi
+- xdg, ags, firefox, hyprland, kitty, zathura, wayland-tools, stylix, kanshi, swayimg, mpv, nixvim, btop, cli-tools, starship, archive-tools, direnv, walker, waybar, yazi
 
 Set to `mkDefault false` (available but opt-in):
 - inkscape, kde-connect, latex, ncspot, opencode, neomutt, khard, email-accounts
@@ -60,7 +60,7 @@ All `enable` defaults to false unless the bundle sets `mkDefault true`.
 |---|---|---|
 | cliPrograms/ | Shell tools, terminal emulator, SSH, git | No |
 | guiPrograms/ | Firefox, Hyprland, Waybar, Zathura, MPV, etc. | Yes (Wayland) |
-| tuiPrograms/ | Neovim (nixvim), btop, yazi, ncspot, neomutt | No |
+| tuiPrograms/ | Neovim (nixvim), btop, yazi, ncspot, neomutt, khard, opencode, tmux | No |
 | services/ | xdg portals, email accounts (mbsync/msmtp) | Mixed |
 
 ## Flake modules in HM
@@ -74,12 +74,4 @@ They arrive with `extraSpecialArgs = { inherit inputs; }` from `configuration.ni
 
 ## Known issues
 
-> **Note for developer**
-
-1. **Hardcoded username**: `default.nix` hardcodes `home.username = lib.mkDefault "ginner"`. A new user must override this in their `home.nix`.
-
-2. **waybar.nix is not option-gated**: `homeManagerModules/guiPrograms/waybar.nix` sets `programs.waybar.enable = true` directly with no `myHomeModules.guiPrograms.waybar.enable` option. This means waybar is always on when the HM modules are imported. The `laptop.nix` bundle explicitly disables stylix for waybar (`stylix.targets.waybar.enable = false`).
-
-3. **nixvim/default.nix is not option-gated**: `homeManagerModules/tuiPrograms/nixvim/default.nix` always sets `programs.nixvim.enable = true` with no enable guard. Nixvim is always active.
-
-4. **kanshi placement**: `kanshi` is in `cliPrograms/` but is a Wayland display management daemon. Its host-specific profiles are set directly in `hosts/BISHOP/home.nix` using `services.kanshi.settings`, bypassing any module option.
+No outstanding known issues.

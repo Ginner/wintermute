@@ -7,12 +7,6 @@ let
   user = config.userGlobals.username;
 in
 {
-  imports = [
-    ./services
-    ./programs
-    ./shared/stylix.nix
-  ];
-
   options.myModules.laptop = {
     enable = lib.mkEnableOption "Laptop-specific system configurations";
 

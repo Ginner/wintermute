@@ -1,4 +1,4 @@
-# CLAUDE.md — NixOS Flake Root
+# AGENTS.md — NixOS Flake Root
 
 ## What this repo is
 
@@ -106,16 +106,4 @@ nix eval .#nixosConfigurations.BISHOP.config.services.greetd.enable  # inspect
 
 ## Known issues / deviations from ideal architecture
 
-> **Note for developer**
-
-1. **Hardcoded username in HM default**: `homeManagerModules/default.nix` hardcodes `home.username = lib.mkDefault "ginner"`. This should be derived from `userGlobals` or passed via `extraSpecialArgs`. Currently, a new user must override this in their own `home.nix`.
-
-2. **waybar and nixvim not option-gated**: `homeManagerModules/guiPrograms/waybar.nix` and `homeManagerModules/tuiPrograms/nixvim/default.nix` do not follow the `myHomeModules.*.enable` pattern — they always enable when imported. This means importing the HM modules always activates them.
-
-3. **Duplicate home-manager import**: `hosts/BISHOP/configuration.nix` imports `inputs.home-manager.nixosModules.default` locally, but home-manager is already in `flake.nix` modules. NixOS deduplicates imports, so this works but is redundant.
-
-4. **Bundle import redundancy**: `nixosModules/laptop.nix`, `desktop.nix`, `server.nix` each have `imports = [./services ./programs ...]`, but these are already imported by `nixosModules/default.nix`. Harmless due to NixOS deduplication.
-
-5. **Dual stylix config**: Both `nixosModules/shared/stylix.nix` (system-level, google-dark scheme) and `homeManagerModules/guiPrograms/stylix.nix` (HM-level, catppuccin-frappe scheme) exist. The NixOS one is the authoritative one for system theming; the HM one appears to be a secondary configuration. BISHOP enables both.
-
-7. **kanshi in cliPrograms**: `kanshi` is placed under `cliPrograms/` but is a Wayland display configuration daemon. It arguably belongs in `services/` or `guiPrograms/`.
+No outstanding known issues.

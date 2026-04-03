@@ -1,4 +1,4 @@
-# CLAUDE.md — nixosModules/programs/
+# AGENTS.md — nixosModules/programs/
 
 System-level program configuration. A module belongs here if it configures a program that requires system-level enablement (setuid bits, PAM integration, `/etc/shells` registration, system-wide capabilities).
 
@@ -19,7 +19,7 @@ System-level program configuration. A module belongs here if it configures a pro
 
 ## Module conventions
 
-Same pattern as services — see `nixosModules/services/CLAUDE.md`.
+Same pattern as services — see `nixosModules/services/AGENTS.md`.
 
 **Observed patterns**:
 - `hyprland.nix`: uses the Hyprland package from `inputs.hyprland.packages.*`. Sets `services.xremap.withHypr = lib.mkDefault true` as a side effect.

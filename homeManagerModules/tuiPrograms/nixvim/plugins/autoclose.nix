@@ -1,10 +1,14 @@
+{ config, lib, ... }:
+
 {
-  programs.nixvim.plugins.autoclose = {
-    enable = true;
-    settings = {
-      keys = {
-        "'" = {
-          disabled_filetypes = [ "markdown" "latex" ];
+  config = lib.mkIf config.myHomeModules.tuiPrograms.nixvim.enable {
+    programs.nixvim.plugins.autoclose = {
+      enable = true;
+      settings = {
+        keys = {
+          "'" = {
+            disabled_filetypes = [ "markdown" "latex" ];
+          };
         };
       };
     };

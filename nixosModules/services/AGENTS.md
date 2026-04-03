@@ -1,4 +1,4 @@
-# CLAUDE.md — nixosModules/services/
+# AGENTS.md — nixosModules/services/
 
 System-level daemons and services. A module belongs here if it manages a running system process (`systemd` service, `udev` rule, kernel feature).
 
@@ -49,7 +49,7 @@ let cfg = config.myModules.services.<name>; in
 
 **Accessing the primary user**: Use `config.userGlobals.username` when the service needs to add the user to a group or create user-specific paths.
 
-**Using flake inputs in services**: Some services reference `inputs.xremap-flake.packages.*` (xremap.nix) or `inputs.rose-pine-hyprcursor` (stylix.nix). Declare `inputs` in the module's argument list and it arrives via `specialArgs`.
+**Using flake inputs in services**: Some services reference `inputs.xremap-flake.packages.*` (xremap.nix). Declare `inputs` in the module's argument list and it arrives via `specialArgs`. Note: `inputs.rose-pine-hyprcursor` is used in `nixosModules/shared/stylix.nix`, not in any file under `services/`.
 
 ## Adding a new service module
 

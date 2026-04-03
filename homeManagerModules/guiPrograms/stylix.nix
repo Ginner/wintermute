@@ -11,28 +11,9 @@
   };
 
   config = lib.mkIf config.myHomeModules.guiPrograms.stylix.enable {
-    stylix = {
-      enable = true;
-      image = config.myHomeModules.guiPrograms.stylix.image;
-      polarity = "dark";
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-frappe.yaml";
-      cursor = {
-        package = pkgs.rose-pine-cursor;
-        name = "BreezeX-RosePine-Linux";
-        size = 16;
-      };
-      fonts = {
-        monospace = {
-          package = pkgs.nerd-fonts.hack;
-          name = "Hack Nerd Font Mono";
-        };
-        sizes = {
-          terminal = 11;
-          desktop = 11;
-          applications = 11;
-          popups = 14;
-        };
-      };
-    };
+    # The NixOS-level stylix module (stylix.nixosModules.stylix in flake.nix)
+    # manages stylix.enable and all system-level targets.
+    # Here we only override HM-specific values that differ from the NixOS defaults.
+    stylix.image = config.myHomeModules.guiPrograms.stylix.image;
   };
 }

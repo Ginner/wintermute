@@ -5,10 +5,6 @@ let
   user = config.userGlobals.username;
 in
 {
-  imports = [
-    ./services/tailscale.nix
-  ];
-
   options.myModules.server = {
     enable = lib.mkEnableOption "Server-specific system configurations";
 

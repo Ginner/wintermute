@@ -1,4 +1,4 @@
-# CLAUDE.md — users/
+# AGENTS.md — users/
 
 Each subdirectory is one user. The directory name is the username.
 
@@ -43,11 +43,11 @@ User configs extend what the host/bundle already provides — they never disable
 
 | User | Notes |
 |---|---|
-| ginner | Primary user; email via neomutt, contacts via khard, opencode enabled |
+| ginner | Primary user; email via neomutt, contacts via khard, opencode enabled; rbw installed as raw package (module requires agenix secret not yet wired) |
 
-## Known issue
+## Known issues
 
-`homeManagerModules/default.nix` hardcodes `home.username = lib.mkDefault "ginner"`. A new user must override `home.username` and `home.homeDirectory` in their own `home.nix` or in the host's `home.nix`.
+No outstanding known issues.
 
 ## Adding a new user
 

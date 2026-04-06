@@ -18,7 +18,6 @@ in
     myHomeModules.cliPrograms.kitty.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.wayland-tools.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
     myHomeModules.services.kanshi.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.swayimg.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.mpv.enable = lib.mkDefault true;
@@ -59,9 +58,6 @@ in
       ffmpegthumbnailer
       poppler
     ];
-
-    # Disable stylix for waybar in laptop config
-    stylix.targets.waybar.enable = false;
 
     # Enable ssh connection multiplexing
     myHomeModules.cliPrograms.ssh.enableControlMaster = true;

@@ -11,8 +11,11 @@
   # Enable laptop home configuration
   myHomeModules.laptop.enable = true;
 
-  # Override stylix wallpaper for BISHOP
-  myHomeModules.guiPrograms.stylix.image = ../../assets/wall.jpeg;
+  # Override stylix wallpaper for BISHOP (NixOS module handles the rest via autoImport)
+  stylix.image = ../../assets/wall.jpeg;
+
+  # Waybar is managed manually; disable stylix auto-theming for it
+  stylix.targets.waybar.enable = false;
 
   # Host-specific display configuration
   services.kanshi.settings = [

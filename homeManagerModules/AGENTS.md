@@ -28,14 +28,13 @@ Defines `myHomeModules.default.enable` (bool, default true). Gated behind it:
 ## laptop.nix (HM bundle)
 
 `myHomeModules.laptop.enable` enables the following with `mkDefault true`:
-- xdg, ags, firefox, hyprland, kitty, zathura, wayland-tools, stylix, kanshi, swayimg, mpv, nixvim, btop, cli-tools, starship, archive-tools, direnv, walker, waybar, yazi
+- xdg, ags, firefox, hyprland, kitty, zathura, wayland-tools, kanshi, swayimg, mpv, nixvim, btop, cli-tools, starship, archive-tools, direnv, walker, waybar, yazi
 
 Set to `mkDefault false` (available but opt-in):
 - inkscape, kde-connect, latex, ncspot, opencode, neomutt, khard, email-accounts
 
 Direct config set by the bundle (not via module options):
 - Laptop-specific packages: taskfinder, newsboat, numbat, pass-wayland, calcurse, imagemagick, pinentry-tty, cheat, ffmpegthumbnailer, poppler
-- `stylix.targets.waybar.enable = false` (waybar managed separately)
 - `myHomeModules.cliPrograms.ssh.enableControlMaster = true`
 
 ## Option convention

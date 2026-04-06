@@ -20,6 +20,10 @@ Uses `myModules.laptop.enable = true` (NixOS) and `myHomeModules.laptop.enable =
 Additional services enabled at host level:
 - `myModules.services.tailscale.enable = true` (laptop bundle sets this to `mkDefault false`)
 
+HM-level overrides set directly in `home.nix`:
+- `stylix.image` — wallpaper path (NixOS module propagates the rest of the theme via autoImport)
+- `stylix.targets.waybar.enable = false` — waybar is themed manually, not by Stylix
+
 ## stateVersion
 
 - NixOS: `"24.11"` (`configuration.nix`)

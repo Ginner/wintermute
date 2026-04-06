@@ -18,7 +18,6 @@ GUI programs requiring a Wayland compositor. All modules here assume Hyprland as
 | inkscape.nix | `myHomeModules.guiPrograms.inkscape` | Vector graphics editor |
 | kde-connect.nix | `myHomeModules.guiPrograms.kde-connect` | KDE Connect HM-side config |
 | mpv.nix | `myHomeModules.guiPrograms.mpv` | Video player |
-| stylix.nix | `myHomeModules.guiPrograms.stylix` | HM-level Stylix theming |
 | swayimg.nix | `myHomeModules.guiPrograms.swayimg` | Image viewer (Wayland-native) |
 | walker.nix | `myHomeModules.guiPrograms.walker` | Application launcher |
 | waybar.nix | `myHomeModules.guiPrograms.waybar` | Status bar for Hyprland |
@@ -40,15 +39,17 @@ This is the largest and most complex HM module. It contains:
 
 **Known issue**: Device-specific input settings (TrackPoint sensitivity, touchpad disable) are hardcoded in this module with a TODO comment noting they should be in host configs. These BISHOP-specific settings will apply to any host using this module.
 
-**startupPrograms option**: exposes `startupPrograms` (list of strings, default `["waybar" "mako"]`) but the actual startup script uses the same two hardcoded programs. The option is not wired through.
+**startupPrograms option**: exposes `startupPrograms` (list of strings, default `["waybar" "mako"]`), wired through to the startup script.
 
-## stylix.nix (HM-level)
+## Stylix theming
 
-Separate from `nixosModules/shared/stylix.nix`. Exposes:
-- `enable` (mkEnableOption)
-- `image` (path, default `../../assets/default.jpg`)
+There is no HM-level stylix module. `stylix.nixosModules.stylix` (in `flake.nix`) handles all theming via `stylix.homeManagerIntegration.autoImport = true` (the default), which automatically propagates the NixOS theme (scheme, fonts, cursor, image) to all HM-managed programs.
 
-When enabled, overrides `stylix.image` at the HM level. The NixOS-level `stylix.nixosModules.stylix` (in `flake.nix`) is the authoritative source for all Stylix settings; this module only overrides the wallpaper. Enabling `stylix.enable` from the HM side is intentionally avoided to prevent option conflicts with the NixOS module. BISHOP overrides `image` in `hosts/BISHOP/home.nix`.
+Per-host wallpaper overrides and target toggles are set directly in `hosts/<HOSTNAME>/home.nix`:
+```nix
+stylix.image = ../../assets/wall.jpeg;
+stylix.targets.waybar.enable = false;  # waybar managed manually
+```
 
 ## waybar.nix
 

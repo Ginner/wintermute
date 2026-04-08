@@ -2,10 +2,9 @@
 
 let
   cfg = config.myHomeModules.guiPrograms.hyprland;
-  startupScript = pkgs.pkgs.writeShellScriptBin "start" ''
-    waybar &
-    mako &
-  '';
+  startupScript = pkgs.writeShellScriptBin "start" (
+    lib.concatMapStringsSep "\n" (p: "${p} &") cfg.startupPrograms
+  );
 in
 {
   options.myHomeModules.guiPrograms.hyprland = {

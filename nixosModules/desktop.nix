@@ -6,13 +6,6 @@ let
   hasAMDGPU = config.hardware.graphics.extraPackages32 != [];
 in
 {
-  imports = [
-    ./services/pipewire.nix
-    ./services/greetd.nix
-    ./programs
-    ./shared/stylix.nix
-  ];
-
   options.myModules.desktop = {
     enable = lib.mkEnableOption "Desktop-specific system configurations";
 

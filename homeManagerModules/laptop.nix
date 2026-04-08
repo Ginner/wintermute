@@ -4,13 +4,6 @@ let
   cfg = config.myHomeModules.laptop;
 in
 {
-  imports = [
-    ./guiPrograms
-    ./tuiPrograms
-    ./cliPrograms
-    ./services/xdg.nix
-  ];
-
   options.myHomeModules.laptop = {
     enable = lib.mkEnableOption "Laptop-specific home configuration";
   };
@@ -19,21 +12,23 @@ in
     # Enable laptop-specific home modules according to the table
     # Required applications
     myHomeModules.services.xdg.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.ags.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.firefox.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.hyprland.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.kitty.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.zathura.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.wayland-tools.enable = lib.mkDefault true;
-    myHomeModules.guiPrograms.stylix.enable = lib.mkDefault true;
-    myHomeModules.cliPrograms.kanshi.enable = lib.mkDefault true;
+    myHomeModules.services.kanshi.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.swayimg.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.mpv.enable = lib.mkDefault true;
+    myHomeModules.tuiPrograms.nixvim.enable = lib.mkDefault true;
     myHomeModules.tuiPrograms.btop.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.cli-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.starship.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.archive-tools.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.direnv.enable = lib.mkDefault true;
     myHomeModules.guiPrograms.walker.enable = lib.mkDefault true;
+    myHomeModules.guiPrograms.waybar.enable = lib.mkDefault true;
     myHomeModules.tuiPrograms.yazi.enable = lib.mkDefault true;
 
     # Optional applications (default = false per table)
@@ -63,9 +58,6 @@ in
       ffmpegthumbnailer
       poppler
     ];
-
-    # Disable stylix for waybar in laptop config
-    stylix.targets.waybar.enable = false;
 
     # Enable ssh connection multiplexing
     myHomeModules.cliPrograms.ssh.enableControlMaster = true;

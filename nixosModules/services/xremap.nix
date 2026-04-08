@@ -10,7 +10,7 @@ in
 
     withHypr = lib.mkOption {
       type = lib.types.bool;
-      default = config.myModules.services.hyprland.enable or false;
+      default = config.myModules.programs.hyprland.enable or false;
       description = "Enable xremap for Hyprland";
     };
 

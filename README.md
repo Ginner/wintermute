@@ -28,6 +28,23 @@ The user is set, you need to set a password for the user with `passwd <username>
 ## Pre-build
 ### agenix
 
+## Styling (Stylix)
+
+Theming is managed by [Stylix](https://stylix.danth.me) via the NixOS module (`stylix.nixosModules.stylix` in `flake.nix`). It applies a single theme to both system-level and Home Manager targets automatically.
+
+**Canonical theme config**: `nixosModules/shared/stylix.nix` (enabled per-host via `myModules.shared.stylix`).
+
+| Option | Where to change |
+|---|---|
+| Color scheme | `myModules.shared.stylix.base16Scheme` in host `configuration.nix` |
+| Wallpaper (system) | `myModules.shared.stylix.image` in host `configuration.nix` |
+| Wallpaper (user override) | `stylix.image` in host `home.nix` |
+| Fonts | `myModules.shared.stylix.fonts.*` in host `configuration.nix` |
+| Cursor | `myModules.shared.stylix.cursor.*` in host `configuration.nix` |
+| Disable theming for a program | `stylix.targets.<name>.enable = false` in host `home.nix` |
+
+Schemes are YAML files from `pkgs.base16-schemes` (e.g. `catppuccin-frappe.yaml`, `gruvbox-dark-hard.yaml`). Browse available schemes with `ls $(nix-build '<nixpkgs>' -A base16-schemes)/share/themes/`.
+
 ## Post build
 
 ### rbw

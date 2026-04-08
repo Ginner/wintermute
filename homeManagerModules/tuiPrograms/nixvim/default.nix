@@ -1,6 +1,13 @@
-{ config, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
+let
+  cfg = config.myHomeModules.tuiPrograms.nixvim;
+in
 {
+  options.myHomeModules.tuiPrograms.nixvim = {
+    enable = lib.mkEnableOption "Neovim via nixvim";
+  };
+
   imports = [
     ./options.nix
     ./autocommands.nix
@@ -9,10 +16,11 @@
     ./plugins/lsp.nix
     ./plugins/autoclose.nix
     ./plugins/cmp.nix
-    ./plugins/treesitter.nix 
+    ./plugins/treesitter.nix
     ./plugins/mkdnflow.nix
   ];
 
+  config = lib.mkIf cfg.enable {
   programs.nixvim = {
     enable = true;
 
@@ -54,5 +62,6 @@
       (shortcut_link (link_text) @my_partial (#lua-match? @my_partial "^/$") (#offset! @my_partial 0 -3 0 0)(#set! conceal "󱗝"))
       (shortcut_link (link_text) @my_wont_do (#lua-match? @my_wont_do "^-$") (#offset! @my_wont_do 0 -3 0 0)(#set! conceal "󰅘"))
     '';
+  };
   };
 }

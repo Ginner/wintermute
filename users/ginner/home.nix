@@ -159,8 +159,9 @@ in
   myHomeModules.tuiPrograms.opencode.enable = true;
 
   # User-specific packages
+  # rbw installed directly (not via cliPrograms.rbw module) because the module
+  # requires emailSecret which is an agenix-managed secret not yet wired up.
   home.packages = with pkgs; [
     rbw
-    opencode
   ];
 }

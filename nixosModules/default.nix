@@ -5,20 +5,10 @@ let
 in
 {
   imports = [
-    # Individual service modules
-    ./services/xremap.nix
-    ./services/fwupd.nix
-    ./services/tailscale.nix
-    ./services/pipewire.nix
-    ./services/tlp.nix
-    ./services/greetd.nix
-    ./services/bolt.nix
-    ./services/brightnessctl.nix
-    ./services/kde-connect.nix
-    ./services/openssh.nix
-    ./services/podman.nix
+    # Service modules (via services/default.nix)
+    ./services
 
-    # Individual program modules
+    # Program modules (via programs/default.nix)
     ./programs
 
     # Shared modules

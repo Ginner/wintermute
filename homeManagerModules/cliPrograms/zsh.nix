@@ -82,6 +82,6 @@ in
     };
 
     # Enable kitty integration if kitty is enabled
-    programs.kitty.shellIntegration.enableZshIntegration = lib.mkIf (config.myHomeModules.guiPrograms.kitty.enable or false) (lib.mkDefault true);
+    programs.kitty.shellIntegration.enableZshIntegration = lib.mkIf (config.myHomeModules.cliPrograms.kitty.enable or false) (lib.mkDefault true);
   };
 }

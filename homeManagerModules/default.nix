@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, inputs, lib, username ? "nixos", ... }:
 
 {
   imports = [
@@ -21,8 +21,8 @@
   };
 
   config = lib.mkIf config.myHomeModules.default.enable {
-    home.username = lib.mkDefault "ginner";
-    home.homeDirectory = lib.mkDefault "/home/ginner";
+    home.username = lib.mkDefault username;
+    home.homeDirectory = lib.mkDefault "/home/${username}";
     home.preferXdgDirectories = lib.mkDefault true;
 
     # Default packages for all users

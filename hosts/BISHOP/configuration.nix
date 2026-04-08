@@ -6,7 +6,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
       inputs.xremap-flake.nixosModules.default
       ../../nixosModules
       ../../users/ginner  # User-specific NixOS config
@@ -25,9 +24,9 @@
   ## Below has to be handled during the restructure
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs ; };
+    extraSpecialArgs = { inherit inputs; username = config.userGlobals.username; };
     users = {
-      "ginner" = import ./home.nix;
+      ${config.userGlobals.username} = import ./home.nix;
     };
   };
 

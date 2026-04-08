@@ -1,18 +1,24 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = [
+  options.myHomeModules.cliPrograms.scripts = {
+    enable = lib.mkEnableOption "Custom shell scripts (mailias, sermail)";
+  };
 
-    (pkgs.writeShellApplication {
-      name = "mailias";
-      runtimeInputs = with pkgs; [ coreutils wl-clipboard ];
-      text = builtins.readFile ./scripts/create-email-alias.sh ;
-    })
+  config = lib.mkIf config.myHomeModules.cliPrograms.scripts.enable {
+    home.packages = [
 
-    (pkgs.writeShellApplication {
-      name = "sermail";
-      runtimeInputs = with pkgs; [ coreutils wl-clipboard ];
-      text = builtins.readFile ./scripts/create-service-email.sh ;
-    })
-  ];
+      (pkgs.writeShellApplication {
+        name = "mailias";
+        runtimeInputs = with pkgs; [ coreutils wl-clipboard ];
+        text = builtins.readFile ./scripts/create-email-alias.sh;
+      })
+
+      (pkgs.writeShellApplication {
+        name = "sermail";
+        runtimeInputs = with pkgs; [ coreutils wl-clipboard ];
+        text = builtins.readFile ./scripts/create-service-email.sh;
+      })
+    ];
+  };
 }

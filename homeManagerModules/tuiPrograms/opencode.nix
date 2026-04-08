@@ -6,13 +6,15 @@
   };
 
   config = lib.mkIf config.myHomeModules.tuiPrograms.opencode.enable {
-    home.packages = [
-      pkgs.opencode
-    ];
-    home.file.".config/opencode/opencode.json".text = builtins.toJSON {
-      "$schema"= "https://opencode.ai/config.json";
-      "permission"= {
-        "*"= "ask";
+    programs.opencode = {
+      enable = true;
+      settings = {
+        plugin = [
+          "@ex-machina/opencode-anthropic-auth@1.1.1"
+        ];
+        permission = {
+          "*" = "ask";
+        };
       };
     };
   };

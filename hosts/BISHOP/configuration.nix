@@ -64,69 +64,6 @@
   #   "usbcore.use_both_schemes=1"
   # ];
   #
-  services.greetd = {
-    enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd Hyprland";
-      };
-    };
-  };
-  systemd.services.greetd.serviceConfig = {
-    Type = "idle";
-    StandardInput = "tty";
-    StandardOutput = "tty";
-    StandardError = "journal";
-    TTYReset = true;
-    TTYVHangup = true;
-    TTYVTDisallocate = true;
-  };
-
-  services.fwupd = {
-    enable = true;
-  };
-
-  services.kmscon = {
-    enable = true;
-  };
-  services.hardware.bolt.enable = true;
-
-  # services.tlp = {
-  #   enable = true;
-  #   settings = {
-  #     USB_AUTOSUSPEND = 0;
-  #
-  #   # Remove the Dell dock blacklist since you're using a ThinkPad dock now
-  #   # USB_DENYLIST = "";  # or comment out entirely
-  #
-  #   # Keep xhci_hcd out of runtime PM denylist (this looks good)
-  #     RUNTIME_PM_DRIVER_DENYLIST = "mei_me nouveau radeon";
-  #
-  #   # These settings look good as they are
-  #     RUNTIME_PM_ON_AC = "on";
-  #     RUNTIME_PM_ON_BAT = "auto";
-  #     START_CHARGE_THRESH_BAT0=75;
-  #     STOP_CHARGE_THRESH_BAT0=80;
-  #   };
-  # };
-
-  # services.interception-tools = {
-  #   enable = true;
-  #   plugins = [ pkgs.interception-tools-plugins.dual-function-keys ];
-  #   udevmonConfig = ''
-  #   - JOB: "${pkgs.interception-tools}/bin/intercept -g $DEVNODE | ${pkgs.interception-tools-plugins.dual-function-keys}/bin/dual-function-keys -c /etc/dual-function-keys.yaml | ${pkgs.interception-tools}/bin/uinput -d $DEVNODE"
-  #     DEVICE:
-  #       EVENTS:
-  #         EV_KEY: [KEY_CAPSLOCK,]
-  #   '';
-  # };
-  # environment.etc."dual-function-keys.yaml".text = builtins.readFile ./dual-function-keys.yaml;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

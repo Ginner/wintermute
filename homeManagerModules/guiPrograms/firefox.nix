@@ -1,0 +1,149 @@
+{ config, pkgs, lib, ... }:
+
+let
+  cfg = config.myHomeModules.guiPrograms.firefox;
+  lock-false = {
+    Value = false;
+    Status = "locked";
+  };
+  lock-true = {
+    Value = true;
+    Status = "locked";
+  };
+in
+{
+  options.myHomeModules.guiPrograms.firefox = {
+    enable = lib.mkEnableOption "Firefox web browser with privacy-focused settings";
+
+    languagePacks = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ "en-US" ];
+      description = "Language packs to install for Firefox";
+    };
+  };
+
+  config = lib.mkIf cfg.enable {
+    programs.firefox = {
+      enable = true;
+      languagePacks = cfg.languagePacks;
+
+    profiles.default = {
+      isDefault = true;
+      settings = {
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+        "browser.newtabpage.activity-stream.feeds.topsites" = false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
+        "signon.rememberSignons" = false;
+      };
+      search = {
+        force = true;
+        default = "Startpage";
+        privateDefault = "ddg";
+        order = [ "Startpage" "ddg" "google" ];
+        engines = {
+          "Startpage" = {
+            urls = [{template = "https://startpage.com/search?q={searchTerms}";}];
+            icon = "https://startpage.com/favicon.ico";
+          };
+        };
+      };
+    };
+
+    /* ---- POLICIES ---- */
+    # Check about:policies#documentation for options.
+    policies = {
+      DisableTelemetry = true;
+      DisableFirefoxStudies = true;
+      EnableTrackingProtection = {
+        Value= true;
+        Locked = true;
+        Cryptomining = true;
+        Fingerprinting = true;
+      };
+      DisablePocket = true;
+      DisableFirefoxAccounts = true;
+      DisableAccounts = true;
+      DisableFirefoxScreenshots = true;
+      PasswordManagerEnabled = lock-false;
+      OverrideFirstRunPage = "";
+      OverridePostUpdatePage = "";
+      DontCheckDefaultBrowser = true;
+      DisplayBookmarksToolbar = "never"; # alternatives: "always" or "newtab"
+      DisplayMenuBar = "default-off"; # alternatives: "always", "never" or "default-on"
+      SearchBar = "unified"; # alternative: "separate"
+
+      /* ---- EXTENSIONS ---- */
+      # Check about:support for extension/add-on ID strings.
+      # Valid strings for installation_mode are "allowed", "blocked",
+      # "force_installed" and "normal_installed".
+      ExtensionSettings = {
+        "*".installation_mode = "blocked"; # blocks all addons except the ones specified below
+        # uBlock Origin:
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # Vimium C:
+        "vimium-c@gdh1995.cn" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/vimium-c/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # Consent-o-matic
+        "gdpr@cavi.au.dk" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # Privacy Badger:
+        "jid1-MnnxcxisBPnSXQ@jetpack" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/privacy-badger17/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        "darkreaderapp@gmail.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # "sienori.firefox+tsm@gmail.com" = {
+        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/tab-session-manager/latest.xpi";
+        #   installation_mode = "normal_installed";
+        #   default_area = "menupanel";
+        # };
+        # "@testpilot-containers" = {
+        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi_account_containers/latest.xpi";
+        #   installation_mode = "normal_installed";
+        #   default_area = "menupanel";
+        # };
+      };
+  
+      /* ---- PREFERENCES ---- */
+      # Check about:config for options.
+      Preferences = { 
+        "browser.contentblocking.category" = { Value = "strict"; Status = "locked"; };
+        "extensions.pocket.enabled" = lock-false;
+        "extensions.screenshots.disabled" = lock-true;
+        "browser.topsites.contile.enabled" = lock-false;
+        "browser.formfill.enable" = lock-false;
+        "browser.search.suggest.enabled" = lock-false;
+        "browser.search.suggest.enabled.private" = lock-false;
+        "browser.urlbar.suggest.searches" = lock-false;
+        "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
+        "browser.newtabpage.activity-stream.feeds.section.topstories" = lock-false;
+        "browser.newtabpage.activity-stream.feeds.snippets" = lock-false;
+        "browser.newtabpage.activity-stream.section.highlights.includePocket" = lock-false;
+        "browser.newtabpage.activity-stream.section.highlights.includeBookmarks" = lock-false;
+        "browser.newtabpage.activity-stream.section.highlights.includeDownloads" = lock-false;
+        "browser.newtabpage.activity-stream.section.highlights.includeVisited" = lock-false;
+        "browser.newtabpage.activity-stream.showSponsored" = lock-false;
+        "browser.newtabpage.activity-stream.system.showSponsored" = lock-false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = lock-false;
+      };
+    };
+  };
+  stylix.targets.firefox.profileNames = [ "default" ];
+};
+} 

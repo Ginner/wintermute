@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running `nixos-help`).
-
 { config, pkgs, inputs, ... }:
 # let
 #   home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz";
@@ -10,147 +6,46 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.default
-      # (import "${home-manager}/nixos")
-      # ./home/home.nix
+      inputs.xremap-flake.nixosModules.default
+      ../../nixosModules
+      ../../users/ginner  # User-specific NixOS config
     ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
 
 
   networking.hostName = "BISHOP"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 
-  # Set your time zone.
-  time.timeZone = "Europe/Copenhagen";
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "da_DK.UTF-8";
-  i18n.extraLocaleSettings = {
-    LANG = "en_DK.UTF-8";
-  };
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "dk";
-    # useXkbConfig = true; # use xkbOptions in tty.
+  userGlobals = {
+    username = "ginner";
   };
 
-  # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  myModules.laptop.enable = true; # Enable laptop module
 
-  programs.hyprland.enable = true;
-  programs.hyprland.package = inputs.hyprland.packages."${pkgs.system}".hyprland;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-    };
-  # hardware.pulseaudio.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.uinput.enable = true; # Necessary for xremap
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Enable home-manager
-  # home-manager.useGlobalPkgs = true;
-  # home-manager.useUserPackages = true;
-
-  users.defaultUserShell = pkgs.zsh;
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.ginner = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager"]; # Enable ‘sudo’ for the user.
-  };
-  
-  # For xremap under home-manager
-  users.groups.uinput.members = [ "ginner" ];
-  users.groups.input.members = [ "ginner" ];
+  ## Below has to be handled during the restructure
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs ; };
+    extraSpecialArgs = { inherit inputs; username = config.userGlobals.username; };
     users = {
-      "ginner" = import ../../users/ginner/home.nix;
+      ${config.userGlobals.username} = import ./home.nix;
     };
   };
 
-  programs.neovim = {
+  myModules.shared.stylix = {
     enable = true;
-    defaultEditor = true;
+    image = ../../assets/wall.jpeg;
   };
 
-  programs.zsh = {
-    enable = true;
-  };
-
-  stylix = {
-    enable = true;
-    image = ./wall.jpeg;
-    polarity = "dark";
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/google-dark.yaml"; 
-    # base16Scheme = "${pkgs.base16-schemes}/share/themes/codeschool.yaml"; 
-    cursor = {
-      package = pkgs.rose-pine-cursor;
-      name = "BreezeX-RosePine-Linux";
-      size = 16;
-    };
-    fonts = {
-      monospace = {
-        package = pkgs.nerd-fonts.hack;
-        name = "Hack Nerd Font Mono";
-      };
-      sizes = {
-        terminal = 11;
-        desktop = 11;
-        applications = 11;
-        popups = 14;
-      };
-    };
-  };
+  myModules.services.tailscale.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    kitty
-    mako
-    waybar
-    file
-    # eww-wayland
-    libnotify
-    gawk
-    # ly # Maybe swap it for lemurs when available, ly is old in main but not in unstable - Use greetd for now
-    upower
-    # tlp
-    rsync
-    wl-clipboard
-    killall
-    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
-    nixd
-    usbutils
   ];
 
   nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.hack
-    nerd-fonts.fira-code
-    ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -163,7 +58,6 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
-  services.netbird.enable = true;
 
   # boot.kernelParams = [ 
   #   "usbcore.autosuspend=-1"
@@ -246,6 +140,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.11"; # Did you read the comment?
-
 }
 

@@ -1,0 +1,4 @@
+# User-specific email configurations (keep out of git)
+# These files contain actual email addresses and should never be committed
+# Use 'git add -N users/*/email-config.nix' to make them visible to Nix without committing
+users/*/email-config.nix

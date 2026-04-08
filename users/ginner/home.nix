@@ -1,198 +1,167 @@
 { config, pkgs, inputs, lib, ... }:
 
+let
+  # Import email configuration from git-ignored file
+  # Location: users/ginner/email-config.nix (in repo but git-ignored)
+  # Template: users/ginner/email-config.template.nix
+  #
+  # IMPORTANT: After creating email-config.nix, run:
+  #   git add -N users/ginner/email-config.nix
+  # This makes the file visible to Nix without committing its content.
+  emailConfig = import ./email-config.nix;
+in
 {
-  imports = [
-    ./zsh.nix
-    ./kitty.nix
-    ./xdg.nix
-    # ./stylix.nix
-    ./waybar.nix
-    ./hyprland.nix
-    ./firefox.nix
-    ./ncspot.nix
-    inputs.nixvim.homeManagerModules.nixvim
-    inputs.ags.homeManagerModules.default
-    inputs.xremap-flake.homeManagerModules.default
-    ./nixvim/default.nix
-    ./scripts.nix
-    ./ags.nix
-  ];
-  home.username = "ginner";
-  home.homeDirectory = "/home/ginner";
+  # Enable email services (infrastructure only, accounts defined below)
+  myHomeModules.services.email-accounts.enable = true;
+  myHomeModules.tuiPrograms.neomutt.enable = true;
+  myHomeModules.tuiPrograms.khard.enable = true;
 
-  home.packages = with pkgs; [
-    inputs.taskfinder.packages.${pkgs.system}.default
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-    zathura
-    newsboat
-    numbat
-    bat
-    pass-wayland
-    sxiv
-    mpv
-    calcurse
-    khard
-    imagemagick
-    inkscape
-    brightnessctl
-    jq
-    eza
-    tree
-    wget
-    btop
-    unzip
-    cheat
-    ffmpegthumbnailer
-    p7zip
-    zip
-    xz
-    unzip
-    poppler
-    fd
-    ripgrep
-    fzf
-    zoxide
-    wl-clipboard
-    grim
-    slurp
-    wf-recorder
-    swappy
-  ];
-
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
-  home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+  # Define email accounts from external configuration
+  accounts.email.accounts = {
+    "work" = {
+      primary = true;
+      address = emailConfig.work.address;
+      userName = emailConfig.work.address;
+      realName = emailConfig.work.realName;
+      passwordCommand = emailConfig.work.passwordCommand;
+      
+      # IMAP settings for StartMail
+      imap = {
+        host = "imap.startmail.com";
+        port = 993;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
+      };
+      
+      # SMTP settings for StartMail
+      smtp = {
+        host = "smtp.startmail.com";
+        port = 465;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
+      };
+      
+      folders = {
+        inbox = "INBOX";
+        sent = "Sent";
+        drafts = "Drafts";
+        trash = "Trash";
+      };
+      
+      neomutt = {
+        enable = true;
+        extraMailboxes = [ "Archive" ];
+      };
+      
+      mbsync = {
+        enable = true;
+        create = "both";
+        expunge = "both";
+        patterns = [ "*" "!Spam" ];
+      };
+      
+      msmtp.enable = true;
+      
+      notmuch = {
+        enable = true;
+      };
+    };
+    
+    "private" = {
+      primary = false;
+      address = emailConfig.private.address;
+      userName = emailConfig.private.address;
+      realName = emailConfig.private.realName;
+      passwordCommand = emailConfig.private.passwordCommand;
+      
+      # IMAP settings for StartMail
+      imap = {
+        host = "imap.startmail.com";
+        port = 993;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
+      };
+      
+      # SMTP settings for StartMail
+      smtp = {
+        host = "smtp.startmail.com";
+        port = 465;
+        tls = {
+          enable = true;
+          useStartTls = false;
+        };
+      };
+      
+      folders = {
+        inbox = "INBOX";
+        sent = "Sent";
+        drafts = "Drafts";
+        trash = "Trash";
+      };
+      
+      neomutt = {
+        enable = true;
+        extraMailboxes = [ "Archive" ];
+      };
+      
+      mbsync = {
+        enable = true;
+        create = "both";
+        expunge = "both";
+        patterns = [ "*" "!Spam" ];
+      };
+      
+      msmtp.enable = true;
+      
+      notmuch = {
+        enable = true;
+      };
+    };
   };
 
-  programs.zsh = {
-    enable = true;
+  # Git configuration (user-specific)
+  programs.git.settings = {
+    user = {
+      name = "Ginner";
+      email = "26798615+Ginner@users.noreply.github.com";
+    };
   };
 
-  programs.yazi = {
-    enable = true;
-  };
-
-  programs.direnv = {
-    enable = true;
-    enableZshIntegration = true;
-    nix-direnv.enable = true;
-  };
-
-  programs.git = {
-    enable = true;
-    userName = "Ginner";
-    userEmail = "26798615+Ginner@users.noreply.github.com";
-  };
-
-  programs.ssh = {
+  # SSH configuration (user-specific)
+  myHomeModules.cliPrograms.ssh = {
     enable = true;
     matchBlocks = {
       "github.com" = {
         user = "git";
         identityFile = "~/.ssh/id_ed25519_sk";
       };
+      "forgejo" = {
+        hostname = "forgejo.ginnerskov.co";
+        user = "git";
+        port = 222;
+        identityFile = "~/.ssh/id_ed25519_sk";
+      };
+      "codeberg" = {
+        user = "git";
+        hostname = "codeberg.org";
+        identityFile = "~/.ssh/id_ed25519_sk";
+      };
     };
   };
 
-  programs.rofi = {
-    enable = true;
-    package = pkgs.rofi-wayland;
-  };
+  # Enable OpenCode
+  myHomeModules.tuiPrograms.opencode.enable = true;
 
-
-  # I'll try setting it through stylix
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   name = "rose-pine-hyprcursor";
-  #   package = inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default;
-  #   # size = 16; # Adjust as needed
-  # };
-  # gtk.enable = true;
-
-  # home.pointerCursor = {
-  #   gtk.enable = true;
-  #   # x11.enable = true;
-  #   package = pkgs.rose-pine-hyprcursor;
-  #   name = "rose-pine-hyprcursor";
-  #   size = 16;
-  # };
-
-  programs.btop = {
-    enable = true;
-    settings = {
-      vim_keys = true;
-      # color_theme = "gruvbox_dark_v2";
-    };
-  };
-
-  programs.starship = {
-    enable = true;
-    # custom settings
-    settings = {
-      add_newline = false;
-      aws.disabled = true;
-      gcloud.disabled = true;
-      line_break.disabled = true;
-    };
-  };
-
-  stylix.targets.waybar.enable = false;
-
-  services.mako = {
-    enable = true;
-  };
-
-  services.xremap = {
-    enable = true;
-    withHypr = true;
-     config = {
-      modmap = [
-        {
-          name = "main-remaps";
-          remap = {
-            "CapsLock" = { held = "Super_L"; alone = "Esc"; alone_timeout_millis = 200; };
-          };
-        }
-      ];
-    };   
-  };
-
-  # You can also manage environment variables but you will have to manually
-  # source
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/ginner/etc/profile.d/hm-session-vars.sh
-  #
-  # if you don't want to manage your shell through Home Manager.
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-
-  home.stateVersion = "22.11"; # Please read the manual before changing.
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+  # User-specific packages
+  # rbw installed directly (not via cliPrograms.rbw module) because the module
+  # requires emailSecret which is an agenix-managed secret not yet wired up.
+  home.packages = with pkgs; [
+    rbw
+  ];
 }

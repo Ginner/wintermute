@@ -30,13 +30,31 @@ flake.nix
 3. Adding the host to `flake.nix` outputs
 — no changes to `nixosModules/` or `homeManagerModules/`
 
+## Secrets and PII policy
+
+**Impure builds are not acceptable.** All evaluation must be reproducible from the flake alone — no `--impure` flag, no files outside the repo injected at eval time.
+
+**PII must never appear in version control**, even in git-ignored files within the repo. The only acceptable approach is sops-encrypted files committed to `secrets/`.
+
+**Declarativeness is a core requirement.** Manual post-install steps must be minimised. Any step that cannot be automated must be documented in `README.md`. The goal is: clone repo → generate/restore your age private key → `nixos-rebuild switch` → done.
+
+## Secrets architecture (sops-nix)
+
+Secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix):
+- Encrypted secret files live in `secrets/` and are safe to commit (they are sops/age-encrypted)
+- Key configuration is in `.sops.yaml` at the repo root
+- At the NixOS level, the host SSH ed25519 key (`/etc/ssh/ssh_host_ed25519_key`) is used for decryption — generated on first boot, no manual setup needed
+- At the HM level, the user's personal age key (`~/.config/sops/age/keys.txt`) is used — this is the **one** genuinely manual step on a fresh machine (generate or restore the key)
+- Secrets are injected into config files via `sops.templates`, so plaintext values never touch the Nix store
+- See `README.md` for the one-time key setup procedure
+
 ## Flake inputs
 
 | Input | Purpose |
 |---|---|
 | nixpkgs | nixos-unstable channel |
 | home-manager | User environment management |
-| agenix | Secret management (age encryption) |
+| sops-nix | Secret management (sops + age encryption) |
 | hyprland | Wayland compositor (from upstream flake) |
 | nixvim | Neovim configuration as NixOS/HM module |
 | yazi | Terminal file manager (bleeding-edge build) |
@@ -101,7 +119,7 @@ nix eval .#nixosConfigurations.BISHOP.config.services.greetd.enable  # inspect
 - Bundle files use `lib.mkDefault` on every module enable so hosts can override
 - `userGlobals.username` is consumed by `nixosModules/default.nix` for user account creation and by service modules needing the username (e.g., xremap group memberships)
 - `inputs.xremap-flake.nixosModules.default` is imported directly in `hosts/BISHOP/configuration.nix` (not via nixosModules)
-- agenix is added as both a NixOS module and an HM module in `flake.nix` via `home-manager.sharedModules`
+- sops-nix is added as both a NixOS module (`sops-nix.nixosModules.sops`) and an HM module (`sops-nix.homeManagerModules.sops`) in `flake.nix` via `home-manager.sharedModules`
 - stylix is added as a NixOS module in `flake.nix`; there is a separate HM-level stylix module (`homeManagerModules/guiPrograms/stylix.nix`)
 
 ## Known issues / deviations from ideal architecture

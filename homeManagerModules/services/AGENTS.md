@@ -29,13 +29,13 @@ User-level services: background processes, portal configuration, and account-lev
 
 Also creates a `nvim.desktop` entry so nvim appears in app launchers for text files.
 
-**email-accounts.nix**: Sets `accounts.email.maildirBasePath` to `$XDG_DATA_HOME/mail`. Enables `mbsync`, `msmtp`, and `notmuch` globally. Actual account definitions (`accounts.email.accounts.*`) are set in user configs (`users/ginner/home.nix`), not here. Notmuch tags new mail as `unread inbox`; excludes `deleted` and `spam` from searches.
+**email-accounts.nix**: Enables `mbsync`, `msmtp`, and `notmuch` globally. Does **not** use `accounts.email.accounts` — account config files (isyncrc, msmtp/config, neomutt/work, neomutt/private) are written by sops templates in the user's `home.nix` so that PII never enters the Nix store. Notmuch tags new mail as `unread inbox`; excludes `deleted` and `spam` from searches.
 
 ## Relationship to neomutt
 
 `homeManagerModules/tuiPrograms/neomutt.nix` depends on email accounts being configured. The expected setup is:
-1. `myHomeModules.services.email-accounts.enable = true` — provides the toolchain
-2. `accounts.email.accounts.*` defined in the user's `home.nix` — provides account credentials/config
+1. `myHomeModules.services.email-accounts.enable = true` — provides the toolchain (mbsync, msmtp, notmuch)
+2. sops templates in `users/<username>/home.nix` — write the actual config files with secrets at activation time
 3. `myHomeModules.tuiPrograms.neomutt.enable = true` — provides the UI
 
 ## Adding a new service module

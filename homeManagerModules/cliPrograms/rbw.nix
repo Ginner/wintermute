@@ -21,13 +21,13 @@ in
 
     emailSecret = lib.mkOption {
       type = lib.types.path;
-      description = "Path to agenix-decrypted file containing the Bitwarden email";
+      description = "Path to sops-decrypted file containing the Bitwarden email";
     };
 
     baseUrlSecret = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
-      description = "Path to agenix-decrypted file containing the Bitwarden base URL (for self-hosted)";
+      description = "Path to sops-decrypted file containing the Bitwarden base URL (for self-hosted)";
     };
   };
 

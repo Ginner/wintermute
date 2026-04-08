@@ -1,129 +1,190 @@
 { config, pkgs, inputs, lib, ... }:
 
-let
-  # Import email configuration from git-ignored file
-  # Location: users/ginner/email-config.nix (in repo but git-ignored)
-  # Template: users/ginner/email-config.template.nix
-  #
-  # IMPORTANT: After creating email-config.nix, run:
-  #   git add -N users/ginner/email-config.nix
-  # This makes the file visible to Nix without committing its content.
-  emailConfig = import ./email-config.nix;
-in
 {
-  # Enable email services (infrastructure only, accounts defined below)
+  # Enable email services (infrastructure only — account config files written via sops templates)
   myHomeModules.services.email-accounts.enable = true;
   myHomeModules.tuiPrograms.neomutt.enable = true;
   myHomeModules.tuiPrograms.khard.enable = true;
 
-  # Define email accounts from external configuration
-  accounts.email.accounts = {
-    "work" = {
-      primary = true;
-      address = emailConfig.work.address;
-      userName = emailConfig.work.address;
-      realName = emailConfig.work.realName;
-      passwordCommand = emailConfig.work.passwordCommand;
-      
-      # IMAP settings for StartMail
-      imap = {
-        host = "imap.startmail.com";
-        port = 993;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      # SMTP settings for StartMail
-      smtp = {
-        host = "smtp.startmail.com";
-        port = 465;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      folders = {
-        inbox = "INBOX";
-        sent = "Sent";
-        drafts = "Drafts";
-        trash = "Trash";
-      };
-      
-      neomutt = {
-        enable = true;
-        extraMailboxes = [ "Archive" ];
-      };
-      
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-        patterns = [ "*" "!Spam" ];
-      };
-      
-      msmtp.enable = true;
-      
-      notmuch = {
-        enable = true;
-      };
+  # sops-nix: key file, secrets, and config-file templates
+  # Secrets are decrypted at login by the sops-nix systemd user service.
+  # Config files for mbsync/msmtp/neomutt are written by sops templates —
+  # secrets never appear in the Nix store.
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/email.yaml;
+
+    secrets = {
+      work-address     = {};
+      work-realname    = {};
+      work-rbw-key     = {};
+      private-address  = {};
+      private-realname = {};
+      private-rbw-key  = {};
     };
-    
-    "private" = {
-      primary = false;
-      address = emailConfig.private.address;
-      userName = emailConfig.private.address;
-      realName = emailConfig.private.realName;
-      passwordCommand = emailConfig.private.passwordCommand;
-      
-      # IMAP settings for StartMail
-      imap = {
-        host = "imap.startmail.com";
-        port = 993;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      # SMTP settings for StartMail
-      smtp = {
-        host = "smtp.startmail.com";
-        port = 465;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      folders = {
-        inbox = "INBOX";
-        sent = "Sent";
-        drafts = "Drafts";
-        trash = "Trash";
-      };
-      
-      neomutt = {
-        enable = true;
-        extraMailboxes = [ "Archive" ];
-      };
-      
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-        patterns = [ "*" "!Spam" ];
-      };
-      
-      msmtp.enable = true;
-      
-      notmuch = {
-        enable = true;
-      };
-    };
+
+    # mbsync config (~/.config/isyncrc)
+    templates."isyncrc".path = "${config.xdg.configHome}/isyncrc";
+    templates."isyncrc".content = ''
+      IMAPAccount work
+      CertificateFile /etc/ssl/certs/ca-certificates.crt
+      Host imap.startmail.com
+      PassCmd "${config.sops.placeholder.work-rbw-key}"
+      Port 993
+      TLSType IMAPS
+      User ${config.sops.placeholder.work-address}
+
+      IMAPStore work-remote
+      Account work
+
+      MaildirStore work-local
+      Inbox ${config.xdg.dataHome}/mail/work/INBOX
+      Path ${config.xdg.dataHome}/mail/work/
+      SubFolders Verbatim
+
+      Channel work
+      Create Both
+      Expunge Both
+      Far :work-remote:
+      Near :work-local:
+      Patterns * !Spam
+      Remove None
+      SyncState *
+
+
+
+      IMAPAccount private
+      CertificateFile /etc/ssl/certs/ca-certificates.crt
+      Host imap.startmail.com
+      PassCmd "${config.sops.placeholder.private-rbw-key}"
+      Port 993
+      TLSType IMAPS
+      User ${config.sops.placeholder.private-address}
+
+      IMAPStore private-remote
+      Account private
+
+      MaildirStore private-local
+      Inbox ${config.xdg.dataHome}/mail/private/INBOX
+      Path ${config.xdg.dataHome}/mail/private/
+      SubFolders Verbatim
+
+      Channel private
+      Create Both
+      Expunge Both
+      Far :private-remote:
+      Near :private-local:
+      Patterns * !Spam
+      Remove None
+      SyncState *
+    '';
+
+    # msmtp config (~/.config/msmtp/config)
+    templates."msmtp-config".path = "${config.xdg.configHome}/msmtp/config";
+    templates."msmtp-config".content = ''
+      account work
+      auth on
+      from ${config.sops.placeholder.work-address}
+      host smtp.startmail.com
+      passwordeval ${config.sops.placeholder.work-rbw-key}
+      port 465
+      tls on
+      tls_starttls off
+      tls_trust_file /etc/ssl/certs/ca-certificates.crt
+      user ${config.sops.placeholder.work-address}
+
+      account private
+      auth on
+      from ${config.sops.placeholder.private-address}
+      host smtp.startmail.com
+      passwordeval ${config.sops.placeholder.private-rbw-key}
+      port 465
+      tls on
+      tls_starttls off
+      tls_trust_file /etc/ssl/certs/ca-certificates.crt
+      user ${config.sops.placeholder.private-address}
+
+      account default : work
+    '';
+
+    # neomutt per-account identity files (~/.config/neomutt/work, .../private)
+    templates."neomutt-work".path = "${config.xdg.configHome}/neomutt/work";
+    templates."neomutt-work".content = ''
+      set ssl_force_tls = yes
+      set certificate_file=/etc/ssl/certs/ca-certificates.crt
+
+      # GPG section
+      set crypt_autosign = no
+      set crypt_opportunistic_encrypt = no
+      set pgp_use_gpg_agent = yes
+      set mbox_type = Maildir
+      set sort = "threads"
+
+      # MTA section
+      set sendmail='msmtpq --read-envelope-from --read-recipients'
+
+      # Sidebar
+      set sidebar_visible = yes
+      set sidebar_short_path = yes
+      set sidebar_width = 28
+      set sidebar_format = '%D%* %?F? %F? %?N?%N/?%?S?%S?'
+
+      # MRA section
+      set folder='${config.xdg.dataHome}/mail/work'
+      set from='${config.sops.placeholder.work-address}'
+      set postponed='+Drafts'
+      set realname='${config.sops.placeholder.work-realname}'
+      set record='+Sent'
+      set spoolfile='+INBOX'
+      set trash='+Trash'
+
+      unset signature
+
+      # notmuch section
+      set nm_default_uri = "notmuch://${config.xdg.dataHome}/mail"
+      virtual-mailboxes "My INBOX" "notmuch://?query=tag%3Ainbox"
+    '';
+
+    templates."neomutt-private".path = "${config.xdg.configHome}/neomutt/private";
+    templates."neomutt-private".content = ''
+      set ssl_force_tls = yes
+      set certificate_file=/etc/ssl/certs/ca-certificates.crt
+
+      # GPG section
+      set crypt_autosign = no
+      set crypt_opportunistic_encrypt = no
+      set pgp_use_gpg_agent = yes
+      set mbox_type = Maildir
+      set sort = "threads"
+
+      # MTA section
+      set sendmail='msmtpq --read-envelope-from --read-recipients'
+
+      # Sidebar
+      set sidebar_visible = yes
+      set sidebar_short_path = yes
+      set sidebar_width = 28
+      set sidebar_format = '%D%* %?F? %F? %?N?%N/?%?S?%S?'
+
+      # MRA section
+      set folder='${config.xdg.dataHome}/mail/private'
+      set from='${config.sops.placeholder.private-address}'
+      set postponed='+Drafts'
+      set realname='${config.sops.placeholder.private-realname}'
+      set record='+Sent'
+      set spoolfile='+INBOX'
+      set trash='+Trash'
+
+      unset signature
+
+      # notmuch section
+      set nm_default_uri = "notmuch://${config.xdg.dataHome}/mail"
+      virtual-mailboxes "My INBOX" "notmuch://?query=tag%3Ainbox"
+    '';
   };
+
+  # Ensure mbsync starts after sops-nix decrypts secrets at login
+  systemd.user.services.mbsync.Unit.After = [ "sops-nix.service" ];
 
   # Git configuration (user-specific)
   programs.git.settings = {
@@ -158,9 +219,6 @@ in
   # Enable OpenCode
   myHomeModules.tuiPrograms.opencode.enable = true;
 
-  # User-specific packages
-  # rbw installed directly (not via cliPrograms.rbw module) because the module
-  # requires emailSecret which is an agenix-managed secret not yet wired up.
   home.packages = with pkgs; [
     rbw
   ];

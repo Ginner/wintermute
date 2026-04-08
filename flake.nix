@@ -7,8 +7,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     hyprland = {
@@ -49,7 +49,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, yazi, home-manager, agenix, stylix, ... } @ inputs:
+  outputs = { self, nixpkgs, yazi, home-manager, sops-nix, stylix, ... } @ inputs:
   let
     system = "x86_64-linux";
   in
@@ -62,11 +62,11 @@
         modules = [
           # Host configuration
           ./hosts/BISHOP/configuration.nix
-	  agenix.nixosModules.default
+	  sops-nix.nixosModules.sops
 	  home-manager.nixosModules.default
           stylix.nixosModules.stylix
           {
-              home-manager.sharedModules = [ agenix.homeManagerModules.default ];
+              home-manager.sharedModules = [ sops-nix.homeManagerModules.sops ];
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               nixpkgs.overlays = [

@@ -5,20 +5,18 @@ let
 in
 {
   options.myHomeModules.services.email-accounts = {
-    enable = lib.mkEnableOption "email account configuration";
+    enable = lib.mkEnableOption "email toolchain (mbsync, msmtp, notmuch)";
   };
 
   config = lib.mkIf cfg.enable {
-    # Set base maildir path using XDG
-    accounts.email.maildirBasePath = "${config.xdg.dataHome}/mail";
-    
-    # Account definitions now come from user configs
-    # Users define their own accounts.email.accounts.* in their home.nix
-    
-    # Enable programs globally when email is enabled
+    # Account config files (isyncrc, msmtp/config, neomutt/work, neomutt/private)
+    # are written by sops templates in the user's home.nix — not generated here.
+    # This module only enables the programs so their packages and baseline config
+    # are present.
+
     programs.mbsync.enable = true;
     programs.msmtp.enable = true;
-    
+
     # Configure notmuch database
     programs.notmuch = {
       enable = true;
@@ -27,8 +25,5 @@ in
       search.excludeTags = [ "deleted" "spam" ];
       maildir.synchronizeFlags = true;
     };
-    
-    # Notmuch systemd timers are auto-created by Home Manager
-    # per-account when accounts.email.accounts.<name>.notmuch.enable = true
   };
 }

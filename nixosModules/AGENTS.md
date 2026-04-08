@@ -42,7 +42,7 @@ Bundles (`laptop.nix`, `desktop.nix`, `server.nix`) set module enables using `li
 
 Options: `enableThermald` (default true), `enableTouchpad` (default true)
 
-Enables: tlp, pipewire, greetd, brightnessctl, bolt, fwupd, xremap, stylix, agenix, hyprland, usbutils
+Enables: tlp, pipewire, greetd, brightnessctl, bolt, fwupd, xremap, stylix, sops, hyprland, usbutils
 
 Direct config (not via modules): networkmanager, upower, acpid, bluetooth, libinput, CPU-specific packages (`ryzenadj` for AMD, `powertop` for Intel), `acpi`, `powerstat`
 

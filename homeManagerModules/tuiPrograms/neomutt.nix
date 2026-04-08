@@ -125,31 +125,14 @@ in
           macro index,pager a "<pipe-message>khard add-email<return>" "add sender to khard contacts"
         ''}
 
-        # Account switching macros - dynamically generated from accounts.email
-        ${let
-          accounts = config.accounts.email.accounts;
-          # Map account names to macro keys and display names
-          accountMacros = {
-            "work" = { key = "1"; name = "Work"; };
-            "private" = { key = "2"; name = "Private"; };
-          };
-        in lib.concatStringsSep "\n" (lib.mapAttrsToList (accountName: macro:
-          let
-            account = accounts.${accountName} or null;
-          in lib.optionalString (account != null) ''
-            macro index,pager i${macro.key} '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/${accountName}<enter><change-folder>!<enter>;<check-stats>' "switch to ${macro.name}"
-          ''
-        ) accountMacros)}
+        # Account switching macros
+        # work = primary (i1), private = secondary (i2)
+        # Per-account identity files are written by sops templates in the user's home.nix.
+        macro index,pager i1 '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/work<enter><change-folder>!<enter>;<check-stats>' "switch to Work"
+        macro index,pager i2 '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/private<enter><change-folder>!<enter>;<check-stats>' "switch to Private"
 
-        # Source primary account at startup
-        ${let
-          primaryAccountName = lib.findFirst 
-            (name: config.accounts.email.accounts.${name}.primary or false) 
-            null 
-            (lib.attrNames config.accounts.email.accounts);
-        in lib.optionalString (primaryAccountName != null) ''
-          source ${config.xdg.configHome}/neomutt/${primaryAccountName}
-        ''}
+        # Source primary account (work) at startup
+        source ${config.xdg.configHome}/neomutt/work
 
         ### From mutt-wizard:
         set mime_type_query_command = "file --mime-type -b %s"

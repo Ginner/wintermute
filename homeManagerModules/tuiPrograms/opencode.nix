@@ -10,7 +10,7 @@
       enable = true;
       settings = {
         plugin = [
-          "@ex-machina/opencode-anthropic-auth@1.1.1"
+          "@ex-machina/opencode-anthropic-auth@1.4.0"
         ];
         permission = {
           "*" = "ask";

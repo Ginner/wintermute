@@ -16,8 +16,8 @@
         nix_shell = {
           disabled = false;
           format = "[$symbol$state]($style) ";
-          symbol = "nix ";
-          heuristic = true;
+          symbol = "❄️ ";
+          heuristic = false;
         };
       };
     };

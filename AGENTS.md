@@ -34,9 +34,22 @@ flake.nix
 
 **Impure builds are not acceptable.** All evaluation must be reproducible from the flake alone — no `--impure` flag, no files outside the repo injected at eval time.
 
-**PII must never appear in version control**, even in git-ignored files within the repo. The only acceptable approach is sops-encrypted files committed to `secrets/`.
+**PII and secrets are distinct concerns and must be handled differently:**
 
-**Declarativeness is a core requirement.** Manual post-install steps must be minimised. Any step that cannot be automated must be documented in `README.md`. The goal is: clone repo → generate/restore your age private key → `nixos-rebuild switch` → done.
+- **Secrets** (passwords, API keys, tokens): must not appear in version control **or** the Nix store. The only acceptable approach is sops-encrypted files committed to `secrets/`, with values injected at activation time via `sops.templates`.
+- **PII** (email addresses, real names, usernames): must not appear in version control, but the Nix store is acceptable. PII is also stored in sops-encrypted files and injected via `sops.templates` — not because the Nix store is unsafe for PII, but because there is no mechanism to provide PII at eval time without either hardcoding it in committed files or using `--impure`.
+
+**Impure builds are not acceptable.** All evaluation must be reproducible from the flake alone — no `--impure` flag, no files outside the repo injected at eval time. The `git add -N` trick is also not acceptable.
+
+**Declarativeness is a core requirement.** Manual post-install steps must be minimised. Any step that cannot be automated must be documented in `README.md`. The goal is: clone repo → restore your age private key → `nixos-rebuild switch` → done. Generating the age private key is the one genuinely irreducible manual step — it is private key material and cannot exist in the repo by definition.
+
+**User-facing files.** A user adopting this config should only need to edit:
+- `hosts/<hostname>/configuration.nix` — hostname, bundle, hardware
+- `hosts/<hostname>/home.nix` — host-specific HM overrides (monitors, wallpaper)
+- `users/<username>/home.nix` — user identity, module enables, sops file pointer
+
+No changes to `nixosModules/` or `homeManagerModules/` should be required for a new host or user.
+
 
 ## Secrets architecture (sops-nix)
 

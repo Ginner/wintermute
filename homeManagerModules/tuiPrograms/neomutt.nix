@@ -22,8 +22,6 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      # Mail clients are managed by accounts.email
-      # neomutt, isync (mbsync), msmtp, notmuch are auto-installed
       gnupg
       lynx
       urlscan
@@ -125,14 +123,20 @@ in
           macro index,pager a "<pipe-message>khard add-email<return>" "add sender to khard contacts"
         ''}
 
-        # Account switching macros
-        # work = primary (i1), private = secondary (i2)
-        # Per-account identity files are written by sops templates in the user's home.nix.
-        macro index,pager i1 '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/work<enter><change-folder>!<enter>;<check-stats>' "switch to Work"
-        macro index,pager i2 '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/private<enter><change-folder>!<enter>;<check-stats>' "switch to Private"
+        # Account switching macros — generated from myHomeModules.services.email.accounts.
+        # Each account declares a macroKey (e.g. "1" → i1). Per-account identity files
+        # are written by sops templates in the email module.
+        ${let
+          emailAccounts = lib.attrValues config.myHomeModules.services.email.accounts;
+          primary = lib.findFirst (a: a.primary) null emailAccounts;
+        in lib.concatStringsSep "\n" (
+          map (a: ''macro index,pager i${a.macroKey} '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/${a.name}<enter><change-folder>!<enter>;<check-stats>' "switch to ${a.name}"'')
+          emailAccounts
+        ) + lib.optionalString (primary != null) ''
 
-        # Source primary account (work) at startup
-        source ${config.xdg.configHome}/neomutt/work
+        # Source primary account at startup
+        source ${config.xdg.configHome}/neomutt/${primary.name}
+        ''}
 
         ### From mutt-wizard:
         set mime_type_query_command = "file --mime-type -b %s"

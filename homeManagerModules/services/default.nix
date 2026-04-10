@@ -1,6 +1,6 @@
 {
   imports = [
-    ./email-accounts.nix
+    ./email
     ./kanshi.nix
     ./xdg.nix
   ];

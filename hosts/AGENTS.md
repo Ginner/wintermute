@@ -59,4 +59,4 @@ See `skills/new-host.md` for step-by-step instructions.
 - All host names are uppercase
 - The host's `configuration.nix` imports `../../users/<username>` (NixOS side) and the host's `home.nix` imports `../../users/<username>/home.nix` (HM side)
 - Host-specific kanshi monitor profiles are set directly with `services.kanshi.settings` in `home.nix` rather than via the module option — this is the correct place for per-host display configuration
-- Wallpaper is overridden in `home.nix` via `myHomeModules.guiPrograms.stylix.image`
+- Wallpaper is overridden in `home.nix` via `stylix.image` (set directly, not via a module option)

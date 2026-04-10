@@ -23,7 +23,6 @@ No changes to `nixosModules/` or `homeManagerModules/` should be required for a 
 users/<username>/
   default.nix       ← NixOS-level user config (imported by hosts via ../../users/<username>)
   home.nix          ← HM user config (imported by hosts/<HOSTNAME>/home.nix)
-  .secrets/secrets.nix  ← legacy agenix public key file, kept for key reference
 ```
 
 `users/default.nix` is a thin shim that just `imports = [ ./ginner ]`.
@@ -46,7 +45,7 @@ users/<username>/
 - Module options set here take priority over bundle `mkDefault` values but yield to host-level `mkForce`
 
 **`secrets/email.yaml`** (repo root, encrypted):
-- sops-encrypted YAML with keys: `<accountname>-address`, `<accountname>-realname`, `<accountname>-rbw-key` per account
+- sops-encrypted YAML with keys: `<accountname>-address`, `<accountname>-realname`, `<accountname>-password` per account
 - Safe to commit — plaintext never leaves the machine
 - Referenced from `users/<username>/home.nix` via `sops.defaultSopsFile = ../../secrets/email.yaml`
 
@@ -58,7 +57,7 @@ User configs extend what the host/bundle already provides — they never disable
 
 | User | Notes |
 |---|---|
-| ginner | Primary user; email via neomutt (email module + sops), contacts via khard, opencode enabled; rbw installed as raw package |
+| ginner | Primary user; email via neomutt (email module + sops), contacts via khard, opencode enabled; pass managed via laptop bundle |
 
 ## Known issues
 

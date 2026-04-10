@@ -37,7 +37,7 @@ Also creates a `nvim.desktop` entry so nvim appears in app launchers for text fi
 
 Does **not** use HM's `programs.notmuch.user` to avoid the primaryEmail assertion — installs notmuch via `home.packages` and writes the config via sops template instead. Does **not** use `accounts.email.accounts`. PII (addresses, real names) and secrets (password commands) both come from the sops-encrypted `secrets/email.yaml` file.
 
-Default sops key names for an account named `foo`: `foo-address`, `foo-realname`, `foo-rbw-key`. Override with `addressSecret`, `realnameSecret`, `passwordSecret` per account if needed.
+Default sops key names for an account named `foo`: `foo-address`, `foo-realname`, `foo-password`. Override with `addressSecret`, `realnameSecret`, `passwordSecret` per account if needed.
 
 ## Secret vs PII policy (enforced here)
 

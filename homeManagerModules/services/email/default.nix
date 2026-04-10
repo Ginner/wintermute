@@ -28,13 +28,13 @@
 #       # Optional: override sops key names if yours differ from the defaults
 #       # addressSecret  = "work-address";   # default: "<name>-address"
 #       # realnameSecret = "work-realname";  # default: "<name>-realname"
-#       # passwordSecret = "work-rbw-key";   # default: "<name>-rbw-key"
+#       # passwordSecret = "work-password";   # default: "<name>-password"
 #     };
 #   };
 #
 # The sops YAML file must contain keys matching the secret names above.
 # Default key names for an account named "work":
-#   work-address, work-realname, work-rbw-key
+#   work-address, work-realname, work-password
 #
 # ## Generated files (via sops templates, written at activation)
 # - ~/.config/isyncrc            — mbsync config, one IMAPAccount/Store/Channel per account
@@ -213,7 +213,7 @@ in
 
           passwordSecret = lib.mkOption {
             type = lib.types.str;
-            default = "${name}-rbw-key";
+            default = "${name}-password";
             description = "Key name in the sops YAML for this account's password command.";
           };
         };
@@ -245,32 +245,39 @@ in
       ${a.passwordSecret} = {};
     }) accountList);
 
-    # mbsync config — one stanza per account
-    sops.templates."isyncrc" = {
-      path = "${config.xdg.configHome}/isyncrc";
-      content = lib.concatMapStrings mkIsyncStanza accountList;
-    };
+    # All sops templates in one assignment to avoid duplicate attribute errors.
+    sops.templates = lib.mkMerge [
+      # mbsync config — one stanza per account
+      {
+        "isyncrc" = {
+          path    = "${config.xdg.configHome}/isyncrc";
+          content = lib.concatMapStrings mkIsyncStanza accountList;
+        };
+      }
 
-    # msmtp config — one stanza per account, default = primary
-    sops.templates."msmtp-config" = {
-      path = "${config.xdg.configHome}/msmtp/config";
-      content = (lib.concatMapStrings mkMsmtpStanza accountList)
-        + "\naccount default : ${primaryAccount.name}\n";
-    };
+      # msmtp config — one stanza per account, default = primary
+      {
+        "msmtp-config" = {
+          path    = "${config.xdg.configHome}/msmtp/config";
+          content = (lib.concatMapStrings mkMsmtpStanza accountList)
+            + "\naccount default : ${primaryAccount.name}\n";
+        };
+      }
 
-    # Per-account neomutt identity files
-    sops.templates = lib.listToAttrs (map (a: {
-      name  = "neomutt-${a.name}";
-      value = {
-        path    = "${config.xdg.configHome}/neomutt/${a.name}";
-        content = mkNeomuttAccountFile a;
-      };
-    }) accountList);
+      # Per-account neomutt identity files
+      (lib.listToAttrs (map (a: {
+        name  = "neomutt-${a.name}";
+        value = {
+          path    = "${config.xdg.configHome}/neomutt/${a.name}";
+          content = mkNeomuttAccountFile a;
+        };
+      }) accountList))
 
-    # notmuch config — uses primary account address via sops placeholder
-    sops.templates."notmuch-config" = {
-      path = "${config.xdg.configHome}/notmuch/default/config";
-      content = ''
+      # notmuch config — uses primary account address via sops placeholder
+      {
+        "notmuch-config" = {
+          path    = "${config.xdg.configHome}/notmuch/default/config";
+          content = ''
         [database]
         path=${config.xdg.dataHome}/mail
 
@@ -288,7 +295,9 @@ in
         [maildir]
         synchronize_flags=true
       '';
-    };
+        };
+      }
+    ]; # end sops.templates mkMerge
 
     # Ensure mbsync activation waits for sops to decrypt secrets
     systemd.user.services.mbsync.Unit.After = [ "sops-nix.service" ];

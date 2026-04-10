@@ -20,8 +20,11 @@ flake.nix
         │
         └── ./hosts/<HOSTNAME>/home.nix             ← host-specific HM
               ├── imports ../../homeManagerModules   ← all HM modules loaded
-              ├── imports ../../users/<username>/home.nix ← user HM config
-              └── myHomeModules.<bundle>.enable = true
+              ├── imports ../../users/<username>/home.nix ← user identity/prefs
+              ├── myHomeModules.<bundle>.enable = true ← hardware bundle
+              ├── home.stateVersion = "..."           ← host install epoch
+              ├── services.kanshi.settings = [...]    ← monitor profiles
+              └── stylix.image = ...                  ← wallpaper + display tweaks
 ```
 
 **Core invariant**: Provisioning a new host requires ONLY:
@@ -49,6 +52,27 @@ flake.nix
 - `users/<username>/home.nix` — user identity, module enables, sops file pointer
 
 No changes to `nixosModules/` or `homeManagerModules/` should be required for a new host or user.
+
+**Mandatory split convention** — the boundary between the two HM entry points is strict:
+
+| Concern | File | Rationale |
+|---|---|---|
+| `myHomeModules.<bundle>.enable` | `hosts/<h>/home.nix` | Bundle choice is hardware-specific |
+| `home.stateVersion` | `hosts/<h>/home.nix` | Tied to when the host was first installed |
+| Monitor/display profiles (`kanshi`) | `hosts/<h>/home.nix` | Physical monitors differ per machine |
+| Wallpaper (`stylix.image`) | `hosts/<h>/home.nix` | May vary per machine; host is the override point |
+| Stylix target overrides | `hosts/<h>/home.nix` | Display-specific theming decisions |
+| sops age key path | `users/<u>/home.nix` | Key lives with the user, not the host |
+| `sops.defaultSopsFile` pointer | `users/<u>/home.nix` | Secrets belong to the user |
+| Email accounts | `users/<u>/home.nix` | Identity follows the user, not the machine |
+| Git identity | `users/<u>/home.nix` | Portable across all hosts |
+| SSH match blocks | `users/<u>/home.nix` | Remote access config is user-level |
+| Program enables (user preference) | `users/<u>/home.nix` | e.g. `neomutt`, `khard`, `opencode` |
+| User-scoped packages | `users/<u>/home.nix` | e.g. `rbw` |
+
+The test: *would this setting change if the same user switched to a different machine?*
+- No → `users/<u>/home.nix`
+- Yes → `hosts/<h>/home.nix`
 
 
 ## Secrets architecture (sops-nix)

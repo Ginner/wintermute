@@ -4,8 +4,8 @@
   # Email toolchain — account definitions drive all config file generation.
   # Sops secret key names default to "<accountname>-address" etc.; override only
   # if your secrets/email.yaml uses different key names.
-  # The sops YAML file contains: work-address, work-realname, work-rbw-key,
-  #                               private-address, private-realname, private-rbw-key
+  # The sops YAML file contains: work-address, work-realname, work-password,
+  #                               private-address, private-realname, private-password
   sops = {
     age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
     defaultSopsFile = ../../secrets/email.yaml;
@@ -61,8 +61,4 @@
   };
 
   myHomeModules.tuiPrograms.opencode.enable = true;
-
-  home.packages = with pkgs; [
-    rbw
-  ];
 }

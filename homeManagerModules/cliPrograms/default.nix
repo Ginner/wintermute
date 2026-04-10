@@ -6,7 +6,7 @@
     ./git.nix
     ./kitty.nix
     ./latex.nix
-    ./rbw.nix
+    ./pass.nix
     ./scripts.nix
     ./ssh.nix
     ./starship.nix

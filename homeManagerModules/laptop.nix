@@ -36,7 +36,7 @@ in
     myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
-    # myHomeModules.cliPrograms.rbw.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.pass.enable = lib.mkDefault true;
     myHomeModules.tuiPrograms.opencode.enable = lib.mkDefault false;
     
     # Email and contacts (optional, disabled by default)
@@ -49,7 +49,6 @@ in
       inputs.taskfinder.packages.${pkgs.stdenv.hostPlatform.system}.default
       newsboat  # Could be made into module
       numbat    # Could be made into module
-      pass-wayland # Use bitwardn as default instead
       calcurse  # Could be made into module
       # khard - now managed by tuiPrograms.khard module
       imagemagick

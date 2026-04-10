@@ -1,28 +1,50 @@
 # LT·HL OS
 
-## Host-specific configuration
-`./hosts/<HOSTNAME/[configuration.nix,home.nix]`
-Intended for at per-host (each computer) configuration. This should reflect the intended use of the host.
+## Architecture
 
-## User-specific configuration
-`./users/<username>/[configuration.nix,home.nix]`
-Intended for per-user configuration.
+Configuration is split across three user-facing files. The rule: *would this setting change if the same user moved to a different machine?* If yes → host file. If no → user file.
+
+```
+hosts/<HOSTNAME>/
+  configuration.nix   NixOS — hardware, bundle selection, host-level service overrides
+  home.nix            Home Manager — hardware bundle, monitors, wallpaper, stateVersion
+
+users/<USERNAME>/
+  default.nix         NixOS — user-level system config (udev rules, system packages, etc.)
+  home.nix            Home Manager — identity, SSH, git, email, program preferences
+```
+
+### What goes where
+
+| Concern | File |
+|---|---|
+| Hardware bundle (`myModules.laptop.enable`) | `hosts/<h>/configuration.nix` |
+| Host-level service overrides | `hosts/<h>/configuration.nix` |
+| HM bundle (`myHomeModules.laptop.enable`) | `hosts/<h>/home.nix` |
+| Monitor profiles (`kanshi`) | `hosts/<h>/home.nix` |
+| Wallpaper (`stylix.image`) | `hosts/<h>/home.nix` |
+| Stylix target overrides | `hosts/<h>/home.nix` |
+| `home.stateVersion` | `hosts/<h>/home.nix` |
+| sops age key path | `users/<u>/home.nix` |
+| `sops.defaultSopsFile` pointer | `users/<u>/home.nix` |
+| Git identity | `users/<u>/home.nix` |
+| SSH match blocks | `users/<u>/home.nix` |
+| Email accounts | `users/<u>/home.nix` |
+| Program enables (user preference) | `users/<u>/home.nix` |
+| User-scoped packages | `users/<u>/home.nix` |
+
+## TODO
+- [ ] calcurse — installed as a raw package in `laptop.nix`; no dedicated module yet
+- [ ] cheat — installed as a raw package in `laptop.nix`; no dedicated module yet
+- [ ] [cheat.sh](https://github.com/chubin/cheat.sh)/[navi](https://github.com/denisidoro/navi) — alternatives to cheat; not yet evaluated
+- [ ] Add host-options: VM, WSL
+- [ ] preconfigure pinentry for rbw (`pinentry-tty`)
 
 ## Laptop module
 Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
 
 ## Default module
 The user is set, you need to set a password for the user with `passwd <username>`(_I'm not sure how this works in my setup..._).
-
-## TODO
-- [ ] Neomutt
-- [ ] Calcurse
-- [ ] direnv
-- [ ] LaTeX
-- [ ] [cheat](https://github.com/cheat/cheat)/[cheat.sh](https://github.com/chubin/cheat.sh)/[navi](https://github.com/denisidoro/navi)?
-- [ ] Combine desktop/Laptop - The only differences are tlp, I think. Maybe it could just be handled as a 'small' toggle...
-- [ ] Add host-options: VM, wsl,
-- [ ] preconfigure pinentry for rbw (`pinentry-tty`)
 
 ## Secrets (sops-nix)
 
@@ -66,7 +88,7 @@ The host SSH key (`/etc/ssh/ssh_host_ed25519_key`) is used for NixOS-level decry
 
 ### Secret file structure (`secrets/email.yaml`)
 
-Contains 6 keys: `work-address`, `work-realname`, `work-rbw-key`, `private-address`, `private-realname`, `private-rbw-key`.
+Contains 6 keys: `work-address`, `work-realname`, `work-password`, `private-address`, `private-realname`, `private-password`.
 
 These are injected into mbsync, msmtp, and neomutt config files at activation time via sops templates. No plaintext email addresses or passwords ever enter the Nix store.
 
@@ -89,13 +111,24 @@ Schemes are YAML files from `pkgs.base16-schemes` (e.g. `catppuccin-frappe.yaml`
 
 ## Post build
 
-### rbw
-_Bitwarden commandline client_
+### pass
 
-After build, `rbw` needs its config written. If using the `cliPrograms.rbw` HM module with a sops secret, this is automatic. If installed as a raw package (current setup), run:
+pass is managed via `myHomeModules.cliPrograms.pass` (enabled by default in the laptop bundle). The store is at `$XDG_DATA_HOME/password-store`.
+
+Two steps are required after first build:
+
+**1. Set the GPG key:**
 ```bash
-rbw config set email <user-email>
+pass init <gpg-key-id>
 ```
+This creates the store and sets `PASSWORD_STORE_KEY`. If migrating an existing store, just ensure your GPG key is imported and trusted.
+
+**2. (Optional) Clone an existing store:**
+```bash
+git clone <repo> ~/.local/share/password-store
+```
+
+`pass-otp` (TOTP) and `pass-secret-service` (D-Bus secrets API for GUI apps) are enabled by default — no further setup needed for those.
 
 ### OpenCode
 Start opencode and do `/connect` and connect to the API of choice.

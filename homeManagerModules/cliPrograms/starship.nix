@@ -13,6 +13,12 @@
         aws.disabled = true;
         gcloud.disabled = true;
         line_break.disabled = true;
+        nix_shell = {
+          disabled = false;
+          format = "[$symbol$state]($style) ";
+          symbol = "nix ";
+          heuristic = true;
+        };
       };
     };
   };

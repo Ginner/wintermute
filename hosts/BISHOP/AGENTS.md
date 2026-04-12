@@ -42,8 +42,12 @@ The Dell U2717D serial: T4F1X87A735S; Dell U2417H serial: 5K9YD734A3ES. These ar
 
 ## Secrets
 
-- `hosts/BISHOP/.secrets/secrets.nix`: Public keys declared (host key `ssh-ed25519`). Currently no active secret file declarations — the body is empty.
-- User secrets: `users/ginner/.secrets/secrets.nix`
+Secrets are managed by sops-nix. Key declarations are in `.sops.yaml` at the repo root.
+
+- Host-level decryption: `sops.age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ]` in `configuration.nix` — uses the host SSH key, generated automatically on first boot
+- HM-level decryption: user's personal age key at `~/.config/sops/age/keys.txt` — the one manual step on a fresh machine (see `README.md`)
+- `hosts/BISHOP/.secrets/secrets.nix`: legacy agenix public key file, kept for key reference only
+- User secrets: `secrets/email.yaml` (repo root, encrypted)
 
 ## AMD-specific behaviour
 

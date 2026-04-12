@@ -1,12 +1,44 @@
 # LT·HL OS
 
-## Host-specific configuration
-`./hosts/<HOSTNAME/[configuration.nix,home.nix]`
-Intended for at per-host (each computer) configuration. This should reflect the intended use of the host.
+## Architecture
 
-## User-specific configuration
-`./users/<username>/[configuration.nix,home.nix]`
-Intended for per-user configuration.
+Configuration is split across three user-facing files. The rule: *would this setting change if the same user moved to a different machine?* If yes → host file. If no → user file.
+
+```
+hosts/<HOSTNAME>/
+  configuration.nix   NixOS — hardware, bundle selection, host-level service overrides
+  home.nix            Home Manager — hardware bundle, monitors, wallpaper, stateVersion
+
+users/<USERNAME>/
+  default.nix         NixOS — user-level system config (udev rules, system packages, etc.)
+  home.nix            Home Manager — identity, SSH, git, email, program preferences
+```
+
+### What goes where
+
+| Concern | File |
+|---|---|
+| Hardware bundle (`myModules.laptop.enable`) | `hosts/<h>/configuration.nix` |
+| Host-level service overrides | `hosts/<h>/configuration.nix` |
+| HM bundle (`myHomeModules.laptop.enable`) | `hosts/<h>/home.nix` |
+| Monitor profiles (`kanshi`) | `hosts/<h>/home.nix` |
+| Wallpaper (`stylix.image`) | `hosts/<h>/home.nix` |
+| Stylix target overrides | `hosts/<h>/home.nix` |
+| `home.stateVersion` | `hosts/<h>/home.nix` |
+| sops age key path | `users/<u>/home.nix` |
+| `sops.defaultSopsFile` pointer | `users/<u>/home.nix` |
+| Git identity | `users/<u>/home.nix` |
+| SSH match blocks | `users/<u>/home.nix` |
+| Email accounts | `users/<u>/home.nix` |
+| Program enables (user preference) | `users/<u>/home.nix` |
+| User-scoped packages | `users/<u>/home.nix` |
+
+## TODO
+- [ ] calcurse — installed as a raw package in `laptop.nix`; no dedicated module yet
+- [ ] cheat — installed as a raw package in `laptop.nix`; no dedicated module yet
+- [ ] [cheat.sh](https://github.com/chubin/cheat.sh)/[navi](https://github.com/denisidoro/navi) — alternatives to cheat; not yet evaluated
+- [ ] Add host-options: VM, WSL
+- [ ] preconfigure pinentry for rbw (`pinentry-tty`)
 
 ## Laptop module
 Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
@@ -14,19 +46,51 @@ Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
 ## Default module
 The user is set, you need to set a password for the user with `passwd <username>`(_I'm not sure how this works in my setup..._).
 
-## TODO
-- [ ] agenix
-- [ ] Neomutt
-- [ ] Calcurse
-- [ ] direnv
-- [ ] LaTeX
-- [ ] [cheat](https://github.com/cheat/cheat)/[cheat.sh](https://github.com/chubin/cheat.sh)/[navi](https://github.com/denisidoro/navi)?
-- [ ] Combine desktop/Laptop - The only differences are tlp, I think. Maybe it could just be handled as a 'small' toggle...
-- [ ] Add host-options: VM, wsl, 
-- [ ] preconfigure pinentry for rbw (`pinentry-tty`)
+## Secrets (sops-nix)
 
-## Pre-build
-### agenix
+All secrets are managed by [sops-nix](https://github.com/Mic92/sops-nix) and stored encrypted in `secrets/`. Encrypted files are safe to commit — plaintext never enters the Nix store or version control.
+
+Key configuration lives in `.sops.yaml` at the repo root.
+
+### Fresh machine setup (one-time manual step)
+
+This is the **only** manual step required before `nixos-rebuild switch` will work:
+
+**Option A — bare age key (recommended):**
+```bash
+nix-shell -p age --run 'mkdir -p ~/.config/sops/age && age-keygen -o ~/.config/sops/age/keys.txt'
+# The public key is printed to stdout — add it to .sops.yaml as &user_ginner
+```
+
+**Option B — derive from an existing passphrase-free SSH ed25519 key:**
+```bash
+nix-shell -p ssh-to-age --run 'mkdir -p ~/.config/sops/age && ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt'
+# Note: the SSH key must have no passphrase for this to work
+```
+
+After generating the key, restore or rebuild `secrets/email.yaml`:
+```bash
+nix-shell -p sops --run 'sops secrets/email.yaml'
+```
+
+The host SSH key (`/etc/ssh/ssh_host_ed25519_key`) is used for NixOS-level decryption and is generated automatically on first boot — no setup needed there.
+
+### Adding `.sops.yaml` keys for a new machine
+
+1. Get the host age pubkey:
+   ```bash
+   nix-shell -p ssh-to-age --run 'cat /etc/ssh/ssh_host_ed25519_key.pub | ssh-to-age'
+   ```
+2. Add it to `.sops.yaml` and re-encrypt all secret files:
+   ```bash
+   nix-shell -p sops --run 'sops updatekeys secrets/email.yaml'
+   ```
+
+### Secret file structure (`secrets/email.yaml`)
+
+Contains 6 keys: `work-address`, `work-realname`, `work-password`, `private-address`, `private-realname`, `private-password`.
+
+These are injected into mbsync, msmtp, and neomutt config files at activation time via sops templates. No plaintext email addresses or passwords ever enter the Nix store.
 
 ## Styling (Stylix)
 
@@ -47,16 +111,29 @@ Schemes are YAML files from `pkgs.base16-schemes` (e.g. `catppuccin-frappe.yaml`
 
 ## Post build
 
-### rbw
-_Bitwarden commandline client_
+### pass
 
-After build, `rbw` is configured using the following commands:
-`rbw config set email <user-email>`
+pass is managed via `myHomeModules.cliPrograms.pass` (enabled by default in the laptop bundle). The store is at `$XDG_DATA_HOME/password-store`.
+
+Two steps are required after first build:
+
+**1. Set the GPG key:**
+```bash
+pass init <gpg-key-id>
+```
+This creates the store and sets `PASSWORD_STORE_KEY`. If migrating an existing store, just ensure your GPG key is imported and trusted.
+
+**2. (Optional) Clone an existing store:**
+```bash
+git clone <repo> ~/.local/share/password-store
+```
+
+`pass-otp` (TOTP) and `pass-secret-service` (D-Bus secrets API for GUI apps) are enabled by default — no further setup needed for those.
 
 ### OpenCode
 Start opencode and do `/connect` and connect to the API of choice. 
 
-## Email (neomutt)
+### Email (neomutt)
 `agenix` secrets not available at build time + files not tracked by `git` not 'seen' by Nix → Manual steps:
 ```
 mkdir -p ~/.config/nixos-secrets

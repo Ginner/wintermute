@@ -1,4 +1,3 @@
-# User-specific email configurations (keep out of git)
-# These files contain actual email addresses and should never be committed
-# Use 'git add -N users/*/email-config.nix' to make them visible to Nix without committing
-users/*/email-config.nix
+# All secrets are managed by sops-nix and stored encrypted in secrets/.
+# secrets/email.yaml is safe to commit — it is sops-encrypted.
+# No plaintext PII or secret files belong in this repo.

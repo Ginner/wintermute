@@ -36,20 +36,19 @@ in
     myHomeModules.guiPrograms.kde-connect.enable = lib.mkDefault false;
     myHomeModules.cliPrograms.latex.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.ncspot.enable = lib.mkDefault false;
-    # myHomeModules.cliPrograms.rbw.enable = lib.mkDefault false;
+    myHomeModules.cliPrograms.pass.enable = lib.mkDefault true;
     myHomeModules.tuiPrograms.opencode.enable = lib.mkDefault false;
     
     # Email and contacts (optional, disabled by default)
     myHomeModules.tuiPrograms.neomutt.enable = lib.mkDefault false;
     myHomeModules.tuiPrograms.khard.enable = lib.mkDefault false;
-    myHomeModules.services.email-accounts.enable = lib.mkDefault false;
+    myHomeModules.services.email.enable = lib.mkDefault false;
 
     home.packages = with pkgs; [
       # Laptop-specific tools not covered by modules
       inputs.taskfinder.packages.${pkgs.stdenv.hostPlatform.system}.default
       newsboat  # Could be made into module
       numbat    # Could be made into module
-      pass-wayland # Use bitwardn as default instead
       calcurse  # Could be made into module
       # khard - now managed by tuiPrograms.khard module
       imagemagick

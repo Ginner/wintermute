@@ -2,14 +2,27 @@
 
 Each subdirectory is one user. The directory name is the username.
 
+## Declarativeness policy
+
+Manual post-install steps must be minimised. Any step that cannot be automated must be documented in `README.md`. The goal is: clone repo → restore your age private key → `nixos-rebuild switch` → done.
+
+**PII and secrets are distinct:**
+- **Secrets** (passwords, API keys): never in version control or Nix store → sops templates only
+- **PII** (email addresses, real names): never in version control, Nix store is fine → also via sops templates since there is no eval-time injection mechanism that avoids committed files
+
+**User-facing files only.** A user of this config should only need to edit:
+- `hosts/<hostname>/configuration.nix`
+- `hosts/<hostname>/home.nix`
+- `users/<username>/home.nix`
+
+No changes to `nixosModules/` or `homeManagerModules/` should be required for a new host or user.
+
 ## Directory structure per user
 
 ```
 users/<username>/
   default.nix       ← NixOS-level user config (imported by hosts via ../../users/<username>)
   home.nix          ← HM user config (imported by hosts/<HOSTNAME>/home.nix)
-  .secrets/secrets.nix  ← agenix public key declarations for user secrets (optional)
-  email-config.template.nix  ← Template for git-ignored email-config.nix (optional)
 ```
 
 `users/default.nix` is a thin shim that just `imports = [ ./ginner ]`.
@@ -24,26 +37,27 @@ users/<username>/
 
 **`home.nix`** (HM side):
 - User identity: git name/email, SSH match blocks
-- Opt-in to optional modules (e.g., `myHomeModules.tuiPrograms.neomutt.enable = true`)
+- Sops age key path and `defaultSopsFile` pointer
+- Email account definitions (`myHomeModules.services.email.accounts.*`) — IMAP/SMTP hosts and macro keys only; no addresses or passwords
+- Opt-in to optional modules (`myHomeModules.tuiPrograms.neomutt.enable`, etc.)
 - Additional packages specific to this user (`home.packages`)
 - Imported into the host via `imports = [ ../../users/<username>/home.nix ]` in `hosts/<HOSTNAME>/home.nix`
 - Module options set here take priority over bundle `mkDefault` values but yield to host-level `mkForce`
 
-**`email-config.nix`** (git-ignored):
-- Not in the repository; created manually at `users/ginner/email-config.nix` (or at `~/.config/nixos-secrets/email-config.nix` per README)
-- Template provided at `users/ginner/email-config.template.nix`
-- Contains: email address, realName, passwordCommand for work and private accounts
-- Required if `myHomeModules.services.email-accounts.enable = true`
+**`secrets/email.yaml`** (repo root, encrypted):
+- sops-encrypted YAML with keys: `<accountname>-address`, `<accountname>-realname`, `<accountname>-password` per account
+- Safe to commit — plaintext never leaves the machine
+- Referenced from `users/<username>/home.nix` via `sops.defaultSopsFile = ../../secrets/email.yaml`
 
 ## User configs are additive
 
-User configs extend what the host/bundle already provides — they never disable things the bundle enables (do not use `lib.mkForce false` without good reason). They override identity-specific values (git name, SSH keys, email) and opt into optional modules that are `mkDefault false` in the bundle.
+User configs extend what the host/bundle already provides — they never disable things the bundle enables (do not use `lib.mkForce false` without good reason). They override identity-specific values (git name, SSH keys) and opt into optional modules that are `mkDefault false` in the bundle.
 
 ## Existing users
 
 | User | Notes |
 |---|---|
-| ginner | Primary user; email via neomutt, contacts via khard, opencode enabled; rbw installed as raw package (module requires agenix secret not yet wired) |
+| ginner | Primary user; email via neomutt (email module + sops), contacts via khard, opencode enabled; pass managed via laptop bundle |
 
 ## Known issues
 

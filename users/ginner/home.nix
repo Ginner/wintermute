@@ -1,167 +1,64 @@
-{ config, pkgs, inputs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
-let
-  # Import email configuration from git-ignored file
-  # Location: users/ginner/email-config.nix (in repo but git-ignored)
-  # Template: users/ginner/email-config.template.nix
-  #
-  # IMPORTANT: After creating email-config.nix, run:
-  #   git add -N users/ginner/email-config.nix
-  # This makes the file visible to Nix without committing its content.
-  emailConfig = import ./email-config.nix;
-in
 {
-  # Enable email services (infrastructure only, accounts defined below)
-  myHomeModules.services.email-accounts.enable = true;
+  # Email toolchain — account definitions drive all config file generation.
+  # Sops secret key names default to "<accountname>-address" etc.; override only
+  # if your secrets/email.yaml uses different key names.
+  # The sops YAML file contains: work-address, work-realname, work-password,
+  #                               private-address, private-realname, private-password
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/email.yaml;
+  };
+
+  myHomeModules.services.email = {
+    enable = true;
+    accounts = {
+      work = {
+        primary     = true;
+        imapHost    = "imap.startmail.com";
+        smtpHost    = "smtp.startmail.com";
+        macroKey    = "1";
+      };
+      private = {
+        primary     = false;
+        imapHost    = "imap.startmail.com";
+        smtpHost    = "smtp.startmail.com";
+        macroKey    = "2";
+      };
+    };
+  };
+
   myHomeModules.tuiPrograms.neomutt.enable = true;
   myHomeModules.tuiPrograms.khard.enable = true;
 
-  # Define email accounts from external configuration
-  accounts.email.accounts = {
-    "work" = {
-      primary = true;
-      address = emailConfig.work.address;
-      userName = emailConfig.work.address;
-      realName = emailConfig.work.realName;
-      passwordCommand = emailConfig.work.passwordCommand;
-      
-      # IMAP settings for StartMail
-      imap = {
-        host = "imap.startmail.com";
-        port = 993;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      # SMTP settings for StartMail
-      smtp = {
-        host = "smtp.startmail.com";
-        port = 465;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      folders = {
-        inbox = "INBOX";
-        sent = "Sent";
-        drafts = "Drafts";
-        trash = "Trash";
-      };
-      
-      neomutt = {
-        enable = true;
-        extraMailboxes = [ "Archive" ];
-      };
-      
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-        patterns = [ "*" "!Spam" ];
-      };
-      
-      msmtp.enable = true;
-      
-      notmuch = {
-        enable = true;
-      };
-    };
-    
-    "private" = {
-      primary = false;
-      address = emailConfig.private.address;
-      userName = emailConfig.private.address;
-      realName = emailConfig.private.realName;
-      passwordCommand = emailConfig.private.passwordCommand;
-      
-      # IMAP settings for StartMail
-      imap = {
-        host = "imap.startmail.com";
-        port = 993;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      # SMTP settings for StartMail
-      smtp = {
-        host = "smtp.startmail.com";
-        port = 465;
-        tls = {
-          enable = true;
-          useStartTls = false;
-        };
-      };
-      
-      folders = {
-        inbox = "INBOX";
-        sent = "Sent";
-        drafts = "Drafts";
-        trash = "Trash";
-      };
-      
-      neomutt = {
-        enable = true;
-        extraMailboxes = [ "Archive" ];
-      };
-      
-      mbsync = {
-        enable = true;
-        create = "both";
-        expunge = "both";
-        patterns = [ "*" "!Spam" ];
-      };
-      
-      msmtp.enable = true;
-      
-      notmuch = {
-        enable = true;
-      };
-    };
+  # Git identity
+  programs.git.settings.user = {
+    name  = "Ginner";
+    email = "26798615+Ginner@users.noreply.github.com";
   };
 
-  # Git configuration (user-specific)
-  programs.git.settings = {
-    user = {
-      name = "Ginner";
-      email = "26798615+Ginner@users.noreply.github.com";
-    };
-  };
-
-  # SSH configuration (user-specific)
+  # SSH match blocks
   myHomeModules.cliPrograms.ssh = {
     enable = true;
     matchBlocks = {
       "github.com" = {
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519_sk";
+        user           = "git";
+        identityFile   = "~/.ssh/id_ed25519_sk";
       };
       "forgejo" = {
-        hostname = "forgejo.ginnerskov.co";
-        user = "git";
-        port = 222;
-        identityFile = "~/.ssh/id_ed25519_sk";
+        hostname       = "forgejo.ginnerskov.co";
+        user           = "git";
+        port           = 222;
+        identityFile   = "~/.ssh/id_ed25519_sk";
       };
       "codeberg" = {
-        user = "git";
-        hostname = "codeberg.org";
-        identityFile = "~/.ssh/id_ed25519_sk";
+        user           = "git";
+        hostname       = "codeberg.org";
+        identityFile   = "~/.ssh/id_ed25519_sk";
       };
     };
   };
 
-  # Enable OpenCode
   myHomeModules.tuiPrograms.opencode.enable = true;
-
-  # User-specific packages
-  # rbw installed directly (not via cliPrograms.rbw module) because the module
-  # requires emailSecret which is an agenix-managed secret not yet wired up.
-  home.packages = with pkgs; [
-    rbw
-  ];
 }

@@ -27,7 +27,7 @@ Terminal UI programs — full-screen TUI applications that work without a compos
 
 **yazi.nix**: Exposes `enableZshIntegration` (default true). Configures openers for edit/pdf/image/open using `kitty`, `zathura`, `swayimg`, and `xdg-open` respectively. Shell wrapper named `y`. Enables `stylix.targets.yazi`.
 
-**neomutt.nix**: Exposes `mailsyncCommand` (default `"mbsync -a"`) and `enableKhard` (default true, wires `khard` into neomutt's query command). Installs supporting packages: `gnupg`, `lynx`, `urlscan`, `w3m`. Account-switching macros are dynamically generated from `accounts.email.accounts` (keys `1`/`2` for work/private). Email programs (mbsync, msmtp, notmuch) are managed by `services/email-accounts.nix`, not here.
+**neomutt.nix**: Exposes `mailsyncCommand` (default `"mbsync -a"`) and `enableKhard` (default true, wires `khard` into neomutt's query command). Installs supporting packages: `gnupg`, `lynx`, `urlscan`, `w3m`. Account-switching macros (`i1`/`i2`) are static (work=primary, private=secondary) and `source` the per-account identity files written by sops templates in the user's `home.nix`. Does **not** depend on `accounts.email.accounts`. Email programs (mbsync, msmtp, notmuch) are managed by `services/email-accounts.nix`, not here.
 
 **khard.nix**: Exposes `contactsPath` (default `$XDG_DATA_HOME/contacts`) and `enableCardDAV` (default false, placeholder for future vdirsyncer integration). Creates the contacts directory via HM activation.
 

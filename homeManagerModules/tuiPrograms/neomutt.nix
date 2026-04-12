@@ -22,13 +22,11 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      # Mail clients are managed by accounts.email
-      # neomutt, isync (mbsync), msmtp, notmuch are auto-installed
       gnupg
       lynx
       urlscan
       w3m
-    ] ++ lib.optional config.myHomeModules.cliPrograms.rbw.enable pkgs.rbw;
+    ];
     
     programs.neomutt = {
       enable = true;
@@ -125,30 +123,19 @@ in
           macro index,pager a "<pipe-message>khard add-email<return>" "add sender to khard contacts"
         ''}
 
-        # Account switching macros - dynamically generated from accounts.email
+        # Account switching macros — generated from myHomeModules.services.email.accounts.
+        # Each account declares a macroKey (e.g. "1" → i1). Per-account identity files
+        # are written by sops templates in the email module.
         ${let
-          accounts = config.accounts.email.accounts;
-          # Map account names to macro keys and display names
-          accountMacros = {
-            "work" = { key = "1"; name = "Work"; };
-            "private" = { key = "2"; name = "Private"; };
-          };
-        in lib.concatStringsSep "\n" (lib.mapAttrsToList (accountName: macro:
-          let
-            account = accounts.${accountName} or null;
-          in lib.optionalString (account != null) ''
-            macro index,pager i${macro.key} '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/${accountName}<enter><change-folder>!<enter>;<check-stats>' "switch to ${macro.name}"
-          ''
-        ) accountMacros)}
+          emailAccounts = lib.attrValues config.myHomeModules.services.email.accounts;
+          primary = lib.findFirst (a: a.primary) null emailAccounts;
+        in lib.concatStringsSep "\n" (
+          map (a: ''macro index,pager i${a.macroKey} '<sync-mailbox><enter-command>source ${config.xdg.configHome}/neomutt/${a.name}<enter><change-folder>!<enter>;<check-stats>' "switch to ${a.name}"'')
+          emailAccounts
+        ) + lib.optionalString (primary != null) ''
 
         # Source primary account at startup
-        ${let
-          primaryAccountName = lib.findFirst 
-            (name: config.accounts.email.accounts.${name}.primary or false) 
-            null 
-            (lib.attrNames config.accounts.email.accounts);
-        in lib.optionalString (primaryAccountName != null) ''
-          source ${config.xdg.configHome}/neomutt/${primaryAccountName}
+        source ${config.xdg.configHome}/neomutt/${primary.name}
         ''}
 
         ### From mutt-wizard:

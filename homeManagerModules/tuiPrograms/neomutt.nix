@@ -26,7 +26,7 @@ in
       lynx
       urlscan
       w3m
-    ] ++ lib.optional config.myHomeModules.cliPrograms.rbw.enable pkgs.rbw;
+    ];
     
     programs.neomutt = {
       enable = true;

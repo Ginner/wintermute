@@ -103,21 +103,29 @@ in
           installation_mode = "normal_installed";
           default_area = "menupanel";
         };
-        "darkreaderapp@gmail.com" = {
+        "addon@darkreader.org" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
           installation_mode = "normal_installed";
           default_area = "menupanel";
         };
-        # "sienori.firefox+tsm@gmail.com" = {
-        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/tab-session-manager/latest.xpi";
-        #   installation_mode = "normal_installed";
-        #   default_area = "menupanel";
-        # };
-        # "@testpilot-containers" = {
-        #   install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi_account_containers/latest.xpi";
-        #   installation_mode = "normal_installed";
-        #   default_area = "menupanel";
-        # };
+        # Bitwarden:
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # Tab Session Manager:
+        "Tab-Session-Manager@sienori" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/tab-session-manager/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
+        # Multi-Account Containers:
+        "@testpilot-containers" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi_account_containers/latest.xpi";
+          installation_mode = "normal_installed";
+          default_area = "menupanel";
+        };
       };
   
       /* ---- PREFERENCES ---- */

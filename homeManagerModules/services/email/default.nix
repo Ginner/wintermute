@@ -230,13 +230,14 @@ in
       }
     ];
 
-    # Install programs (package + baseline config only — no user/email options set here)
-    programs.mbsync.enable = true;
-    programs.msmtp.enable = true;
-
-    # notmuch: install via home.packages to avoid HM's assertion on user.primaryEmail.
-    # Config is written by sops template below so PII stays out of the Nix store.
-    home.packages = [ pkgs.notmuch ];
+    # Install binaries only — do NOT use programs.mbsync.enable or programs.msmtp.enable.
+    # Those options cause HM to manage ~/.config/isyncrc and ~/.config/msmtp/config
+    # respectively, which conflicts with sops.templates owning those exact paths.
+    # Installing via home.packages gives us the binaries without HM touching the configs.
+    # msmtpq is bundled inside the msmtp package (no separate derivation needed).
+    # notmuch is also here to avoid HM's assertion on user.primaryEmail.
+    # All three config files are written by sops templates below.
+    home.packages = with pkgs; [ isync msmtp notmuch ];
 
     # Declare all sops secrets derived from account definitions
     sops.secrets = lib.mkMerge (map (a: {

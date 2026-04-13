@@ -6,6 +6,7 @@
     ./inkscape.nix
     ./kde-connect.nix
     ./mpv.nix
+    ./signal.nix
     ./swayimg.nix
     ./walker.nix
     ./waybar.nix

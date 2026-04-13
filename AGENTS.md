@@ -159,6 +159,18 @@ nix eval .#nixosConfigurations.BISHOP.config.services.greetd.enable  # inspect
 - sops-nix is added as both a NixOS module (`sops-nix.nixosModules.sops`) and an HM module (`sops-nix.homeManagerModules.sops`) in `flake.nix` via `home-manager.sharedModules`
 - stylix is added as a NixOS module in `flake.nix`; there is a separate HM-level stylix module (`homeManagerModules/guiPrograms/stylix.nix`)
 
+## Skills
+
+Skill files in `skills/` contain step-by-step workflows and repo-specific patterns for common tasks. **Before beginning any task that matches a category below, read the corresponding skill file in full.**
+
+| Task | Skill file |
+|---|---|
+| Adding or editing a Home Manager module | `skills/new-home-module.md` |
+| Adding or editing a NixOS module | `skills/new-nixos-module.md` |
+| Provisioning a new host | `skills/new-host.md` |
+| Adding a new user | `skills/new-user.md` |
+| Any Nix expression authoring or pattern questions | `skills/nix-patterns.md` |
+
 ## Known issues / deviations from ideal architecture
 
 No outstanding known issues.

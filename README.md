@@ -40,6 +40,35 @@ users/<USERNAME>/
 - [ ] Add host-options: VM, WSL
 - [ ] preconfigure pinentry for rbw (`pinentry-tty`)
 
+## Pinned inputs / active workarounds
+
+These are intentional deviations from tracking upstream `HEAD`. Each entry notes what to do when the upstream issue is resolved.
+
+### Walker pinned to pre-regression commit
+
+`walker` in `flake.lock` is pinned to commit `f6a8af6` (2026-03-30) because Walker 2.16.0
+introduced a panic on startup (`failed to get item layout: desktopapplications`).
+
+When a release after 2.16.0 looks clean, test it:
+```bash
+nix flake update walker
+sudo nixos-rebuild test --flake .#BISHOP
+```
+If Walker launches correctly, keep the update and switch:
+```bash
+sudo nixos-rebuild switch --flake .#BISHOP
+```
+
+### OpenCode TUI theme not managed by Stylix
+
+`homeManagerModules/tuiPrograms/opencode.nix` sets `programs.opencode.tui.theme = "stylix"`
+explicitly, using opencode's own built-in theme of that name. Stylix does not yet have an
+opencode target module — its fix is tracked at https://github.com/nix-community/stylix/issues/2264.
+
+When Stylix ships the fix and your `stylix` flake input is updated to include it:
+1. Remove `tui.theme = "stylix"` (and its comment) from `homeManagerModules/tuiPrograms/opencode.nix`
+2. Rebuild — Stylix will manage opencode theming from your base16 palette automatically
+
 ## Laptop module
 Dock fix: `boltctl list` -> `boltctl enroll <device-id>`
 

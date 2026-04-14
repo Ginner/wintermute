@@ -50,13 +50,6 @@ in
       # ", preffered, auto, 1"
       ", preffered, auto, 1.0"
     ];
-    # TODO: Works for BISHOP, has to be handled in the host configurations:
-    "device[elan06c2:00-04f3:3195-touchpad]".enabled = false;
-    "device[tpps/2-synaptics-trackpoint]" = {
-      sensitivity = 0.15;
-      accel_profile = "flat";
-      natural_scroll = false;
-    };
     misc = {
       disable_hyprland_logo = true;
       disable_splash_rendering = true;

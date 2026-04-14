@@ -39,5 +39,25 @@
     }
   ];
   
+  # Host-specific input device configuration
+  wayland.windowManager.hyprland.settings = {
+    # Disable the built-in touchpad — TrackPoint preferred
+    "device[elan06c2:00-04f3:3195-touchpad]".enabled = false;
+
+    # Internal ThinkPad TrackPoint
+    "device[tpps/2-synaptics-trackpoint]" = {
+      sensitivity = 0.15;
+      accel_profile = "flat";
+      natural_scroll = false;
+    };
+
+    # TEX Shinobi external keyboard TrackPoint
+    "device[usb-hid-keyboard-mouse]" = {
+      sensitivity = 0.0;
+      accel_profile = "flat";
+      natural_scroll = false;
+    };
+  };
+
   home.stateVersion = "22.11";
 }

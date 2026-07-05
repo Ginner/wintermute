@@ -8,6 +8,7 @@
     ./openssh.nix
     ./pipewire.nix
     ./podman.nix
+    ./printing.nix
     ./tailscale.nix
     ./tlp.nix 
     ./xremap.nix

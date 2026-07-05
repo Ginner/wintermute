@@ -28,6 +28,7 @@
 | mpv                                               |         |        |    X*   |   X*   |    |  X  | Media player.                                                        |
 | zathura                                           |         |        |    X    |    X   |    |  X  | PDF viewer.                                                          |
 | kde-connect                                       |         |        |    X*   |   X*   |  X |  X  | HM runs user service; system opens firewall ports.                   |
+| cups (printing)                                   |         |        |    X*   |   X*   |  X |     | CUPS + Avahi mDNS discovery; managed at :631 web UI. Off by default.  |
 | git (client)                                      |    X    |    X   |    X    |    X   |    |  X  | Per-user config in HM (`user.name`, signing, etc.).                  |
 | ssh (client)                                      |    X    |    X   |    X    |    X   |    |  X  | Per-user keys and `~/.ssh/config` via HM.                            |
 | direnv                                            |         |        |    X    |    X   |    |  X  | Load/Unload env vars.                                                |

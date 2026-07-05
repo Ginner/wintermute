@@ -91,6 +91,15 @@ myModules.shared.stylix.image = ./assets/wallpaper.jpg;
 myHomeModules.guiPrograms.waybar.logo = ./assets/logo.svg;
 ```
 
+## Printing
+
+`myModules.services.printing.enable = true;` enables CUPS with Avahi mDNS
+discovery, so network/driverless printers are found automatically. Manage
+printers, defaults, and jobs through the CUPS web interface at
+`http://localhost:631` — no extra GUI package is installed by default. The
+primary user is added to the `lpadmin` group when this module is enabled,
+granting access to the web admin UI.
+
 ## NixVim
 
 `myHomeModules.tuiPrograms.nixvim.enable = true;` configures Neovim through

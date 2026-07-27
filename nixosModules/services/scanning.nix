@@ -10,11 +10,22 @@ let
 
   airscanConfig = pkgs.writeTextDir "etc/sane.d/airscan.conf" ''
     [devices]
-    ${lib.concatMapStringsSep "\n" (device: ''"${device.name}" = ${device.url}, ${device.protocol}'') cfg.devices}
+    ${lib.concatMapStringsSep "\n" (
+      device: ''"${device.name}" = ${device.url}, ${device.protocol}''
+    ) cfg.devices}
 
     [options]
     discovery = ${if cfg.discovery then "enable" else "disable"}
   '';
+
+  scanimage = pkgs.writeShellApplication {
+    name = "scanimage";
+    text = ''
+      export SANE_CONFIG_DIR=/etc/sane-config
+      export LD_LIBRARY_PATH="/etc/sane-libs''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+      exec ${config.hardware.sane.backends-package}/bin/scanimage "$@"
+    '';
+  };
 in
 {
   options.myModules.services.scanning = {
@@ -65,5 +76,9 @@ in
         airscanConfig
       ];
     };
+
+    # Some wrapped GUI applications sanitize LD_LIBRARY_PATH before launching
+    # terminals. Keep the SANE CLI functional independently of session state.
+    environment.systemPackages = [ (lib.hiPrio scanimage) ];
   };
 }

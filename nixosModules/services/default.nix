@@ -9,6 +9,7 @@
     ./pipewire.nix
     ./podman.nix
     ./printing.nix
+    ./scanning.nix
     ./tailscale.nix
     ./tlp.nix 
     ./xremap.nix

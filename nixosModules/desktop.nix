@@ -23,6 +23,7 @@ in
     myModules.services.tailscale.enable    = lib.mkDefault false;  # Optional
     myModules.services.kde-connect.enable  = lib.mkDefault false;  # Optional
     myModules.services.printing.enable     = lib.mkDefault false;  # Optional
+    myModules.services.scanning.enable     = lib.mkDefault false;  # Optional
     myModules.services.xremap.enable       = lib.mkDefault true;
     myModules.shared.stylix.enable         = lib.mkDefault true;
     myModules.shared.nerdFonts.enable      = lib.mkDefault true;

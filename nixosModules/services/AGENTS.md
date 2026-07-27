@@ -22,6 +22,7 @@ System-level daemons and services. A module belongs here if it manages a running
 | pipewire.nix | `myModules.services.pipewire` | Audio (PipeWire + PulseAudio compat) |
 | podman.nix | `myModules.services.podman` | Container runtime |
 | printing.nix | `myModules.services.printing` | CUPS printing + Avahi mDNS printer discovery, managed via CUPS web UI |
+| scanning.nix | `myModules.services.scanning` | SANE + driverless eSCL/WSD scanning |
 | tailscale.nix | `myModules.services.tailscale` | VPN mesh networking |
 | tlp.nix | `myModules.services.tlp` | Power management (battery thresholds) |
 | xremap.nix | `myModules.services.xremap` | Key remapping |

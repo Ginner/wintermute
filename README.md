@@ -100,6 +100,13 @@ printers, defaults, and jobs through the CUPS web interface at
 primary user is added to the `lpadmin` group when this module is enabled,
 granting access to the web admin UI.
 
+## Scanning
+
+`myModules.services.scanning.enable = true;` enables SANE with the driverless
+`sane-airscan` backend. Scanners are discovered automatically on the local
+network, or can be declared through `myModules.services.scanning.devices` when
+discovery cannot cross a router.
+
 ## NixVim
 
 `myHomeModules.tuiPrograms.nixvim.enable = true;` configures Neovim through

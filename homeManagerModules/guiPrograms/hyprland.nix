@@ -1,7 +1,29 @@
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
   cfg = config.myHomeModules.guiPrograms.hyprland;
+  lua = lib.generators.mkLuaInline;
+  toLua = lib.generators.toLua { };
+  mkBind = key: dispatcher: {
+    _args = [
+      key
+      (lua dispatcher)
+    ];
+  };
+  mkModBind = key: dispatcher: mkBind (lua ''mainMod .. " + ${key}"'') dispatcher;
+  mkMouseBind = key: dispatcher: {
+    _args = [
+      (lua ''mainMod .. " + ${key}"'')
+      (lua dispatcher)
+      { mouse = true; }
+    ];
+  };
+  exec = command: "hl.dsp.exec_cmd(${toLua command})";
   effectiveStartupPrograms = lib.unique (
     lib.optionals (cfg.isDesktop && (config.myHomeModules.guiPrograms.waybar.enable or false)) [
       "waybar"
@@ -38,113 +60,103 @@ in
   config = lib.mkIf cfg.enable {
     wayland.windowManager.hyprland = {
       enable = true;
-      configType = "hyprlang";
+      configType = "lua";
+      package = null;
       systemd.enable = true;
       settings = {
-        general = {
-          gaps_in = "2";
-          gaps_out = "4";
-          border_size = "2";
-          layout = "dwindle";
-
-          # "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          # "col.inactive_border" = "rgba(595959aa)";
-        };
-
-        input = {
-          kb_layout = "dk";
-          kb_variant = "nodeadkeys";
-          follow_mouse = "1";
-          natural_scroll = "false";
-          scroll_factor = "0.4";
-          #"touchpad.natural_scroll" = "true";
-          # sensitivity = "0";
-          repeat_delay = "300";
-          repeat_rate = "70";
-        };
-        monitor = [
-          # "eDP-1, preffered, 0x0, 1.0"
-          # "DP-8, preffered, 1920x-820, 1.0"
-          # "DP-7, preffered, 4480x-1035, 1.0, transform, 3"
-          # ", preffered, auto, 1"
-          ", preffered, auto, 1.0"
-        ];
-        misc = {
-          disable_hyprland_logo = true;
-          disable_splash_rendering = true;
-        };
-
-        decoration = {
-          rounding = 10;
-          active_opacity = 1.0;
-          inactive_opacity = 0.80;
-          fullscreen_opacity = 1.0;
-          shadow = {
-            enabled = false;
+        config = {
+          general = {
+            gaps_in = 2;
+            gaps_out = 4;
+            border_size = 2;
+            layout = "dwindle";
           };
+
+          input = {
+            kb_layout = "dk";
+            kb_variant = "nodeadkeys";
+            follow_mouse = 1;
+            natural_scroll = false;
+            scroll_factor = 0.4;
+            repeat_delay = 300;
+            repeat_rate = 70;
+          };
+
+          misc = {
+            disable_hyprland_logo = true;
+            disable_splash_rendering = true;
+          };
+
+          decoration = {
+            rounding = 10;
+            active_opacity = 1.0;
+            inactive_opacity = 0.80;
+            fullscreen_opacity = 1.0;
+            shadow.enabled = false;
+          };
+
+          animations.enabled = false;
+          dwindle.preserve_split = true;
         };
 
-        animations = {
-          enabled = "false";
-        };
-
-        dwindle = {
-          preserve_split = "true";
-        };
-
-        "$mod" = "SUPER";
-        bind = [
-          ", Print, exec, grim"
-          ", Sys_Req, exec, grim -g \"$(slurp)\" "
-          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
-          ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%+"
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_SINK@ 5%-"
-          ", XF86ScreenSaver, exec, pidof hyprlock || hyprlock"
-          "$mod, return, exec, kitty"
-          "$mod, Q, killactive"
-          "$mod, M, exit"
-          "$mod, V, togglefloating"
-          "$mod, d, exec, walker"
-          "$mod, P, pseudo" # dwindle
-          "$mod, S, layoutmsg, togglesplit" # dwindle
-          "$mod, h, movefocus, l"
-          "$mod, l, movefocus, r"
-          "$mod, k, movefocus, u"
-          "$mod, j, movefocus, d"
-          "$mod, 1, workspace, 1"
-          "$mod, 2, workspace, 2"
-          "$mod, 3, workspace, 3"
-          "$mod, 4, workspace, 4"
-          "$mod, 5, workspace, 5"
-          "$mod, 6, workspace, 6"
-          "$mod, 7, workspace, 7"
-          "$mod, 8, workspace, 8"
-          "$mod, 9, workspace, 9"
-          "$mod, 0, workspace, 10"
-          "$mod SHIFT, 1, movetoworkspace, 1"
-          "$mod SHIFT, 2, movetoworkspace, 2"
-          "$mod SHIFT, 3, movetoworkspace, 3"
-          "$mod SHIFT, 4, movetoworkspace, 4"
-          "$mod SHIFT, 5, movetoworkspace, 5"
-          "$mod SHIFT, 6, movetoworkspace, 6"
-          "$mod SHIFT, 7, movetoworkspace, 7"
-          "$mod SHIFT, 8, movetoworkspace, 8"
-          "$mod SHIFT, 9, movetoworkspace, 9"
-          "$mod SHIFT, 0, movetoworkspace, 10"
-          "$mod SHIFT, l, movewindow, r"
-          "$mod SHIFT, h, movewindow, l"
-          "$mod SHIFT, j, movewindow, d"
-          "$mod SHIFT, k, movewindow, u"
-          "$mod, t, movecurrentworkspacetomonitor, +1"
-          "$mod, mouse_down, workspace, e+1"
-          "$mod, mouse_up, workspace, e-1"
-          # Move/resize windows with mainMod + LMB/RMB and dragging
-          "$mod, mouse:272, movewindow"
-          # "$mod, mouse:273, resizewindow"
+        monitor = [
+          {
+            output = "";
+            mode = "preferred";
+            position = "auto";
+            scale = 1.0;
+          }
         ];
-        # bind = $mainMod, R, exec, wofi --show drun
-        # bind = $mainMod, E, exec, dolphin
-        exec-once = "${startupScript}/bin/start";
+
+        mainMod = {
+          _var = "SUPER";
+        };
+
+        bind = [
+          (mkBind "Print" (exec "grim"))
+          (mkBind "Sys_Req" (exec ''grim -g "$(slurp)"''))
+          (mkBind "XF86AudioMute" (exec "wpctl set-mute @DEFAULT_SINK@ toggle"))
+          (mkBind "XF86AudioRaiseVolume" (exec "wpctl set-volume @DEFAULT_SINK@ 5%+"))
+          (mkBind "XF86AudioLowerVolume" (exec "wpctl set-volume @DEFAULT_SINK@ 5%-"))
+          (mkBind "XF86ScreenSaver" (exec "pidof hyprlock || hyprlock"))
+          (mkModBind "RETURN" (exec "kitty"))
+          (mkModBind "Q" "hl.dsp.window.close()")
+          (mkModBind "M" "hl.dsp.exit()")
+          (mkModBind "V" ''hl.dsp.window.float({ action = "toggle" })'')
+          (mkModBind "D" (exec "walker"))
+          (mkModBind "P" "hl.dsp.window.pseudo()")
+          (mkModBind "S" ''hl.dsp.layout("togglesplit")'')
+          (mkModBind "H" ''hl.dsp.focus({ direction = "left" })'')
+          (mkModBind "L" ''hl.dsp.focus({ direction = "right" })'')
+          (mkModBind "K" ''hl.dsp.focus({ direction = "up" })'')
+          (mkModBind "J" ''hl.dsp.focus({ direction = "down" })'')
+          (mkModBind "SHIFT + L" ''hl.dsp.window.move({ direction = "right" })'')
+          (mkModBind "SHIFT + H" ''hl.dsp.window.move({ direction = "left" })'')
+          (mkModBind "SHIFT + J" ''hl.dsp.window.move({ direction = "down" })'')
+          (mkModBind "SHIFT + K" ''hl.dsp.window.move({ direction = "up" })'')
+          (mkModBind "T" ''hl.dsp.workspace.move({ monitor = "+1" })'')
+          (mkModBind "mouse_down" ''hl.dsp.focus({ workspace = "e+1" })'')
+          (mkModBind "mouse_up" ''hl.dsp.focus({ workspace = "e-1" })'')
+          (mkMouseBind "mouse:272" "hl.dsp.window.drag()")
+        ]
+        ++ lib.concatMap (
+          i:
+          let
+            workspace = i + 1;
+            key = toString (lib.mod workspace 10);
+          in
+          [
+            (mkModBind key "hl.dsp.focus({ workspace = ${toString workspace} })")
+            (mkModBind "SHIFT + ${key}" "hl.dsp.window.move({ workspace = ${toString workspace} })")
+          ]
+        ) (lib.range 0 9);
+
+        on = {
+          _args = [
+            "hyprland.start"
+            (lua ''function() hl.exec_cmd("${startupScript}/bin/start") end'')
+          ];
+        };
       };
       # extraConfig = ''
       #   env = HYPRCURSOR_THEME,rose-pine-hyprcursor
@@ -201,7 +213,7 @@ in
         general = {
           lock_cmd = "pidof hyprlock || hyprlock";
           before_sleep_cmd = "pidof hyprlock || hyprlock --immediate";
-          after_sleep_cmd = "hyprctl dispatch dpms on";
+          after_sleep_cmd = "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'";
         };
         listener =
           lib.optionals (!cfg.isDesktop) [
@@ -218,8 +230,8 @@ in
             }
             {
               timeout = 330;
-              on-timeout = "hyprctl dispatch dpms off";
-              on-resume = "hyprctl dispatch dpms on";
+              on-timeout = "hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'";
+              on-resume = "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'";
             }
           ]
           ++ lib.optionals (!cfg.isDesktop) [

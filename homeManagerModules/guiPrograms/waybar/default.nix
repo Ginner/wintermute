@@ -8,6 +8,10 @@
 let
   cfg = config.myHomeModules.guiPrograms.waybar;
   home = config.home.homeDirectory;
+  toLua = lib.generators.toLua { };
+  hyprDispatch = expression: "hyprctl dispatch ${lib.escapeShellArg expression}";
+  hyprExec = command: hyprDispatch "hl.dsp.exec_cmd(${toLua command})";
+  hyprExecFloat = command: hyprDispatch "hl.dsp.exec_cmd(${toLua command}, { float = true })";
   # Stylix base16 hex values (with '#' prefix) for Pango markup.
   # CSS custom properties (@baseXX) cannot be resolved in calendar format
   # strings, so we read the palette at eval time instead.
@@ -241,8 +245,8 @@ let
 
     "hyprland/workspaces" = {
       format = "{icon}";
-      on-scroll-down = "hyprctl dispatch workspace e+1";
-      on-scroll-up = "hyprctl dispatch workspace e-1";
+      on-scroll-down = hyprDispatch ''hl.dsp.focus({ workspace = "e+1" })'';
+      on-scroll-up = hyprDispatch ''hl.dsp.focus({ workspace = "e-1" })'';
       sort-by = "number";
       all-outputs = true;
       format-icons =
@@ -326,7 +330,7 @@ let
       format = "{icon}";
       format-bluetooth = "{icon}";
       on-click = "pactl set-sink-mute @DEFAULT_SINK@ toggle";
-      on-click-right = "hyprctl dispatch exec 'pavucontrol -t 4'";
+      on-click-right = hyprExec "pavucontrol -t 4";
       tooltip-format = "{volume}%";
       format-muted = "<span size='12pt'>󰝟</span>";
       scroll-step = 2;
@@ -369,8 +373,8 @@ let
       menu-actions = {
         action-1 = "nmcli radio wifi off";
         action-2 = "nmcli radio wifi on";
-        action-3 = "hyprctl dispatch exec '[float] kitty -e nmtui'";
-        action-4 = "hyprctl dispatch exec nm-connection-editor";
+        action-3 = hyprExecFloat "kitty -e nmtui";
+        action-4 = hyprExec "nm-connection-editor";
       };
     };
 
@@ -385,7 +389,7 @@ let
       tooltip-format = "{device_enumerate}";
       tooltip-format-enumerate-connected = "{device_alias}";
       tooltip-format-enumerate-connected-battery = "{device_alias}   {device_battery_percentage}%";
-      on-click-right = "hyprctl dispatch exec blueman-manager";
+      on-click-right = hyprExec "blueman-manager";
     };
 
     "custom/awake" = {
@@ -488,12 +492,12 @@ let
         else
           "${home}/.config/waybar/context/ctlcenter.xml";
       menu-actions = {
-        action-1-1 = "hyprctl dispatch exec '[float] kitty -e htop'";
-        action-1-2 = "hyprctl dispatch exec '[float] kitty -e btop'";
-        action-1-3 = "hyprctl dispatch exec '[float] kitty -e pkexec powertop'";
-        action-2-1 = "hyprctl dispatch exec nwg-look";
-        action-2-2 = "hyprctl dispatch exec qt6ct";
-        action-2-3 = "hyprctl dispatch exec kvantummanager";
+        action-1-1 = hyprExecFloat "kitty -e htop";
+        action-1-2 = hyprExecFloat "kitty -e btop";
+        action-1-3 = hyprExecFloat "kitty -e pkexec powertop";
+        action-2-1 = hyprExec "nwg-look";
+        action-2-2 = hyprExec "qt6ct";
+        action-2-3 = hyprExec "kvantummanager";
       }
       // lib.optionalAttrs (!cfg.noBattery) {
         action-3-1 = "hyprctl keyword monitor 'eDP-1,1920x1080@60, auto,1'";

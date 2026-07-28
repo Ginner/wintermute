@@ -164,6 +164,10 @@ in
       #   '';
     };
 
+    # Hyprland creates a default Lua config before Home Manager runs on the
+    # first boot after migrating from hyprlang.
+    xdg.configFile."hypr/hyprland.lua".force = true;
+
     # services.hyprpaper = {
     #   enable = true;
     #   settings = {

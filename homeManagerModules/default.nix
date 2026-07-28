@@ -43,6 +43,12 @@
     myHomeModules.cliPrograms.ssh.enable = lib.mkDefault true;
     myHomeModules.cliPrograms.zsh.enable = lib.mkDefault true;
 
+    # Stylix defines `home.pointerCursor.*` without setting `enable`, which
+    # home-manager deprecates. Set it explicitly to match stylix's intent.
+    home.pointerCursor.enable = lib.mkDefault (
+      (config.stylix.enable or false) && (config.stylix.cursor or null) != null
+    );
+
     home.sessionVariables = {
       EDITOR = lib.mkDefault "nvim";
       NPM_CONFIG_CACHE = lib.mkDefault "${config.xdg.cacheHome}/npm";

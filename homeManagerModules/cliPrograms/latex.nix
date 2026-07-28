@@ -10,25 +10,22 @@ let
 
   schemePackage =
     if cfg.scheme == "small" then
-      pkgs.texlive.scheme-small
+      pkgs.texliveSmall
     else if cfg.scheme == "medium" then
-      pkgs.texlive.scheme-medium
+      pkgs.texliveMedium
     else
-      pkgs.texlive.scheme-full;
+      pkgs.texliveFull;
 
-  texlivePackage = pkgs.texlive.combine (
-    {
-      scheme = schemePackage;
-
-      inherit (pkgs.texlive)
-        latex-bin
-        latexmk
-        xetex
-        collection-latexrecommended
-        collection-fontsrecommended
-        ;
-    }
-    // cfg.extraPackages pkgs.texlive
+  texlivePackage = schemePackage.withPackages (
+    ps:
+    (with ps; [
+      latex-bin
+      latexmk
+      xetex
+      collection-latexrecommended
+      collection-fontsrecommended
+    ])
+    ++ cfg.extraPackages ps
   );
 in
 {
@@ -52,13 +49,11 @@ in
     };
 
     extraPackages = lib.mkOption {
-      type = lib.types.functionTo (lib.types.attrsOf lib.types.anything);
-      default = _: { };
-      description = "Additional TeX Live packages to include in the combined distribution.";
+      type = lib.types.functionTo (lib.types.listOf lib.types.package);
+      default = _: [ ];
+      description = "Additional TeX Live packages to include in the environment.";
       example = lib.literalExpression ''
-        texlive: {
-          inherit (texlive) wallpaper;
-        }
+        ps: with ps; [ wallpaper ]
       '';
     };
   };

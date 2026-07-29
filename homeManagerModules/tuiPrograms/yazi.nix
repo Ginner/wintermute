@@ -76,7 +76,7 @@ in
         opener = {
           edit = [
             {
-              run = ''kitty --detach nvim "$@"'';
+              run = ''kitty --detach nvim %s'';
               desc = "Neovim";
               block = false;
               orphan = true;
@@ -85,13 +85,13 @@ in
           ];
           pdf = [
             {
-              run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
+              run = ''${pkgs.xdg-utils}/bin/xdg-open %s1'';
               desc = "Open with default app";
               block = false;
               orphan = true;
             }
             {
-              run = ''${pkgs.zathura}/bin/zathura "$1"'';
+              run = ''${pkgs.zathura}/bin/zathura %s1'';
               desc = "Zathura";
               block = false;
               orphan = true;
@@ -100,13 +100,13 @@ in
           ];
           image = [
             {
-              run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
+              run = ''${pkgs.xdg-utils}/bin/xdg-open %s1'';
               desc = "Open with default app";
               block = false;
               orphan = true;
             }
             {
-              run = ''${pkgs.swayimg}/bin/swayimg "$1"'';
+              run = ''${pkgs.swayimg}/bin/swayimg %s1'';
               desc = "Swayimg";
               block = false;
               orphan = true;
@@ -115,13 +115,13 @@ in
           ];
           svg = [
             {
-              run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
+              run = ''${pkgs.xdg-utils}/bin/xdg-open %s1'';
               desc = "Open with default app";
               block = false;
               orphan = true;
             }
             {
-              run = ''${pkgs.swayimg}/bin/swayimg "$1"'';
+              run = ''${pkgs.swayimg}/bin/swayimg %s1'';
               desc = "Swayimg";
               block = false;
               orphan = true;
@@ -130,7 +130,7 @@ in
           ]
           ++ lib.optionals (config.myHomeModules.guiPrograms.inkscape.enable or false) [
             {
-              run = ''${pkgs.inkscape}/bin/inkscape "$1"'';
+              run = ''${pkgs.inkscape}/bin/inkscape %s1'';
               desc = "Inkscape";
               block = false;
               orphan = true;
@@ -139,7 +139,7 @@ in
           ];
           open = [
             {
-              run = ''${pkgs.xdg-utils}/bin/xdg-open "$1"'';
+              run = ''${pkgs.xdg-utils}/bin/xdg-open %s1'';
               desc = "Open with default app";
               block = false;
               orphan = true;

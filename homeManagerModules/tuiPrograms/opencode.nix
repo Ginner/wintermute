@@ -12,9 +12,6 @@
         instructions = lib.mkDefault [
           "AGENTS.md"
         ];
-        plugin = [
-          "@ex-machina/opencode-anthropic-auth@1.8.1"
-        ];
         permission = {
           "*" = "ask";
           read = "allow";

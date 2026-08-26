@@ -18,6 +18,7 @@ Terminal programs and tools that do not depend on a display server or compositor
 | git.nix | `myHomeModules.cliPrograms.git` | Git config |
 | kitty.nix | `myHomeModules.cliPrograms.kitty` | Kitty terminal emulator |
 | latex.nix | `myHomeModules.cliPrograms.latex` | LaTeX toolchain |
+| markitdown.nix | `myHomeModules.cliPrograms.markitdown` | Document-to-Markdown converter |
 | pass.nix | `myHomeModules.cliPrograms.pass` | pass password manager (pass-wayland + pass-otp + pass-secret-service) |
 | scripts.nix | `myHomeModules.cliPrograms.scripts` | Custom shell scripts (mailias, sermail) |
 | ssh.nix | `myHomeModules.cliPrograms.ssh` | SSH client + match blocks |

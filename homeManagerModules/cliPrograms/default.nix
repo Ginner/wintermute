@@ -6,6 +6,7 @@
     ./git.nix
     ./kitty.nix
     ./latex.nix
+    ./markitdown.nix
     ./pass.nix
     ./scripts.nix
     ./ssh.nix

@@ -33,7 +33,7 @@ Terminal UI programs — full-screen TUI applications that work without a compos
 
 **tmux.nix**: Exposes `enableVim` (default true, adds vim-style pane navigation and `|`/`-` splits), `enableMouse` (default true), `historyLimit` (default 10000).
 
-**opencode.nix**: Installs `pkgs.opencode` and writes `~/.config/opencode/opencode.json` with `permission."*" = "ask"`.
+**opencode.nix**: Enables OpenCode with `permission."*" = "ask"` and installs the reusable ApexOS instructions from `assets/default/opencode/`. User and host modules may merge additional instructions and permission overrides.
 
 **btop.nix**: Enables `programs.btop` with `vim_keys = true`.
 

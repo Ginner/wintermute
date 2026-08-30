@@ -10,7 +10,7 @@
       enable = true;
       settings = {
         instructions = lib.mkBefore [
-          "instructions/apex-os.md"
+          "~/.config/opencode/instructions/apex-os.md"
         ];
         permission = {
           "*" = "ask";

@@ -12,6 +12,14 @@ in
     home.packages = with pkgs; [
       swayimg
     ];
+
+    xdg.configFile."swayimg/init.lua".text = ''
+      local function quit()
+        swayimg.exit()
+      end
+
+      swayimg.viewer.on_key("q", quit)
+      swayimg.gallery.on_key("q", quit)
+    '';
   };
 }
-
